@@ -289,6 +289,8 @@ public class ActorAnimMgr : MonoBehaviour
     #endregion
     
     #region RegionEditorConfig
+
+#if UNITY_EDITOR
     
     [MenuItem("Sunsgo/CreateCharacterAnimationConfig")]
     private static void CreateEssentialComponet()
@@ -339,6 +341,8 @@ public class ActorAnimMgr : MonoBehaviour
             }
         }
     }
+#endif
+
     #endregion
     
 }

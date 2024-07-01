@@ -81,6 +81,8 @@ public class CharacterInstaller : MonoInstaller
     {
         {typeof(ActorMoveMgr), new List<Type>(){ typeof(KCCMoveAgent) }},
     };
+
+#if UNITY_EDITOR
     
     [MenuItem("Sunsgo/CreateCharacterEssentialComponet")]
     private static void CreateEssentialComponet()
@@ -126,6 +128,8 @@ public class CharacterInstaller : MonoInstaller
         GameObjectContext com = parent.gameObject.GetComponent<GameObjectContext>();
         com.Installers = new List<MonoInstaller>(){parent.GetComponent<CharacterInstaller>()};
     }
+#endif
+
 
     //如果有对Start初始化顺序敏感的可以放到这里控制
     private void Start()
