@@ -2,14 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-// using Pathfinding;
 using UnityEngine;
-using UnityEngine.AI;
 using Zenject;
 
 /// <summary>
 /// 负责管理移动
-/// 注意，当前的transform并不是真正的navmeshagent所在的transform
 /// </summary>
 public class ActorMoveMgr : MonoBehaviour
 {

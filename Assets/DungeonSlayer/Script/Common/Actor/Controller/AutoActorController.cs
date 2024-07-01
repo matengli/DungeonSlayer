@@ -5,37 +5,25 @@ using UnityEngine;
 using Zenject;
 
 /// <summary>
-/// 自动行动类型的控制器
-/// 角色控制器，用来处理控制相关的逻辑
-/// AI相关的也在这个类里，是这个类的子类
+/// Character的上的控制器
+/// 逻辑上与PlayerController算是并列关系，但是事实上没有关联
 /// </summary>
 public class AutoActorController : MonoBehaviour
 {
     [Inject] private ActorCombatMgr _combatMgr;
 
     [Inject] private ActorMgr _actorMgr;
-
-    [Inject] private ActorModelMgr _modelMgr;
     
-    /// <summary>
-    /// 这里后续会改为新版本的InputSystem，现在暂时用原版的凑合一下
-    /// </summary>
     void Update()
     {
         if(_actorMgr.IsActorDead())
             return;
 
-        if (!CompareTag("Player"))
-        {
-            AIInput();
-        }
+        AIInput();
     }
-    
-    [Inject] private ActorMoveMgr _moveMgr;
     
     void AIInput()
     {
-
         combatTarget = null;
         
         var result = Physics.OverlapSphere(transform.position, searchRange, LayerMask.GetMask("Character"));
@@ -73,7 +61,6 @@ public class AutoActorController : MonoBehaviour
     
     private void OnDrawGizmos()
     {
-        
         Gizmos.color = Color.blue;;
         Gizmos.DrawWireSphere(transform.position, searchRange);
         

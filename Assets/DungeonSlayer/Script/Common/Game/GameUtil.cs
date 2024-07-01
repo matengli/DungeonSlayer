@@ -8,6 +8,9 @@ using UnityEngine;
 using UnityEngine.InputSystem.UI;
 using Zenject;
 
+/// <summary>
+/// 一些常用的通用方法
+/// </summary>
 public class GameUtil : MonoBehaviour
 {
     [SerializeField] private GameObject ToolTip;

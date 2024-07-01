@@ -7,7 +7,7 @@ using Zenject;
 using Vector3 = System.Numerics.Vector3;
 
 /// <summary>
-/// 主要指责是处理内容物的可见性
+/// 负责管理角色的模型
 /// </summary>
 public class ActorViewContainer : MonoBehaviour
 {

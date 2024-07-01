@@ -6,8 +6,8 @@ using UnityEngine;
 using Zenject;
 
 /// <summary>
-/// 用来管理状态，类似于TCF里的StateManager
-/// State存储了角色的当前的角色状态，用来辨别哪些ability可以执行
+/// 用来管理状态，参考TCF里的StateManager
+/// State存储了角色的当前的角色状态，用来判断哪些ability可以执行
 /// </summary>
 public class ActorStateMgr : MonoBehaviour
 {

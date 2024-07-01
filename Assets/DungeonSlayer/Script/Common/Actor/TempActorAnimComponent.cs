@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
+/// <summary>
+/// 唯一作用就是用来接受Animation上的动画事件
+/// </summary>
 public class TempActorAnimComponent : MonoBehaviour
 {
     public void TriggerAnimatorEvent(string input)
@@ -19,8 +22,6 @@ public class TempActorAnimComponent : MonoBehaviour
     {
         if(animationEvent.animatorClipInfo.weight<=0.5f)
             return;
-        // if(aEvent.animationClipInfo.Weight>0.5f)
-        //     作者：Meltin_Algol https://www.bilibili.com/read/cv11088826/ 出处：bilibili
         var clip = Resources.Load<AudioClip>($"Effect/footsteps/wood/Wood footstep {Random.Range(1, 11)}");
         AudioSource.PlayClipAtPoint(clip,transform.position);
     }

@@ -72,6 +72,10 @@ public class DamageMgr
         }
     }
 
+    /// <summary>
+    /// 这里看需求可以Inject进来一个设定好的值，看情况修改
+    /// </summary>
+    /// <returns></returns>
     public float GetBackAttackFactor()
     {
         return 1.5f;

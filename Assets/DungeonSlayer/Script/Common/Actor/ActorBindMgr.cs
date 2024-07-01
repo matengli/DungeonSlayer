@@ -7,7 +7,7 @@ using Zenject;
 
 /// <summary>
 /// 用来做绑点的管理类
-/// 其实就是一个映射Transform的类
+/// 负责映射String到Transform
 /// </summary>
 public class ActorBindMgr : SerializedMonoBehaviour
 {

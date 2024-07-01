@@ -5,7 +5,7 @@ using UnityEngine;
 using Zenject;
 
 /// <summary>
-/// 用来处理碰撞,主要是战斗时候的武器Trace
+/// 用来处理战斗的碰撞检测
 /// </summary>
 public class ActorCollsionMgr : MonoBehaviour
 {
@@ -38,20 +38,14 @@ public class ActorCollsionMgr : MonoBehaviour
         {
             return;
         }
-
-        Debug.Log("TriggerCommon:"+other);
-
+        
         var actormgr = other.GetComponent<ActorMgr>();
         if(actormgr==null)
             return;
         
-        Debug.Log("TriggerCommon:"+other);
-        
         if(_campMgr.GetCamp()==actormgr.GetActorCamp() && !isIgnoreCamp)
             return;
         
-        Debug.Log("TriggerCommon:"+other);
-
         _actorMgr.AttackWithCurWeapon(actormgr);
     }
 
@@ -66,7 +60,6 @@ public class ActorCollsionMgr : MonoBehaviour
         
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Hurt:"+other.ToString());
             _handler.TraceTriggerEnter(this, other);
         }
 
@@ -80,20 +73,13 @@ public class ActorCollsionMgr : MonoBehaviour
 
     private bool HasTriggered = false;
 
-    [Inject] private GameUtil _gameUtil;
     public void TriggerOverLap(bool status, float range, float rangeAngle)
     {
-        // foreach (var com in _traceComponents)
-        // {
-        //     com.GetComponent<BoxCollider>().enabled = status;
-        // }
         if(!status)
             return;
         
         var result = Physics.OverlapSphere(transform.position, range, LayerMask.GetMask("Character"));
-        // var result = _gameUtil.RaycastSectorRange(transform.position + Vector3.up, transform.forward, range, rangeAngle,
-        //     LayerMask.GetMask("Character"), null);
-        
+
         if (result == null || result.Length <= 1)
         {
             return;

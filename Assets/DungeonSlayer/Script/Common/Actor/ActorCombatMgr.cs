@@ -6,7 +6,7 @@ using UnityEngine;
 using Zenject;
 
 /// <summary>
-/// 持有武器，负责战斗相关的逻辑
+/// 处理武器，攻击目标相关的逻辑
 /// </summary>
 public class ActorCombatMgr : MonoBehaviour
 {
@@ -32,7 +32,7 @@ public class ActorCombatMgr : MonoBehaviour
     [Inject] private ActorBindMgr _bindMgr;
     /// <summary>
     /// 装备武器
-    /// 装备武器的时候会将整个StateMgr清空，这里要注意
+    /// 装备武器的时候会将整个StateMgr清空，为了适用于不同武器可能带来的状态不同
     /// </summary>
     /// <param name="weapon"></param>
     public void EquipWeapon(Weapon weapon)
@@ -105,8 +105,6 @@ public class ActorCombatMgr : MonoBehaviour
     public void SetAttackTarget(ActorMgr combatTarget)
     {
         _combatTarget = combatTarget;
-        // if(_combatTarget==null)
-        //     _moveMgr.MoveToPosition(transform.position);
     }
 
     private void Clear()

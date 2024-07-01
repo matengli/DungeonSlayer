@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
+/// <summary>
+/// 基础的Buff类型
+/// </summary>
 [Serializable]
 public class BuffBase
 {

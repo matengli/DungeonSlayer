@@ -7,7 +7,8 @@ using UnityEngine.EventSystems;
 using Zenject;
 
 /// <summary>
-/// 类似于角色的Context，所有订阅发布的消息和接口都从这个类中来
+/// 作为Actor的Context，作为内部某些实现的装饰类
+/// 外部类调用Actor上的相关接口必须通过ActorMgr
 /// </summary>
 public class ActorMgr : MonoBehaviour
 {
@@ -47,8 +48,8 @@ public class ActorMgr : MonoBehaviour
     {
         isTakeTurn = false;
         
-        _attributeMgr.CreateAttribute("hp", _modelMgr.GetInitHp(), _modelMgr.GetInitHp());
-        _attributeMgr.CreateAttribute("san", _modelMgr.GetInitHp(), _modelMgr.GetInitHp());
+        _attributeMgr.CreateAttribute("hp", _modelMgr.GetInitHp());
+        _attributeMgr.CreateAttribute("san", _modelMgr.GetInitHp());
         _uiContainer.InitUI();
 
     }

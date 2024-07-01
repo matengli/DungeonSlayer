@@ -14,7 +14,7 @@ public class ActorAttributeMgr : SerializedMonoBehaviour
 {
    [SerializeField] private Dictionary<string,ActorAttribute> attributeDict;
 
-    public void CreateAttribute(string name, float maxVal, float curVal=-1999.9f)
+    public void CreateAttribute(string name, float maxVal, float curVal)
     {
         if (attributeDict == null)
             attributeDict = new Dictionary<string, ActorAttribute>();
@@ -28,12 +28,15 @@ public class ActorAttributeMgr : SerializedMonoBehaviour
         var attr = new ActorAttribute();
         attr.name = name;
         attr.maxVal = maxVal;
-        if (-1999.9f != curVal)
-            curVal = maxVal;
         
         attr.val = curVal;
         
         attributeDict.Add(name, attr);
+    }
+    
+    public void CreateAttribute(string name, float maxVal)
+    {
+        CreateAttribute(name, maxVal, maxVal);
     }
 
     [Serializable]
@@ -42,7 +45,6 @@ public class ActorAttributeMgr : SerializedMonoBehaviour
         public string name = "";
         public float val = 0.0f;
         public float maxVal = 100.0f;
-        
     }
 
     public event Action<string, float, float, float> OnModifyAttrEvent;

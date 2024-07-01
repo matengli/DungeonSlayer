@@ -5,6 +5,10 @@ using R3.Triggers;
 using UnityEngine;
 using Zenject;
 
+/// <summary>
+/// 子弹管理类，一切需要进行碰撞判定的飞行道具都由这个工厂生产
+/// 目前没实现对象池
+/// </summary>
 public class GameBulletMgr : MonoBehaviour
 {
     public class BulletModel

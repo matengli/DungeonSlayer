@@ -6,6 +6,9 @@ using UnityEditor;
 using UnityEngine;
 using Zenject;
 
+/// <summary>
+/// 角色的Installer
+/// </summary>
 public class CharacterInstaller : MonoInstaller
 {
     [SerializeField] private CharacterModelBase _characterModelBase;

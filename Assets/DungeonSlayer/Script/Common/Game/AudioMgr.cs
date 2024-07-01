@@ -7,8 +7,6 @@ using Random = UnityEngine.Random;
 
 public class AudioMgr : SerializedMonoBehaviour
 {
-    // [Title("主场景BGM")][SerializeField] private AudioClip mainBgm;
-    
     [Title("发现事件音效")][SerializeField] private AudioClip findSE;
     [Title("触发事件音效")][SerializeField] private AudioClip triggerSE;
     [Title("BGM配置表")][SerializeField] public Dictionary<AudioBGMEnum, AudioClip> bgmDict;

@@ -39,23 +39,6 @@ public class WeaponDataAsset : SerializedScriptableObject
 
             return subclasses.ToArray();
         }
-
-        // public Type GetAbilityType()
-        // {
-        //     var parentType = typeof(ActorAbilityMgr.ActorAbility);
-        //     
-        //     List<string> subclasses = new List<string>();
-        //
-        //     Assembly assembly = Assembly.GetAssembly(parentType);
-        //     Type[] types = assembly.GetTypes();
-        //
-        //     foreach (Type type in types)
-        //     {
-        //         // type
-        //     }
-        //
-        //     return null;
-        // }
         
         [ValueDropdown("GetListOfMonoBehaviours")]
         [TableColumnWidth(400, Resizable = false)]

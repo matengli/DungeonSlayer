@@ -8,8 +8,8 @@ using UnityEngine.UI;
 using Zenject;
 
 /// <summary>
-/// 这里管理了战斗相关的逻辑，
-/// 区别与CombatMgr，CombatMgr更多是管理武器相关的逻辑，这里处理的逻辑更多是数值逻辑，周期回调等等
+/// 这里管理了战斗相关的逻辑，主要处理伤害过程中的相关逻辑
+/// 区别于CombatMgr。CombatMgr更多是管理武器相关的逻辑，这里处理的逻辑更多是数值逻辑相关的内容
 /// </summary>
 public class ActorBattleMgr : MonoBehaviour
 {
