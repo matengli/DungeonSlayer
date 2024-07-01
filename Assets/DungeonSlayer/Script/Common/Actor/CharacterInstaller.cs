@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using KinematicCharacterController;
+using Pathfinding;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -23,6 +25,7 @@ public class CharacterInstaller : MonoInstaller
         }
 
         var obj = Instantiate(_characterModelBase.ModelPrefab, GetComponentInChildren<ActorViewContainer>().transform);
+        
         Container.Bind<GameObject>().WithId("ViewGameObject").FromInstance(obj).NonLazy();
         Container.Bind<Transform>().WithId("ViewRootTransform").FromInstance(obj.transform.Find(_characterModelBase.rootTransformPath)).NonLazy();
         Container.Bind<CharacterModelBase>().FromInstance(_characterModelBase).AsSingle().NonLazy();
@@ -44,6 +47,16 @@ public class CharacterInstaller : MonoInstaller
            }
         }
     }
+    
+    static public readonly List<Type> chaRelatedTypesOnParent = new List<Type>()
+    {
+        typeof(ActorMgr),
+        typeof(CharacterInstaller),
+        typeof(GameObjectContext),
+        typeof(Seeker),
+        typeof(KinematicCharacterMotor),
+        typeof(Rigidbody),
+    };
 
     static public readonly List<Type> chaRelatedTypes = new List<Type>()
     {
@@ -63,27 +76,30 @@ public class CharacterInstaller : MonoInstaller
         typeof(ActorViewContainer),
         typeof(AutoActorController),
     };
+
+    static public readonly Dictionary<Type, List<Type>> addtionalComponentDict = new Dictionary<Type, List<Type>>()
+    {
+        {typeof(ActorMoveMgr), new List<Type>(){ typeof(KCCMoveAgent) }},
+    };
     
     [MenuItem("Sunsgo/CreateCharacterEssentialComponet")]
     private static void CreateEssentialComponet()
     {
         Debug.Log("Create");
         var parent = (Selection.activeObject as GameObject).transform;
-
-        parent.AddComponent<CharacterInstaller>();
-
-        bool isfirst = true;
+        
+        foreach (var ptype in chaRelatedTypesOnParent)
+        {
+            if (parent.GetComponent(ptype) == null)
+            {
+                parent.gameObject.AddComponent(ptype);
+            }
+        }
         
         foreach (var ptype in chaRelatedTypes)
         {
             if (parent.GetComponentInChildren(ptype) == null)
             {
-                if (isfirst)
-                {
-                    parent.gameObject.AddComponent(ptype);
-                    isfirst = false;
-                    continue;
-                }
                 var objc = new GameObject(ptype.ToString());
                 objc.AddComponent(ptype);
 
@@ -91,12 +107,23 @@ public class CharacterInstaller : MonoInstaller
                 objc.transform.localPosition = Vector3.zero;
                 objc.transform.localRotation = Quaternion.identity;
                 objc.transform.localScale = Vector3.one;
+                
+                Debug.Log($"{ptype}:{addtionalComponentDict.ContainsKey(ptype)}");
+                Debug.Log($"{ptype}=={typeof(ActorMoveMgr)==ptype}");
+                
+                if(!addtionalComponentDict.ContainsKey(ptype))
+                    continue;
+
+                foreach (var addPtype in addtionalComponentDict[ptype])
+                {
+                    if (objc.GetComponentInChildren(addPtype) == null)
+                        objc.AddComponent(addPtype);
+                }
+                
             }
         }
         
-        parent.gameObject.AddComponent<Rigidbody>();
-        parent.gameObject.AddComponent<CapsuleCollider>();
-        GameObjectContext com = parent.gameObject.AddComponent<GameObjectContext>();
+        GameObjectContext com = parent.gameObject.GetComponent<GameObjectContext>();
         com.Installers = new List<MonoInstaller>(){parent.GetComponent<CharacterInstaller>()};
     }
 

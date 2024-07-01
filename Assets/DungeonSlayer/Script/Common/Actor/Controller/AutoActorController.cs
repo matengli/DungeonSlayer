@@ -16,6 +16,9 @@ public class AutoActorController : MonoBehaviour
     
     void Update()
     {
+        if(_actorMgr.CompareTag("Player"))
+            return;
+        
         if(_actorMgr.IsActorDead())
             return;
 
@@ -46,11 +49,12 @@ public class AutoActorController : MonoBehaviour
                 }
         
                 combatTarget = otherActorMgr;
-                _combatMgr.SetAttackTarget(combatTarget);
                 break;                    
             }
         }
         
+        _combatMgr.SetAttackTarget(combatTarget);
+
     }
 
     [Inject] private ActorCampMgr _actorCamp;

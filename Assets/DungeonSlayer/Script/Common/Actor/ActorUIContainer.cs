@@ -22,7 +22,8 @@ public class ActorUIContainer : MonoBehaviour
 
     private GameObject barPrefab;
 
-    private Dictionary<string, Transform> barNameDict;
+    private Dictionary<string, Slider> barNameDict;
+    private Dictionary<string, TextMeshProUGUI> barLabelDict;
 
     [Inject] private ActorAttributeMgr _attributeMgr;
 
@@ -41,15 +42,17 @@ public class ActorUIContainer : MonoBehaviour
             item.gameObject.SetActive(false);
         }
 
-        barNameDict = new Dictionary<string, Transform>();
+        barNameDict = new Dictionary<string, Slider>();
+        barLabelDict = new Dictionary<string, TextMeshProUGUI>();
 
         foreach (var name in _attributeMgr.GetAttrNames())
         {
             var bar = groupTrans.GetChild(propNameList.IndexOf(name));
             bar.gameObject.SetActive(true);
-            barNameDict.Add(name, bar.Find("Loading Bar") );
-
-            ModifyVal(name, _attributeMgr.GetValPercent(name));
+            barNameDict.Add(name, bar.GetComponent<Slider>() );
+            barLabelDict.Add(name, bar.GetComponentInChildren<TextMeshProUGUI>());
+            
+            ModifyVal(name, _attributeMgr.GetVal(name), _attributeMgr.GetMaxVal(name));
 
         }
         _attributeMgr.OnModifyAttrEvent += this.OnAttrModify;
@@ -65,7 +68,7 @@ public class ActorUIContainer : MonoBehaviour
         ModifyVal(name, curval, max);
 
         var obj = Resources.Load<DamageNumber>("Prefab/DamageNumber");
-        obj.Spawn(transform.position, curval - oldval);
+        obj.Spawn(transform.position,    Mathf.Abs(curval - oldval));
     }
 
     // Update is called once per frame
@@ -74,7 +77,7 @@ public class ActorUIContainer : MonoBehaviour
         _canvas.transform.forward = _camera.transform.forward;
     }
 
-    private string[] propNameList = { "hp", "san"};
+    private string[] propNameList = { "hp"};
     private Transform groupTrans;
 
     public void ModifyVal(string name, float val, float maxVal = 1.0f)
@@ -84,7 +87,13 @@ public class ActorUIContainer : MonoBehaviour
             return;
         }
 
-        barNameDict[name].localScale = new Vector3(val / maxVal, 1.0f, 1.0f);
+        Debug.Log($"{name}:{val}/{maxVal}");
+        barNameDict[name].value = (val / maxVal) * 100.0f;
+
+        if (barLabelDict.ContainsKey(name))
+        {
+            barLabelDict[name].text = val.ToString();
+        }
     }
 
     public void SetViewActive(bool status)

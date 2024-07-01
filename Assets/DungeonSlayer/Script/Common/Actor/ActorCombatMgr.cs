@@ -142,12 +142,11 @@ public class ActorCombatMgr : MonoBehaviour
         var distance = (_combatTarget.transform.position - transform.position).magnitude;
         if (distance > curWeapon.range)
         {
-            _moveMgr.MoveToPosition(_combatTarget.transform.position);
+            _moveMgr.MoveToPosition(_combatTarget.transform.position, curWeapon.range);
             return;
         }
         
-        _moveMgr.MoveToPosition(transform.position);
-
+        _moveMgr.ClearPath();
         _moveMgr.SetLookAt(_combatTarget.transform);
         
         if (_stateMgr.GetCurrentState().Name == "attack")

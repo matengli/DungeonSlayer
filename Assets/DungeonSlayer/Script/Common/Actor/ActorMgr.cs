@@ -46,10 +46,7 @@ public class ActorMgr : MonoBehaviour
 
     private void Start()
     {
-        isTakeTurn = false;
-        
         _attributeMgr.CreateAttribute("hp", _modelMgr.GetInitHp());
-        _attributeMgr.CreateAttribute("san", _modelMgr.GetInitHp());
         _uiContainer.InitUI();
 
     }
@@ -112,46 +109,10 @@ public class ActorMgr : MonoBehaviour
     }
 
     [Inject] private ActorMoveMgr _moveMgr;
-    public void MoveToDest(Transform pos)
-    {
-        MoveToDest(pos.position);
-    }
-
-    private Action<ActorMgr> endMoveCallback;
-    
-    public async UniTask MoveToDest(Vector3 pos, float stopDistance=0, Action<ActorMgr> endcallback = null)
-    {
-        endMoveCallback = endcallback;
-
-        await _moveMgr.MoveToPositionAsync(pos, stopDistance);
-
-        if (endMoveCallback != null)
-            endMoveCallback(this);
-    }
-
-
-    public void LookAt(Transform tr)
-    {
-        _moveMgr.SetLookAt(tr);
-    }
-
-    public void FollowTarget(Transform target)
-    {
-        _moveMgr.SetFollowTarget(target);
-    }
 
     public bool IsPlayerFriend()
     {
        return _campMgr.GetCamp()==ActorCampMgr.ActorCamp.Radiant;
-    }
-    
-
-    //这个变量只是对Player有用
-    public bool isTakeTurn;
-
-    public bool IsPlayerTurn()
-    {
-        return isTakeTurn;
     }
 
     public string GetDisplayName()
@@ -205,5 +166,9 @@ public class ActorMgr : MonoBehaviour
     {
         return _actorViewContainer;
     }
-    
+
+    public void MoveToPosition(Vector3 pos)
+    {
+        _moveMgr.MoveToPosition(pos);
+    }
 }

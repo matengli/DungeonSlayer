@@ -18,7 +18,7 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class ActorAnimMgr : MonoBehaviour
 {
-    [Inject] private Animator _animator;
+    private Animator _animator;
 
     [Inject] private ActorMoveMgr _moveMgr;
 
@@ -28,7 +28,9 @@ public class ActorAnimMgr : MonoBehaviour
     
     private void Start()
     {
-        _animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("AC/Base");
+        _animator = transform.parent.GetComponentInChildren<Animator>();
+        
+        _animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("AC/characer_base");
         
         InitPlayableGraph();
     }
@@ -86,7 +88,7 @@ public class ActorAnimMgr : MonoBehaviour
 
     private void InitTimelineFunctionalConfig(string name)
     {
-        var asset = Resources.Load<TimelineAsset>(name);
+        var asset = Resources.Load<TimelineAsset>("SkillConfig/"+name);
         
         if(asset==null)
             return;
@@ -307,7 +309,8 @@ public class ActorAnimMgr : MonoBehaviour
                     // 创建一个TimelineAsset实例
                     TimelineAsset timelineAsset = TimelineAsset.CreateInstance<TimelineAsset>();
                     // 将TimelineAsset保存为.asset文件
-                    string assetPath = "Assets/Sunsgo/Example/SkillConfig/Resources/" + clip.name+ ".asset";
+                    string assetPath = "Assets/DungeonSlayer/Res/Character/Resources/SkillConfig/" + clip.name+ ".asset";
+                    
                     AssetDatabase.CreateAsset(timelineAsset, assetPath);
         
                     // 创建一个TrackAsset实例（此处以AudioTrack为例）

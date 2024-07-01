@@ -191,11 +191,11 @@ public class GameUtil : MonoBehaviour
     /// <returns></returns>
     public bool IsHoverOverUI()
     {
-        var lastRaycastResult = FindAnyObjectByType<InputSystemUIInputModule>().GetLastRaycastResult(0);
-        if (lastRaycastResult.gameObject != _cameraController.gameObject)
-        {
-            return true;
-        }
+        // var lastRaycastResult = FindAnyObjectByType<InputSystemUIInputModule>().GetLastRaycastResult(0);
+        // if (lastRaycastResult.gameObject != _cameraController.gameObject)
+        // {
+        //     return true;
+        // }
 
         return false;
     }

@@ -5,13 +5,20 @@ using KinematicCharacterController;
 using Pathfinding;
 using UnityEngine;
 
-public class GamePlayCharacterController : MonoBehaviour, ICharacterController
+/// <summary>
+/// 用来处理KCC的移动，仅为ActorMoveMgr所调用
+/// </summary>
+public class KCCMoveAgent : MonoBehaviour, ICharacterController
 {
+    private Vector3 velocity;
+
+    public Vector3 Velocity => velocity;
+
     public KinematicCharacterMotor Motor;
 
     private void Start()
     {
-        Motor = GetComponent<KinematicCharacterMotor>();
+        Motor = GetComponentInParent<KinematicCharacterMotor>();
         Motor.CharacterController = this;
     }
 
@@ -136,6 +143,8 @@ public class GamePlayCharacterController : MonoBehaviour, ICharacterController
             // Drag
             currentVelocity *= (1f / (1f + (Drag * deltaTime)));
         }
+
+        velocity = currentVelocity;
     }
 
     /// <summary>
