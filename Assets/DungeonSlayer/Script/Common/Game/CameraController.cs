@@ -37,8 +37,6 @@ public class CameraController : MonoBehaviour, IDragHandler, IEndDragHandler, IP
         
         float scrollWheel = Input.GetAxis("Mouse ScrollWheel");
         float zoomAmount = scrollWheel * zoomSpeed;
-
-        Debug.Log(zoomAmount);
         
         // 根据滚轮输入缩放摄像机
         if (Mathf.Abs(zoomAmount) > 0.01f)

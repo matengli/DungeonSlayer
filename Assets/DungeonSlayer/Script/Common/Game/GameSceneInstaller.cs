@@ -17,7 +17,6 @@ public class GameSceneInstaller : MonoInstaller
         typeof(CameraController),
         typeof(GameUtil),
         typeof(CinemachineCameraOffset),
-        typeof(PlayerController),
 
     };
     public override void InstallBindings()

@@ -178,6 +178,7 @@ public class ActorAnimMgr : MonoBehaviour
     {
         if (_moveMgr != null && isSetMoveFactor)
         {
+            Debug.Log(transform.parent.name);
             var vel = _moveMgr.GetVelocity().magnitude;
             _animator.SetFloat("vel", vel);
         }

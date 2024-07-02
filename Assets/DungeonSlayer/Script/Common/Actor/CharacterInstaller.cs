@@ -20,8 +20,10 @@ public class CharacterInstaller : MonoInstaller
         foreach (var pType in chaRelatedTypes)
         {
             var com = GetComponentInChildren(pType);
-            if(com!=null)
+            if (com != null)
+            {
                 Container.Bind(pType).FromInstance(com).AsSingle().NonLazy();
+            }
         }
 
         var obj = Instantiate(_characterModelBase.ModelPrefab, GetComponentInChildren<ActorViewContainer>().transform);
