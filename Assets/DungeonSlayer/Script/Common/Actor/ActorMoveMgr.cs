@@ -136,10 +136,49 @@ public class ActorMoveMgr : MonoBehaviour
         _kccMoveAgent.SetInputs(ref characterInputs);
     }
 
-    private void Update()
+    private void LateUpdate()
+    {
+        if(isStopped)
+            return;
+
+        if(CheckCurrentPath())
+           return;
+
+        CheckDirectMoveAsixInput();
+    }
+
+    private bool CheckDirectMoveAsixInput()
+    {
+        if(!isDirectInput)
+            return false;
+
+        _kccMoveAgent.SetInputs(ref currentFrameInput);
+        return true;
+    }
+
+    private KCCMoveAgent.PlayerCharacterInputs currentFrameInput;
+    private bool isDirectInput = false;
+    /// <summary>
+    /// 如果要设置必须要每帧都设置
+    /// </summary>
+    public void SetMoveAsixInput(float forwardAxis, float rightAxis, Quaternion rotation)
+    {
+        KCCMoveAgent.PlayerCharacterInputs characterInputs = new KCCMoveAgent.PlayerCharacterInputs();
+        
+        // Build the CharacterInputs struct
+        characterInputs.MoveAxisForward = forwardAxis;
+        characterInputs.MoveAxisRight = rightAxis;
+        
+        characterInputs.CameraRotation = rotation;
+
+        currentFrameInput = characterInputs;
+        isDirectInput = true;
+    }
+
+    private bool CheckCurrentPath()
     {
         if (path == null) {
-            return;
+            return false;
         }
 
         // Check in a loop if we are close enough to the current waypoint to switch to the next one.
@@ -163,7 +202,7 @@ public class ActorMoveMgr : MonoBehaviour
 
                     ClearPath();
 
-                    return;
+                    return false;
                 }
             } else {
                 break;
@@ -206,10 +245,9 @@ public class ActorMoveMgr : MonoBehaviour
             characterInputs.CameraRotation = Quaternion.LookRotation(delta.normalized);
         }
         
-        if(isStopped)
-            return;
-        
         ctr.SetInputs(ref characterInputs);
+        
+        return true;
     }
     
     private void OnDrawGizmos()
