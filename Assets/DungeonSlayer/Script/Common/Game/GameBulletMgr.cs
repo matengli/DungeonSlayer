@@ -46,8 +46,8 @@ public class GameBulletMgr : MonoBehaviour
         var bulletObj = new BulletObject(obj, model, caster);
         var ignoreActor = caster.GetComponentInParent<ActorMgr>();
 
-        var oldFollow = _cameraController.GetFollowTarget();
-        _cameraController.SetFollowTarget(obj.transform);
+        // var oldFollow = _cameraController.GetFollowTarget();
+        // _cameraController.SetFollowTarget(obj.transform);
         
         obj.GetComponentInChildren<BoxCollider>().OnTriggerEnterAsObservable().Subscribe((t) =>
         {
@@ -61,7 +61,7 @@ public class GameBulletMgr : MonoBehaviour
             
             bulletObj.hasHit = true;
             hitCallback(bulletObj, hitActor);
-            _cameraController.SetFollowTarget(oldFollow);
+            // _cameraController.SetFollowTarget(oldFollow);
         }).AddTo(obj);
         
         
@@ -72,7 +72,7 @@ public class GameBulletMgr : MonoBehaviour
             if (maxDistance <= 0)
             {
                 hitCallback(bulletObj, null);
-                _cameraController.SetFollowTarget(oldFollow);
+                // _cameraController.SetFollowTarget(oldFollow);
                 Destroy(obj);
             }
         }).AddTo(obj);

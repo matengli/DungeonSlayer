@@ -62,6 +62,8 @@ public class AutoActorController : NetworkBehaviour
     {
         bool isSet = false;
         
+        searchRange = _model.GetModel().SearchRange;
+
         var result = Physics.OverlapSphere(transform.position, searchRange, LayerMask.GetMask("Character"));
         
         foreach (var item in result)
@@ -101,8 +103,11 @@ public class AutoActorController : NetworkBehaviour
 
     [SyncVar(hook = nameof(OnChangeCombatTarget))][SerializeField] private ActorMgr combatTarget;
     
-    [SerializeField] private float searchRange = 5.0f;
-    
+    [SyncVar][SerializeField] private float searchRange = 5.0f;
+
+    [Inject] private ActorModelMgr _model;
+
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;;

@@ -122,7 +122,6 @@ public class ActorAttributeMgr : NetworkBehaviour
         return attributeDict[name].val;
     }
 
-    [Server]
     public void SetVal(string name, float value)
     {
         RealSetVal(name, value);

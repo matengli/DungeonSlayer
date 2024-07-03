@@ -22,4 +22,5 @@ public class CharacterModelBase : ScriptableObject
     public string name;
     public string desc;
 
+    [Range(0,20)]public float SearchRange = 5.0f;
 }

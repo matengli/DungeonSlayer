@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using Zenject;
 
@@ -32,6 +33,7 @@ public class ActorCollsionMgr : MonoBehaviour
     
     [Inject] private ActorCampMgr _campMgr;
 
+    [ServerCallback]
     public void TraceTriggerEnter(TraceComponent traceComponent, Collider other, bool isIgnoreCamp = false)
     {
         if (_stateMgr.GetCurrentState().Name != "attack")
@@ -72,13 +74,21 @@ public class ActorCollsionMgr : MonoBehaviour
     private bool overLapResult;
 
     private bool HasTriggered = false;
+    
+    [Inject] GameUtil _util;
 
+    [ServerCallback]
     public void TriggerOverLap(bool status, float range, float rangeAngle)
     {
         if(!status)
             return;
         
         var result = Physics.OverlapSphere(transform.position, range, LayerMask.GetMask("Character"));
+
+        // var pos = transform.position;
+        // pos.y = 0.1f;
+        // var po = _util.CreateSectorMeshAtPoint(range, rangeAngle, pos);
+        // po.transform.rotation = transform.rotation;
 
         if (result == null || result.Length <= 1)
         {

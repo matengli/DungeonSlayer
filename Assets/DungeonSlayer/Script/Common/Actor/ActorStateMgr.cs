@@ -31,9 +31,6 @@ public class ActorStateMgr : NetworkBehaviour
 
     private void PerformDamage(DamageInfo obj)
     {
-        if(transform.parent.CompareTag("Player"))
-            return;
-        
         var damage = GetStateByName("hitReact") as HitReactState;
         damage.damageInfo = obj;
         
@@ -311,6 +308,8 @@ public class ActorStateMgr : NetworkBehaviour
                 var abilityMgr = handler.GetAbilityMgr();
                 var ability = abilityMgr.ConstructAbility(typeof(ActorAbilityMgr.NormalDeathAbility), this);
                 abilityMgr.TryPerformAbility(ability);
+                
+                handler.GetMoveMgr().SetIsStopped(true);
             }
         }
         
@@ -350,10 +349,11 @@ public class ActorStateMgr : NetworkBehaviour
                 
                 var abilityMgr = handler.GetAbilityMgr();
 
-                if (damageInfo.Attacker != null)
-                {
-                    handler.transform.parent.LookAt(new Vector3(damageInfo.Attacker.transform.position.x,handler.transform.parent.position.y ,damageInfo.Attacker.transform.position.z));
-                }
+                //这个游戏不太需要这一点
+                // if (damageInfo.Attacker != null)
+                // {
+                //     handler.transform.parent.LookAt(new Vector3(damageInfo.Attacker.transform.position.x,handler.transform.parent.position.y ,damageInfo.Attacker.transform.position.z));
+                // }
                 var ability = abilityMgr.ConstructAbility(typeof(ActorAbilityMgr.HitReactAbility), this);
                 abilityMgr.TryPerformAbility(ability);
             }

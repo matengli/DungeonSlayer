@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
@@ -11,7 +12,7 @@ using Zenject;
 /// 这里管理了战斗相关的逻辑，主要处理伤害过程中的相关逻辑
 /// 区别于CombatMgr。CombatMgr更多是管理武器相关的逻辑，这里处理的逻辑更多是数值逻辑相关的内容
 /// </summary>
-public class ActorBattleMgr : MonoBehaviour
+public class ActorBattleMgr : NetworkBehaviour
 {
     [SerializeField] public List<BuffBase> _buffList;
     [SerializeField] public List<BuffBase.AddBuffInfo> _addBuffList;
@@ -172,6 +173,7 @@ public class ActorBattleMgr : MonoBehaviour
 
     [Inject] private DamageMgr _damageMgr;
 
+    [ServerCallback]
     //最基础的战斗手段，直接攻击力造成伤害,具体伤害取决于角色的武器
     public virtual void PunchAttackOther(ActorBattleMgr other)
     {
@@ -315,5 +317,12 @@ public class ActorBattleMgr : MonoBehaviour
             if(buff.model.tags.Contains(tag))
                 RemoveBuff(buff);
         }
+    }
+
+    [ClientRpc]
+    public void RPC_ResultFinalDamage(ActorBattleMgr attacker, ActorBattleMgr defender, float damage)
+    {
+        DamageInfo info = new DamageInfo(attacker, defender, damage);
+        _damageMgr.ResultFinalDamage(info);
     }
 }

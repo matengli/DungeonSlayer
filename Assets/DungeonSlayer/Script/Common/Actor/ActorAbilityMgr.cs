@@ -207,7 +207,7 @@ public class ActorAbilityMgr : MonoBehaviour
                 if (ptype == ActorAnimMgr.MontageEventEnum.VaildCollsionPlayableAssetStart)
                 {
                     GameBulletMgr.BulletModel model = new GameBulletMgr.BulletModel();
-                    model.prefab = Resources.Load<GameObject>("Prefab/Bullet/Projectile1");
+                    model.prefab = Resources.Load<GameObject>("Bullet/Projectile1");
             
                     handler.GetBulletMgr().FireBullet(model ,handler.GetBattleMgr(), (bulletObj, hitActor) =>
                     {
@@ -317,7 +317,7 @@ public class ActorAbilityMgr : MonoBehaviour
             
             info.Defender.GetComponentInParent<ActorMgr>().SetMontagePause(true);
             
-            await UniTask.WaitForSeconds(0.5f);
+            await UniTask.WaitForSeconds(0.2f);
             
             if(info.Attacker!=null)
                 info.Attacker.GetComponentInParent<ActorMgr>().SetMontagePause(false);

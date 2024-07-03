@@ -19,12 +19,19 @@ public class ActorMgr : NetworkBehaviour
     }
 
     [Inject] private ActorBattleMgr _battleMgr;
+    
+    [ServerCallback]
     public void AttackWithCurWeapon(ActorMgr other)
     {
-        Debug.Log($"{other.name}收到了来自{gameObject.name}的伤害");
+        // Debug.Log($"{other.name}收到了来自{gameObject.name}的伤害");
         
         _battleMgr.PunchAttackOther(other.GetBattleMgr());
+        
+        CheckOtherBuff(other);
+    }
 
+    public void CheckOtherBuff(ActorMgr other)
+    {
         foreach (var weaponBuffConf in _combatMgr.GetCurWeapon().weaponAddBuffConfig)
         {
             switch (weaponBuffConf.BuffTarget)
@@ -37,7 +44,6 @@ public class ActorMgr : NetworkBehaviour
                     break;
             }
         }
-        
     }
 
     public ActorBattleMgr GetBattleMgr()

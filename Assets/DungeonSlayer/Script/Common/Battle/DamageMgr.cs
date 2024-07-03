@@ -19,18 +19,15 @@ public class DamageMgr
             return;
         }
         
-        DamageInfo info = new DamageInfo(attacker, defender, damage);
-
         float factor = 1;
 
         bool isBack = attacker!=null && IsBackAttack(attacker.transform, defender.transform);
         if (isBack)
             factor = GetBackAttackFactor();
         
-        info.Damage *= factor;
-        
-        ///暴击和增伤先不算吧
-        ApplyDamage(info);
+        damage *= factor;
+
+        defender.RPC_ResultFinalDamage(attacker, defender, damage);
     }
 
     /// <summary>
@@ -39,7 +36,7 @@ public class DamageMgr
     /// <param name="attacker">攻击者，可能为空</param>
     /// <param name="defender">承受者，必不为空</param>
     /// <param name="damage">伤害</param>
-    public void ApplyDamage(DamageInfo info)
+    public void ResultFinalDamage(DamageInfo info)
     {
         var attacker = info.Attacker;
         var defender = info.Defender;
