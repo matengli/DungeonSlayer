@@ -16,7 +16,7 @@ public class ActorAttributeMgr : NetworkBehaviour
    [SerializeField] private Dictionary<string,ActorAttribute> attributeDict;
    //sample:"hp:0,100|sp:100,1000|mp:1000,10000"
    [SyncVar(hook = nameof(DecodeDataString))] [SerializeField] public string DataString = "";
-   
+
    [Server]
    public void EncodeDataString()
    {
@@ -33,7 +33,7 @@ public class ActorAttributeMgr : NetworkBehaviour
 
        DataString = result;
    }
-
+   
    public void DecodeDataString(string _old,string _new)
    {
        if(_new.Length<=0)

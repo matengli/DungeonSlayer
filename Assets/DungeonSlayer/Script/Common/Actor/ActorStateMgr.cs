@@ -31,7 +31,7 @@ public class ActorStateMgr : MonoBehaviour
 
     private void PerformDamage(DamageInfo obj)
     {
-        if(transform.parent.tag == "Player")
+        if(transform.parent.CompareTag("Player"))
             return;
         
         var damage = GetStateByName("hitReact") as HitReactState;

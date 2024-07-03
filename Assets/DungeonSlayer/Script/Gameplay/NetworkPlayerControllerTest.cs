@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DungeonSlayer.Script.Gameplay
 {
-    public class NetworkPlayerControllerTest : NetworkBehaviour
+    public class NetworkPlayerControllerTest : MonoBehaviour
     {
         [Range(1.0f,10.0f)][SerializeField] private float speed = 5.0f;
         
@@ -36,9 +36,6 @@ namespace DungeonSlayer.Script.Gameplay
         private KCCMoveAgent _kccMoveAgent;
         private void PlayerInput()
         {
-            if(!isLocalPlayer)
-                return;
-
             if (_gameUtil == null)
             {
                 _gameUtil = FindObjectOfType<GameUtil>();
@@ -51,10 +48,15 @@ namespace DungeonSlayer.Script.Gameplay
                 var lookat = _gameUtil.GetMouseWorldPosition();
                 lookat.y = origin.y;
 
-                transform.rotation = Quaternion.LookRotation(lookat - origin);
-                transform.position += speed * Time.deltaTime * (Input.GetAxisRaw("Vertical") * transform.forward +
-                                                               Input.GetAxisRaw("Horizontal") * transform.right);
+                InputAsix(Input.GetAxisRaw("Vertical"), Input.GetAxisRaw("Horizontal"), Quaternion.LookRotation(lookat - origin));
             }
+        }
+
+        public void InputAsix(float v,float h,Quaternion rotation)
+        {
+            transform.rotation = rotation;
+            transform.position += speed * Time.deltaTime * (v * transform.forward +
+                                                            h * transform.right);
         }
     }
 }

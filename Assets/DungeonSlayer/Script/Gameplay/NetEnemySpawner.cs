@@ -43,7 +43,7 @@ namespace DungeonSlayer.Script.Gameplay
 
         private void OnSpawnedEnemyGetKilled(DamageInfo obj)
         {
-            NetworkServer.Destroy(obj.Defender.transform.parent.gameObject);
+            // NetworkServer.Destroy(obj.Defender.transform.parent.gameObject);
 
             isGenerated--;
         }
