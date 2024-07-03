@@ -88,7 +88,7 @@ public class ActorUIContainer : MonoBehaviour
             return;
         }
 
-        debugText.text = $"Pos:{transform.position}\nRotation:{transform.rotation}";
+        debugText.text = $"Pos:{transform.position}\nRotation:{transform.rotation}\nDataString:{_attributeMgr.DataString}";
         debugText.color = _campMgr.GetCamp() == ActorCampMgr.ActorCamp.Dire ? Color.red : Color.white;
     }
 

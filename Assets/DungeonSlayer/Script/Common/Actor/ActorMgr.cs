@@ -57,7 +57,11 @@ public class ActorMgr : NetworkBehaviour
 
     private void Start()
     {
-        _attributeMgr.CreateAttribute("hp", _modelMgr.GetInitHp());
+        if (isServer)
+        {
+            _attributeMgr.CreateAttribute("hp", _modelMgr.GetInitHp());
+            _attributeMgr.EncodeDataString();
+        }
         _uiContainer.InitUI();
 
     }
