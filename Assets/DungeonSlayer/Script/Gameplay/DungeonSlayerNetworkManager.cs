@@ -6,24 +6,31 @@ namespace DungeonSlayer.Script.Gameplay
 {
     public class DungeonSlayerNetworkManager : NetworkManager
     {
+        private int insertCount = 0;
+        
         [Inject] private DiContainer _container;
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
             var pos = UnityEngine.Random.insideUnitSphere * 5.0f;
             pos.y = 0.0f;
-            // GameObject player = _container.InstantiatePrefab(playerPrefab, UnityEngine.Random.insideUnitSphere * 5.0f, Quaternion.identity, transform);
             
-            // GameObject player = FindObjectOfType<SceneContext>().Container.InstantiatePrefab(playerPrefab, UnityEngine.Random.insideUnitSphere * 5.0f, Quaternion.identity, transform);
             GameObject player = Instantiate(playerPrefab, pos, Quaternion.identity, transform);
             
-            // FindObjectOfType<SceneContext>().Container.InjectGameObject(player);
+            insertCount++;
+            
             NetworkServer.AddPlayerForConnection(conn, player);
+            
+            var ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "CommonPlayerNet"), pos, Quaternion.identity, transform);
+            conn.authenticationData = insertCount.ToString();
+            NetworkServer.Spawn(ball, conn);
         }
 
         public override void OnServerDisconnect(NetworkConnectionToClient conn)
         {
             // call base functionality (actually destroys the player)
             base.OnServerDisconnect(conn);
+
+            insertCount--;
         }
     }
 }

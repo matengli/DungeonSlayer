@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Weapon
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -22,10 +22,10 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _weaponDataAsset: {fileID: 11400000, guid: 6c6b2f0ba23c02648a8f27342a9fad2c, type: 2}
-  cd: 1
+  cd: 0.4
   range: 2
   rangeAngle: 45
-  baseAtk: 10
+  baseAtk: 50
   weaponObject: {fileID: 1943147378385782, guid: 73421939947a74b4ea5cf38180d18948,
     type: 3}
   socketName: Hand_R

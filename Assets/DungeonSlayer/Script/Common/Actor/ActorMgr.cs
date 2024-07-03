@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Mirror;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
@@ -12,6 +13,11 @@ using Zenject;
 /// </summary>
 public class ActorMgr : MonoBehaviour
 {
+    private void Awake()
+    {
+        FindObjectOfType<SceneContext>().Container.InjectGameObject(gameObject);
+    }
+
     [Inject] private ActorBattleMgr _battleMgr;
     public void AttackWithCurWeapon(ActorMgr other)
     {
@@ -37,6 +43,11 @@ public class ActorMgr : MonoBehaviour
     public ActorBattleMgr GetBattleMgr()
     {
         return _battleMgr;
+    }
+
+    public void RegisterBattlerGetKilled(Action<DamageInfo> input)
+    {
+        _battleMgr.OnKilled += input;
     }
 
     [Inject] private ActorAttributeMgr _attributeMgr;
@@ -170,5 +181,10 @@ public class ActorMgr : MonoBehaviour
     public void MoveToPosition(Vector3 pos)
     {
         _moveMgr.MoveToPosition(pos);
+    }
+
+    public void PerformAttack()
+    {
+        _combatMgr.TryPerformAttack();
     }
 }

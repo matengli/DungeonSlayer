@@ -31,8 +31,12 @@ public class ActorStateMgr : MonoBehaviour
 
     private void PerformDamage(DamageInfo obj)
     {
+        if(transform.parent.tag == "Player")
+            return;
+        
         var damage = GetStateByName("hitReact") as HitReactState;
         damage.damageInfo = obj;
+        
         TryPerformState(damage);
     }
 

@@ -6,6 +6,14 @@ namespace DungeonSlayer.Script.Gameplay
 {
     public class NetworkPlayerController : NetworkBehaviour
     {
+        [SyncVar]
+        public string playerName;
+
+        public override void OnStartServer()
+        {
+            playerName = (string)connectionToClient.authenticationData;
+        }
+        
         private void Awake()
         {
             BindGamePlayer();
@@ -16,16 +24,19 @@ namespace DungeonSlayer.Script.Gameplay
         public void BindGamePlayer()
         {
             player = GetComponent<ActorMgr>();
-            FindObjectOfType<SceneContext>().Container.InjectGameObject(gameObject);
+            // FindObjectOfType<SceneContext>().Container.InjectGameObject(gameObject);
         }
 
-        [Client]
+        [ClientCallback]
         void Update()
         {
-            if(!isLocalPlayer)
+            if(!isOwned)
                 return;
             
             if(player==null)
+                return;
+            
+            if(player.IsActorDead())
                 return;
             
             if (!_gameUtil.CheckClickPos())
@@ -37,8 +48,8 @@ namespace DungeonSlayer.Script.Gameplay
                 CMD_MoveByAsix(Input.GetAxisRaw("Vertical"), Input.GetAxisRaw("Horizontal"), Quaternion.LookRotation(lookat - origin));
                 return;
             }
-        
-            CMD_MoveToDest(_gameUtil.GetMouseWorldPosition());     
+
+            CMD_Attack();
         }
 
         [Inject] private GameUtil _gameUtil;
@@ -55,11 +66,23 @@ namespace DungeonSlayer.Script.Gameplay
             RPC_MoveByAsix(forward, right, rotation);
         }
         
+        [Command]
+        private void CMD_Attack()
+        {
+            // connectionToClient.identity;
+            RPC_Attack();
+        }
+        
+        [ClientRpc]
+        private void RPC_Attack()
+        {
+            player.PerformAttack();
+        }
+
         [ClientRpc]
         private void RPC_MoveToDest(Vector3 dest)
         {
             player.MoveToPosition(dest);
-
         }
 
         [ClientRpc]

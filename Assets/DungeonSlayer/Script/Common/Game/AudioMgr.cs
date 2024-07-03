@@ -33,7 +33,7 @@ public class AudioMgr : SerializedMonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(ptype), ptype, null);
         }
         
-        AudioSource.PlayClipAtPoint(clip, GameObject.FindWithTag("Player").transform.position, volume);
+        AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position, volume);
     }
     
     public enum BattleEffectSEEnum
@@ -48,12 +48,12 @@ public class AudioMgr : SerializedMonoBehaviour
         {
             case BattleEffectSEEnum.swordSwing:
                 var clip = Resources.Load<AudioClip>($"Effect/sword_swing/Light Sword Swing {Random.Range(1, 16)}");
-                AudioSource.PlayClipAtPoint(clip, GameObject.FindWithTag("Player").transform.position);
+                AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
                 break;
             
             case BattleEffectSEEnum.damage:
                 clip = Resources.Load<AudioClip>($"Effect/hit/Game Punch {Random.Range(1, 31)}");
-                AudioSource.PlayClipAtPoint(clip, GameObject.FindWithTag("Player").transform.position);
+                AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
                 break;
         }
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -7,7 +8,7 @@ using UnityEngine;
 /// Radiant与Radiant相互主动敌对
 /// Neutral为中立
 /// </summary>
-public class ActorCampMgr : MonoBehaviour
+public class ActorCampMgr : NetworkBehaviour
 {
     public enum ActorCamp
     {
@@ -16,7 +17,7 @@ public class ActorCampMgr : MonoBehaviour
         Neutral
     }
 
-    [SerializeField] private ActorCamp _actorCamp = ActorCamp.Neutral;
+    [SyncVar][SerializeField] protected ActorCamp _actorCamp = ActorCamp.Neutral;
 
     public void SetCamp(ActorCamp camp)
     {

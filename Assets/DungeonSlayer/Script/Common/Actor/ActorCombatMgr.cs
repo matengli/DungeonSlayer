@@ -123,6 +123,21 @@ public class ActorCombatMgr : MonoBehaviour
     }
 
     private float attackCd = 0.0f;
+
+
+    public bool TryPerformAttack()
+    {
+        if(_actorMgr.IsActorDead() ||  _stateMgr?.GetCurrentState()?.Name == "stun")
+            return false;
+        
+        if (_stateMgr.GetCurrentState().Name == "attack")
+        {
+            return false;
+        }
+        
+        _stateMgr.TryPerformState(_stateMgr.GetStateByName("attack"));
+        return true;
+    }
     
     private void Update()
     {

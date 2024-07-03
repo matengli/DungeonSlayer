@@ -174,7 +174,7 @@ public class GameUtil : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            if((mousePosition-Input.mousePosition).magnitude>50.0f)
+            if((mousePosition-Input.mousePosition).magnitude>100.0f)
                 return false;
 
             return true;

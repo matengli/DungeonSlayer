@@ -13,14 +13,14 @@ using Zenject;
 /// </summary>
 public class ActorMoveMgr : MonoBehaviour
 {
-    [Inject] private ActorModelMgr _modelMgr;
-    [Inject] private ActorBattleMgr _battleMgr;
+    [Inject] protected ActorModelMgr _modelMgr;
+    [Inject] protected ActorBattleMgr _battleMgr;
     
-    RVOController controller;
+    private RVOController controller;
 
     private KCCMoveAgent _kccMoveAgent;
 
-    [SerializeField]private bool isStopped;
+    [SerializeField]protected bool isStopped;
 
     // Start is called before the first frame update
     void Start()
@@ -45,10 +45,10 @@ public class ActorMoveMgr : MonoBehaviour
     //被消灭了以后停止移动 目前还不需要实现
     public void OnKilled(DamageInfo info)
     {
-        isStopped = true;
+        SetIsStopped(true);
     }
     
-    public Vector3 GetVelocity()
+    public virtual Vector3 GetVelocity()
     {
         return _kccMoveAgent.Velocity;
     }
@@ -77,8 +77,13 @@ public class ActorMoveMgr : MonoBehaviour
         input.CameraRotation = transform.rotation;
 
         // Apply inputs to character
-        _kccMoveAgent.SetInputs(ref input);
+        SetInputs(ref input);
         // We have no path to follow yet, so don't do anything
+    }
+
+    public virtual void SetInputs(ref KCCMoveAgent.PlayerCharacterInputs input)
+    {
+        _kccMoveAgent.SetInputs(ref input);
     }
     
     /// <summary>
@@ -99,7 +104,7 @@ public class ActorMoveMgr : MonoBehaviour
         seeker.StartPath(transform.position, dest, OnPathComplete);
     }
 
-    private int seekCount = 0;
+    protected int seekCount = 0;
     public bool HasReachDest()
     {
         if (seekCount>0)
@@ -133,13 +138,15 @@ public class ActorMoveMgr : MonoBehaviour
         characterInputs.MoveAxisRight = 0;
         characterInputs.CameraRotation = Quaternion.LookRotation((input.position - transform.position));
         
-        _kccMoveAgent.SetInputs(ref characterInputs);
+        SetInputs(ref characterInputs);
     }
 
-    private void LateUpdate()
+    private void Update()
     {
-        if(isStopped)
+        if (isStopped)
+        {
             return;
+        }
 
         if(CheckCurrentPath())
            return;
@@ -147,17 +154,17 @@ public class ActorMoveMgr : MonoBehaviour
         CheckDirectMoveAsixInput();
     }
 
-    private bool CheckDirectMoveAsixInput()
+    protected bool CheckDirectMoveAsixInput()
     {
         if(!isDirectInput)
             return false;
 
-        _kccMoveAgent.SetInputs(ref currentFrameInput);
+        SetInputs(ref currentFrameInput);
         return true;
     }
 
-    private KCCMoveAgent.PlayerCharacterInputs currentFrameInput;
-    private bool isDirectInput = false;
+    protected KCCMoveAgent.PlayerCharacterInputs currentFrameInput;
+    protected bool isDirectInput = false;
     /// <summary>
     /// 如果要设置必须要每帧都设置
     /// </summary>
@@ -209,9 +216,16 @@ public class ActorMoveMgr : MonoBehaviour
             }
         }
 
+        AppleTranslateAfterCheckCurrentPath(distanceToWaypoint);
+
+        return true;
+    }
+
+    virtual protected void AppleTranslateAfterCheckCurrentPath(float distanceToWaypoint)
+    {
         // Slow down smoothly upon approaching the end of the path
         // This value will smoothly go from 1 to 0 as the agent approaches the last waypoint in the path.
-        var speedFactor = reachedEndOfPath ? Mathf.Sqrt(distanceToWaypoint/nextWaypointDistance) : 1f;
+        var speedFactor = reachedEndOfPath ? Mathf.Sqrt(distanceToWaypoint / nextWaypointDistance) : 1f;
 
         // Direction to the next waypoint
         // Normalize it so that it has a length of 1 world unit
@@ -224,14 +238,14 @@ public class ActorMoveMgr : MonoBehaviour
         KCCMoveAgent.PlayerCharacterInputs characterInputs = new KCCMoveAgent.PlayerCharacterInputs();
 
         // Build the CharacterInputs struct
-        characterInputs.MoveAxisForward = velocity.magnitude/ctr.MaxStableMoveSpeed;
+        characterInputs.MoveAxisForward = velocity.magnitude / ctr.MaxStableMoveSpeed;
         characterInputs.MoveAxisRight = 0;
         characterInputs.CameraRotation = Quaternion.LookRotation(velocity.normalized);
 
         if (isEnableRVO)
         {
             // Apply inputs to character
-        
+
             // Just some point far away
             var targetPoint = transform.position + velocity;
 
@@ -244,10 +258,8 @@ public class ActorMoveMgr : MonoBehaviour
             var delta = controller.CalculateMovementDelta(transform.position, Time.deltaTime);
             characterInputs.CameraRotation = Quaternion.LookRotation(delta.normalized);
         }
-        
-        ctr.SetInputs(ref characterInputs);
-        
-        return true;
+
+        SetInputs(ref characterInputs);
     }
     
     private void OnDrawGizmos()
@@ -267,6 +279,16 @@ public class ActorMoveMgr : MonoBehaviour
     public void SetIsStopped(bool b)
     {
         isStopped = b;
+        if (isStopped)
+        {
+            AfterSetStopped();
+        }
+    }
+
+    protected void AfterSetStopped()
+    {
+        SetMoveAsixInput(0, 0, transform.rotation);
+        CheckDirectMoveAsixInput();
     }
 
     public void MoveToPosition(Vector3 transformPosition, float stopDistance = 0.1f)

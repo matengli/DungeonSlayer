@@ -61,6 +61,11 @@ public class ActorUIContainer : MonoBehaviour
         {
             _canvas.gameObject.SetActive(false);
         };
+        
+        if(_canvas.transform.Find("name") == null)
+            return;
+
+        debugText = _canvas.transform.Find("name").GetComponent<TextMeshProUGUI>();
     }
 
     private void OnAttrModify(string name, float curval, float oldval, float max)
@@ -71,11 +76,23 @@ public class ActorUIContainer : MonoBehaviour
         obj.Spawn(transform.position,    Mathf.Abs(curval - oldval));
     }
 
+    private TextMeshProUGUI debugText;
+
     // Update is called once per frame
     void LateUpdate()
     {
         _canvas.transform.forward = _camera.transform.forward;
+
+        if (debugText == null)
+        {
+            return;
+        }
+
+        debugText.text = $"Pos:{transform.position}\nRotation:{transform.rotation}";
+        debugText.color = _campMgr.GetCamp() == ActorCampMgr.ActorCamp.Dire ? Color.red : Color.white;
     }
+
+    [Inject] private ActorCampMgr _campMgr;
 
     private string[] propNameList = { "hp"};
     private Transform groupTrans;

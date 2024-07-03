@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using Zenject;
 
@@ -8,12 +9,14 @@ using Zenject;
 /// Character的上的控制器
 /// 逻辑上与PlayerController算是并列关系，但是事实上没有关联
 /// </summary>
-public class AutoActorController : MonoBehaviour
+public class AutoActorController : NetworkBehaviour
 {
     [Inject] private ActorCombatMgr _combatMgr;
 
     [Inject] private ActorMgr _actorMgr;
+    [Inject] private ActorMoveMgr _moveMgr;
     
+    [Server]
     void Update()
     {
         if(_actorMgr.CompareTag("Player"))
@@ -23,8 +26,32 @@ public class AutoActorController : MonoBehaviour
             return;
 
         AIInput();
+        CheckWonder();
+    }
+
+    [SerializeField]private float wonderCD = 0;
+
+    private void CheckWonder()
+    {
+        if(combatTarget!=null)
+            return;
+
+        wonderCD -= Time.deltaTime;
+        if (wonderCD > 0f)
+        {
+            return;
+        }
+
+        wonderCD = 5.0f;
+        RPC_MoveToDest(UnityEngine.Random.insideUnitSphere * 5.0f);
     }
     
+    [ClientRpc]
+    private void RPC_MoveToDest(Vector3 dest)
+    {
+        _actorMgr.MoveToPosition(dest);
+    }
+
     void AIInput()
     {
         combatTarget = null;
