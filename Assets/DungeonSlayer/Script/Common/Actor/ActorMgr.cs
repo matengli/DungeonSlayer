@@ -11,7 +11,7 @@ using Zenject;
 /// 作为Actor的Context，作为内部某些实现的装饰类
 /// 外部类调用Actor上的相关接口必须通过ActorMgr
 /// </summary>
-public class ActorMgr : MonoBehaviour
+public class ActorMgr : NetworkBehaviour
 {
     private void Awake()
     {

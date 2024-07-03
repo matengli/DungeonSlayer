@@ -51,10 +51,16 @@ public class AutoActorController : NetworkBehaviour
     {
         _actorMgr.MoveToPosition(dest);
     }
+    
+    void OnChangeCombatTarget(ActorMgr _old, ActorMgr _new)
+    {
+        _combatMgr.SetAttackTarget(_new);
+    }
 
+    [Server]
     void AIInput()
     {
-        combatTarget = null;
+        bool isSet = false;
         
         var result = Physics.OverlapSphere(transform.position, searchRange, LayerMask.GetMask("Character"));
         
@@ -76,17 +82,24 @@ public class AutoActorController : NetworkBehaviour
                 }
         
                 combatTarget = otherActorMgr;
-                break;                    
+                isSet = true;
+
+                break;
             }
         }
-        
+
+        if (!isSet)
+        {
+            combatTarget = null;
+        }
+
         _combatMgr.SetAttackTarget(combatTarget);
 
     }
 
     [Inject] private ActorCampMgr _actorCamp;
 
-    [SerializeField] private ActorMgr combatTarget;
+    [SyncVar(hook = nameof(OnChangeCombatTarget))][SerializeField] private ActorMgr combatTarget;
     
     [SerializeField] private float searchRange = 5.0f;
     

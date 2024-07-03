@@ -13,6 +13,7 @@ namespace DungeonSlayer.Script.Gameplay
 
         [SerializeField] private int GeneratedCharacterCount = 1;
         [SerializeField] private float GenerateRange = 10.0f;
+        [SerializeField] private ActorCampMgr.ActorCamp actorCamp;
         
         [Server]
         private void OnTriggerEnter(Collider other)
@@ -32,7 +33,7 @@ namespace DungeonSlayer.Script.Gameplay
                 spawnedEnemy = ball.GetComponent<ActorMgr>();
                 spawnedEnemy.GetComponentInChildren<ActorBattleMgr>().OnKilled += OnSpawnedEnemyGetKilled;
                 
-                spawnedEnemy.SetActorCamp(Random.Range(0,1.0f)>0.5f? ActorCampMgr.ActorCamp.Dire: ActorCampMgr.ActorCamp.Radiant);
+                spawnedEnemy.SetActorCamp(actorCamp);
 
                 isGenerated++;
             }
