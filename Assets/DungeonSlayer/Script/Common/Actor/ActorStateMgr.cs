@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
+using Mirror;
 using UnityEngine;
 using Zenject;
 
@@ -9,7 +9,7 @@ using Zenject;
 /// 用来管理状态，参考TCF里的StateManager
 /// State存储了角色的当前的角色状态，用来判断哪些ability可以执行
 /// </summary>
-public class ActorStateMgr : MonoBehaviour
+public class ActorStateMgr : NetworkBehaviour
 {
     private HashSet<ActorState> stateList;
     private ActorState curState;
@@ -127,6 +127,12 @@ public class ActorStateMgr : MonoBehaviour
 
         return true;
     }
+
+    [ClientRpc]
+    public void RPC_TryPerformState(string stateName)
+    {
+        TryPerformState(GetStateByName(stateName));
+    }
     
     /// <summary>
     /// 清除所有的状态，比如说切换武器的时候，要将原有的状态全部清除
@@ -161,8 +167,8 @@ public class ActorStateMgr : MonoBehaviour
             
             protected string abilityToCreateName = "";
             
-            [ShowInInspector]
-            [ReadOnly]
+            [Sirenix.OdinInspector.ShowInInspector]
+            [Sirenix.OdinInspector.ReadOnly]
             public virtual string Name => "";
 
             virtual public void OnEnter(ActorStateMgr handler)

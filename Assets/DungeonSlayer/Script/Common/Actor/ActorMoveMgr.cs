@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using Mirror;
 using Pathfinding;
 using Pathfinding.RVO;
 using UnityEngine;
@@ -11,7 +12,7 @@ using Zenject;
 /// <summary>
 /// 负责管理移动
 /// </summary>
-public class ActorMoveMgr : MonoBehaviour
+public class ActorMoveMgr : NetworkBehaviour
 {
     [Inject] protected ActorModelMgr _modelMgr;
     [Inject] protected ActorBattleMgr _battleMgr;
@@ -81,6 +82,12 @@ public class ActorMoveMgr : MonoBehaviour
         // We have no path to follow yet, so don't do anything
     }
 
+    [ClientRpc]
+    public void RPC_ClearPath()
+    {
+        ClearPath();
+    }
+
     public virtual void SetInputs(ref KCCMoveAgent.PlayerCharacterInputs input)
     {
         _kccMoveAgent.SetInputs(ref input);
@@ -139,6 +146,12 @@ public class ActorMoveMgr : MonoBehaviour
         characterInputs.CameraRotation = Quaternion.LookRotation((input.position - transform.position));
         
         SetInputs(ref characterInputs);
+    }
+
+    [ClientRpc]
+    public void RPC_SetLookAt(Transform input)
+    {
+        SetLookAt(input);
     }
 
     private void Update()
@@ -294,5 +307,11 @@ public class ActorMoveMgr : MonoBehaviour
     public void MoveToPosition(Vector3 transformPosition, float stopDistance = 0.1f)
     {
         SetMoveDest(transformPosition, stopDistance);
+    }
+    
+    [ClientRpc]
+    public void RPC_MoveToPosition(Vector3 transformPosition, float stopDistance)
+    {
+        MoveToPosition(transformPosition, stopDistance);
     }
 }

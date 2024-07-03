@@ -55,17 +55,6 @@ public class ActorMgr : NetworkBehaviour
     [Inject] private ActorUIContainer _uiContainer;
     [Inject] private ActorStateMgr _stateMgr;
 
-    // private void Start()
-    // {
-    //     if (isServer)
-    //     {
-    //         _attributeMgr.CreateAttribute("hp", _modelMgr.GetInitHp());
-    //         _attributeMgr.EncodeDataString();
-    //     }
-    //     _uiContainer.InitUI();
-    //
-    // }
-
     public override void OnStartServer()
     {
         _attributeMgr.CreateAttribute("hp", _modelMgr.GetInitHp());

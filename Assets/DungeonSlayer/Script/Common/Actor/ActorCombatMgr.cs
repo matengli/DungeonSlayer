@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using Unity.Mathematics;
 using UnityEngine;
 using Zenject;
@@ -8,7 +9,7 @@ using Zenject;
 /// <summary>
 /// 处理武器，攻击目标相关的逻辑
 /// </summary>
-public class ActorCombatMgr : MonoBehaviour
+public class ActorCombatMgr : NetworkBehaviour
 {
     [Inject] private ActorStateMgr _stateMgr;
     [Inject] private ActorModelMgr _modelMgr;
@@ -99,7 +100,7 @@ public class ActorCombatMgr : MonoBehaviour
 
     [Inject] private ActorMoveMgr _moveMgr;
 
-    [SerializeField] private ActorMgr _combatTarget;
+    [SyncVar][SerializeField] private ActorMgr _combatTarget;
     [Inject] private ActorMgr _actorMgr;
 
     public void SetAttackTarget(ActorMgr combatTarget)
@@ -139,8 +140,11 @@ public class ActorCombatMgr : MonoBehaviour
         return true;
     }
     
+    [Server]
     private void Update()
     {
+        if(transform.parent.CompareTag("Player"))
+            return;
         
         if(_actorMgr.IsActorDead() ||  _stateMgr?.GetCurrentState()?.Name == "stun")
             return;
@@ -157,19 +161,19 @@ public class ActorCombatMgr : MonoBehaviour
         var distance = (_combatTarget.transform.position - transform.position).magnitude;
         if (distance > curWeapon.range)
         {
-            _moveMgr.MoveToPosition(_combatTarget.transform.position, curWeapon.range);
+            _moveMgr.RPC_MoveToPosition(_combatTarget.transform.position, curWeapon.range);
             return;
         }
         
-        _moveMgr.ClearPath();
-        _moveMgr.SetLookAt(_combatTarget.transform);
+        _moveMgr.RPC_ClearPath();
+        _moveMgr.RPC_SetLookAt(_combatTarget.transform);
         
         if (_stateMgr.GetCurrentState().Name == "attack")
         {
             return;
         }
         
-        _stateMgr.TryPerformState(_stateMgr.GetStateByName("attack"));
+        _stateMgr.RPC_TryPerformState("attack");
     }
     
     public Weapon GetCurWeapon()
