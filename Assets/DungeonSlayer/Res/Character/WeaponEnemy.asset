@@ -25,7 +25,7 @@ MonoBehaviour:
   cd: 2
   range: 2
   rangeAngle: 120
-  baseAtk: 100
+  baseAtk: 10
   weaponObject: {fileID: 1943147378385782, guid: 73421939947a74b4ea5cf38180d18948,
     type: 3}
   socketName: Hand_R

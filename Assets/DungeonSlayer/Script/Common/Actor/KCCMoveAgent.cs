@@ -2,14 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using KinematicCharacterController;
+using Mirror;
 using Pathfinding;
 using UnityEngine;
+using Zenject;
 
 /// <summary>
 /// 用来处理KCC的移动，仅为ActorMoveMgr所调用
 /// </summary>
-public class KCCMoveAgent : MonoBehaviour, ICharacterController
+public class KCCMoveAgent : NetworkBehaviour, ICharacterController
 {
+    [SyncVar]
     private Vector3 velocity;
 
     public Vector3 Velocity => velocity;
@@ -88,6 +91,9 @@ public class KCCMoveAgent : MonoBehaviour, ICharacterController
     /// </summary>
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
+        if(!_actorMgr.HasRightToUpdate())
+            return;
+        
         if (_lookInputVector != Vector3.zero && OrientationSharpness > 0f)
         {
             // Smoothly interpolate from current to target look direction
@@ -98,6 +104,8 @@ public class KCCMoveAgent : MonoBehaviour, ICharacterController
         }
     }
 
+    [Inject] private ActorMgr _actorMgr;
+
     /// <summary>
     /// (Called by KinematicCharacterMotor during its update cycle)
     /// This is where you tell your character what its velocity should be right now. 
@@ -105,6 +113,9 @@ public class KCCMoveAgent : MonoBehaviour, ICharacterController
     /// </summary>
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
+        if(!_actorMgr.HasRightToUpdate())
+            return;
+        
         Vector3 targetMovementVelocity = Vector3.zero;
         if (Motor.GroundingStatus.IsStableOnGround)
         {

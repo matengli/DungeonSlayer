@@ -45,7 +45,7 @@ namespace DungeonSlayer.Script.Gameplay
                 var lookat = _gameUtil.GetMouseWorldPosition();
                 lookat.y = origin.y;
             
-                CMD_MoveByAsix(Input.GetAxisRaw("Vertical"), Input.GetAxisRaw("Horizontal"), Quaternion.LookRotation(lookat - origin));
+                RPC_MoveByAsix(Input.GetAxisRaw("Vertical"), Input.GetAxisRaw("Horizontal"), Quaternion.LookRotation(lookat - origin));
                 return;
             }
 
@@ -53,18 +53,6 @@ namespace DungeonSlayer.Script.Gameplay
         }
 
         [Inject] private GameUtil _gameUtil;
-    
-        [Command]
-        private void CMD_MoveToDest(Vector3 dest)
-        {
-            RPC_MoveToDest(dest );
-        }
-
-        [Command]
-        private void CMD_MoveByAsix(float forward, float right, Quaternion rotation)
-        {
-            RPC_MoveByAsix(forward, right, rotation);
-        }
         
         [Command]
         private void CMD_Attack()
@@ -79,13 +67,6 @@ namespace DungeonSlayer.Script.Gameplay
             player.PerformAttack();
         }
 
-        [ClientRpc]
-        private void RPC_MoveToDest(Vector3 dest)
-        {
-            player.MoveToPosition(dest);
-        }
-
-        [ClientRpc]
         private void RPC_MoveByAsix(float forward, float right, Quaternion rotation)
         {
             player.GetComponentInChildren<ActorMoveMgr>().SetMoveAsixInput(forward, right, rotation);

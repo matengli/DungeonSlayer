@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using KinematicCharacterController;
 using Mirror;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -70,6 +71,16 @@ public class ActorMgr : NetworkBehaviour
     public override void OnStartClient()
     {
         _uiContainer.InitUI();
+
+        GetComponent<KinematicCharacterMotor>().enabled = HasRightToUpdate();
+    }
+    
+    public bool HasRightToUpdate()
+    {
+        if(transform.CompareTag("Player"))
+            return isOwned;
+
+        return isServer;
     }
 
     public ActorAttributeMgr GetAttrMgr()
