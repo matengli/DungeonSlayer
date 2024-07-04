@@ -178,8 +178,14 @@ public class ActorAnimMgr : MonoBehaviour
     {
         if (_moveMgr != null && isSetMoveFactor)
         {
-            var vel = _moveMgr.GetVelocity().magnitude;
-            _animator.SetFloat("vel", vel);
+            var vel = _moveMgr.GetVelocity();
+            
+            // _animator.SetFloat("vel", vel);
+
+            var faceDir = transform.forward;
+            var rightDir = transform.right;
+            _animator.SetFloat("vel_v", Vector3.Dot(faceDir, vel) );
+            _animator.SetFloat("vel_h", Vector3.Dot(rightDir, vel));
         }
         
         finalPose.SetInputWeight(0, 1.0f - mixFactor);
