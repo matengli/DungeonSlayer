@@ -59,6 +59,11 @@ PrefabInstance:
       propertyPath: _assetId
       value: 3313240814
       objectReference: {fileID: 0}
+    - target: {fileID: 2866688788467117073, guid: 62119b670579e7641a6766a31276871b,
+        type: 3}
+      propertyPath: isEnableRVO
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3876559947138385467, guid: 62119b670579e7641a6766a31276871b,
         type: 3}
       propertyPath: m_Name

@@ -78,6 +78,9 @@ public class ActorUIContainer : MonoBehaviour
 
     private TextMeshProUGUI debugText;
 
+    [Inject] private ActorStateMgr _stateMgr;
+    [Inject] private ActorAbilityMgr _abilityMgr;
+
     // Update is called once per frame
     void LateUpdate()
     {
@@ -88,7 +91,12 @@ public class ActorUIContainer : MonoBehaviour
             return;
         }
 
-        debugText.text = $"Pos:{transform.position}\nRotation:{transform.rotation}\nDataString:{_attributeMgr.DataString}";
+        debugText.text = $"Pos:{transform.position}\n" +
+                         $"Rotation:{transform.rotation}\n" +
+                         $"DataString:{_attributeMgr.DataString}\n" +
+                         $"State:{_stateMgr.GetCurrentState().Name}\n"+
+                         $"Ability:{_abilityMgr.GetCurrentAbility()?.Name}\n"
+                         ;
         debugText.color = _campMgr.GetCamp() == ActorCampMgr.ActorCamp.Dire ? Color.red : Color.white;
     }
 

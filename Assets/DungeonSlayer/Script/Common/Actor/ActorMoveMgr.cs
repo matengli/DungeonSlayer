@@ -23,9 +23,10 @@ public class ActorMoveMgr : NetworkBehaviour
 
     [SerializeField]protected bool isStopped;
 
-    // Start is called before the first frame update
-    void Start()
+    public override void OnStartClient()
     {
+        Debug.Log("OnStartServer22222222");
+
         speed = _modelMgr.GetSpeed();
         _battleMgr.OnKilled += OnKilled;
 
@@ -40,7 +41,7 @@ public class ActorMoveMgr : NetworkBehaviour
         {
             gameObject.AddComponent<RVOController>();
             controller = GetComponent<RVOController>();
-        }
+        }    
     }
     
     //被消灭了以后停止移动 目前还不需要实现
@@ -136,6 +137,10 @@ public class ActorMoveMgr : NetworkBehaviour
         }
     }
     
+    /// <summary>
+    /// 这里的LookAt相当于是输入转向指令，会受到状态的影响
+    /// </summary>
+    /// <param name="input"></param>
     public void SetLookAt(Transform input)
     {
         KCCMoveAgent.PlayerCharacterInputs characterInputs = new KCCMoveAgent.PlayerCharacterInputs();
@@ -144,7 +149,7 @@ public class ActorMoveMgr : NetworkBehaviour
         characterInputs.MoveAxisForward = 0;
         characterInputs.MoveAxisRight = 0;
         characterInputs.CameraRotation = Quaternion.LookRotation((input.position - transform.position));
-        
+
         SetInputs(ref characterInputs);
     }
 
@@ -156,10 +161,10 @@ public class ActorMoveMgr : NetworkBehaviour
 
     private void Update()
     {
-        if (isStopped)
-        {
-            return;
-        }
+        // if (isStopped)
+        // {
+        //     return;
+        // }
 
         if(CheckCurrentPath())
            return;
@@ -175,6 +180,12 @@ public class ActorMoveMgr : NetworkBehaviour
         SetInputs(ref currentFrameInput);
         return true;
     }
+
+    // public void CheckRotationAsixInput()
+    // {
+    //     
+    //     CheckDirectMoveAsixInput();
+    // }
 
     protected KCCMoveAgent.PlayerCharacterInputs currentFrameInput;
     protected bool isDirectInput = false;
@@ -296,6 +307,11 @@ public class ActorMoveMgr : NetworkBehaviour
         {
             AfterSetStopped();
         }
+    }
+    
+    public bool IsStopped()
+    {
+        return isStopped;
     }
 
     protected void AfterSetStopped()

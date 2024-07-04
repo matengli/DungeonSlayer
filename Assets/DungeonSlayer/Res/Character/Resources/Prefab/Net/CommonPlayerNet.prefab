@@ -123,7 +123,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _characterModelBase
       value: 
-      objectReference: {fileID: 11400000, guid: 3f28c863b258ec14ea5615ee9637eb55,
+      objectReference: {fileID: 11400000, guid: 8ba01d139abf6b344a0afc7418a57f20,
         type: 2}
     - target: {fileID: 6294248858797644045, guid: 62119b670579e7641a6766a31276871b,
         type: 3}

@@ -238,10 +238,14 @@ public class ActorStateMgr : NetworkBehaviour
                 return true;
             }
 
+            public int combatCount = 0;
+
             public override void OnEnter(ActorStateMgr handler)
             {
+                combatCount = 0;
+                
                 handler.GetMoveMgr().SetIsStopped(true);
-                    
+                
                 var abilityMgr = handler.GetAbilityMgr();
 
                 bool isRaycast = handler.GetCurWeapon().isRaycastWeapon;
@@ -257,11 +261,34 @@ public class ActorStateMgr : NetworkBehaviour
                 }
                 
                 abilityMgr.TryPerformAbility(ability);
+                combatCount++;
             }
 
             public override void OnExit(ActorStateMgr handler)
             {
                 handler.GetMoveMgr().SetIsStopped(false);
+            }
+
+            /// <summary>
+            /// 攻击状态下接收到了攻击的输入
+            /// </summary>
+            /// <exception cref="NotImplementedException"></exception>
+            public bool ApplyAttackInput(ActorStateMgr handler)
+            {
+                var abilityMgr = handler.GetAbilityMgr();
+                var combat = abilityMgr.GetCurrentAbility() as ActorAbilityMgr.NormalAttackAbility;
+                if(combat==null)
+                    return false;
+                
+                if(combat.currentStage != ActorAbilityMgr.NormalAttackAbility.NormalAttackAbilityStatusEnum.AfterTrace)
+                    return false;
+                
+                ActorAbilityMgr.ActorAbility ability = abilityMgr.ConstructAbility(typeof(ActorAbilityMgr.NormalAttackAbility), this);
+                
+                abilityMgr.TryPerformAbility(ability);
+                combatCount++;
+                
+                return true;
             }
         }
         

@@ -146,12 +146,19 @@ public class ActorAnimMgr : MonoBehaviour
             montageEventCallback = callback;
     }
     
+    public void PlayAbilityClipByAbility(ActorAbilityMgr.ActorAbility ability, bool isPlayAtOnce, Action<MontageEventEnum,string> callback, int animationIndex, float minTime = -1.0f)
+    {
+        var clips = _combatMgr.GetCurrentWeaponAbilityAnims(ability);
+        
+        var clip = clips[animationIndex%clips.Length];
+
+        PlayClip(clip,isPlayAtOnce , callback, minTime);
+    }
+    
     public void PlayAbilityClipByAbility(ActorAbilityMgr.ActorAbility ability, bool isPlayAtOnce = false, Action<MontageEventEnum,string> callback = null, float minTime = -1.0f)
     {
         var clips = _combatMgr.GetCurrentWeaponAbilityAnims(ability);
-        var clip = clips[Random.Range(0, clips.Length)];
-
-        PlayClip(clip,isPlayAtOnce , callback, minTime);
+        PlayAbilityClipByAbility(ability, isPlayAtOnce, callback, Random.Range(0, clips.Length), minTime);
     }
 
     public void GetMontageState(out AnimationClip clip, out double time )
@@ -310,14 +317,22 @@ public class ActorAnimMgr : MonoBehaviour
         
         foreach (var pair in parent.abilityAnimClipsPair)
         {
+            // Application.data
+            // AssetDatabase.is
             // if (needToCreate.Any((t) => pair.actorAbilityName == t.Name))
             {
                 foreach (var clip in pair.clips)
                 {
+                    string assetPath = "Assets/DungeonSlayer/Res/Character/Resources/SkillConfig/" + clip.name+ ".asset";
+
+                    if (AssetDatabase.LoadAssetAtPath<TimelineAsset>(assetPath) != null)
+                    {
+                        Debug.Log(assetPath+"::Exist");
+                        continue;
+                    }
                     // 创建一个TimelineAsset实例
                     TimelineAsset timelineAsset = TimelineAsset.CreateInstance<TimelineAsset>();
                     // 将TimelineAsset保存为.asset文件
-                    string assetPath = "Assets/DungeonSlayer/Res/Character/Resources/SkillConfig/" + clip.name+ ".asset";
                     
                     AssetDatabase.CreateAsset(timelineAsset, assetPath);
         
@@ -332,7 +347,6 @@ public class ActorAnimMgr : MonoBehaviour
                     timelineClip.start = 0.0;
                     // timelineClip.end = clip.length;
                     
-
                     
                     PlayableTrack pbTrack = timelineAsset.CreateTrack<PlayableTrack>(null, "Animation Track");
                     var behaviourClip = pbTrack.CreateClip<VaildCollsionPlayableAsset>();

@@ -123,9 +123,15 @@ public class ActorCombatMgr : NetworkBehaviour
         return curWeapon.cd;
     }
 
-    private float attackCd = 0.0f;
+    private float attackCdTimer = 0.0f;
 
 
+    [ClientRpc]
+    private void RPC_TryPerformAttack()
+    {
+        TryPerformAttack();
+    }
+    
     public bool TryPerformAttack()
     {
         if(_actorMgr.IsActorDead() ||  _stateMgr?.GetCurrentState()?.Name == "stun")
@@ -133,6 +139,8 @@ public class ActorCombatMgr : NetworkBehaviour
         
         if (_stateMgr.GetCurrentState().Name == "attack")
         {
+            var state = _stateMgr.GetCurrentState() as ActorStateMgr.AttackState;
+            state.ApplyAttackInput(_stateMgr);
             return false;
         }
         
@@ -157,6 +165,9 @@ public class ActorCombatMgr : NetworkBehaviour
             SetAttackTarget(null);
             return;
         }
+
+        if(attackCdTimer < GetAttackCd())
+            attackCdTimer += Time.deltaTime;
         
         var distance = (_combatTarget.transform.position - transform.position).magnitude;
         if (distance > curWeapon.range)
@@ -173,7 +184,14 @@ public class ActorCombatMgr : NetworkBehaviour
             return;
         }
         
-        _stateMgr.RPC_TryPerformState("attack");
+        
+        if(attackCdTimer < GetAttackCd())
+            return;
+
+        attackCdTimer = 0;
+
+        RPC_TryPerformAttack();
+        // _stateMgr.RPC_TryPerformState("attack");
     }
     
     public Weapon GetCurWeapon()

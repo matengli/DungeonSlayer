@@ -169,16 +169,33 @@ public class ActorAbilityMgr : MonoBehaviour
     {
         public override string Name => "normalAttack";
 
+        public enum NormalAttackAbilityStatusEnum
+        {
+            BeforeTrace,//伤害判定之前
+            AfterTrace,//伤害判定之后，Combo窗口结束之前，可以连击，不能移动
+            AfterComboTimeWindow,//Combo窗口结束，可以移动
+        }
+
+        public NormalAttackAbilityStatusEnum currentStage;
+
         public override void OnEnter(ActorAbilityMgr handler)
         {
+            currentStage = NormalAttackAbilityStatusEnum.BeforeTrace;
+            
             handler.GetCombatMgr().GetAttackCd();
             // attackCd
             handler.GetAnimMgr().PlayAbilityClipByAbility(this, true, (ActorAnimMgr.MontageEventEnum ptype,string name) =>
             {
                 if (ptype == ActorAnimMgr.MontageEventEnum.VaildCollsionPlayableAssetStart)
                 {
+                    currentStage = NormalAttackAbilityStatusEnum.AfterTrace;
                     handler.GetCollsionMgr().TriggerOverLap(true, handler.GetCombatMgr().GetCurWeapon().range, handler.GetCombatMgr().GetCurWeapon().rangeAngle);
                     handler.GetAudioMgr().PlayBattleEffect(AudioMgr.BattleEffectSEEnum.swordSwing, handler.transform.position);
+                }
+
+                if (ptype == ActorAnimMgr.MontageEventEnum.VaildCollsionPlayableAssetEnd)
+                {
+                    currentStage = NormalAttackAbilityStatusEnum.AfterComboTimeWindow;
                 }
 
                 if (ptype == ActorAnimMgr.MontageEventEnum.End)
@@ -186,7 +203,7 @@ public class ActorAbilityMgr : MonoBehaviour
                     handler.GetStateMgr().TryPerformState(handler.GetStateMgr().GetStateByName("idle"));
                     handler.TryPerformAbility(null, false);
                 }
-            }, handler.GetCombatMgr().GetAttackCd());
+            }, (owner as ActorStateMgr.AttackState).combatCount );
         }
     }
 

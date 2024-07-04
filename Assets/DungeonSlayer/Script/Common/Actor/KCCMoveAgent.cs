@@ -19,7 +19,7 @@ public class KCCMoveAgent : NetworkBehaviour, ICharacterController
 
     public KinematicCharacterMotor Motor;
 
-    private void Start()
+    public override void OnStartClient()
     {
         Motor = GetComponentInParent<KinematicCharacterMotor>();
         Motor.CharacterController = this;
@@ -60,6 +60,11 @@ public class KCCMoveAgent : NetworkBehaviour, ICharacterController
     /// </summary>
     public void SetInputs(ref PlayerCharacterInputs inputs)
     {
+        if (_actorMoveMgr.IsStopped())
+        {
+            inputs.MoveAxisForward = 0;
+            inputs.MoveAxisRight = 0;
+        }
         // Clamp input
         Vector3 moveInputVector = Vector3.ClampMagnitude(new Vector3(inputs.MoveAxisRight, 0f, inputs.MoveAxisForward), 1f);
 
@@ -105,6 +110,7 @@ public class KCCMoveAgent : NetworkBehaviour, ICharacterController
     }
 
     [Inject] private ActorMgr _actorMgr;
+    [Inject] private ActorMoveMgr _actorMoveMgr;
 
     /// <summary>
     /// (Called by KinematicCharacterMotor during its update cycle)
