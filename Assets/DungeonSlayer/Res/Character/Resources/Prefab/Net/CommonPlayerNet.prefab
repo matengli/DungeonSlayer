@@ -141,6 +141,41 @@ PrefabInstance:
       propertyPath: _actorCamp
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8847297681762244866, guid: 62119b670579e7641a6766a31276871b,
+        type: 3}
+      propertyPath: _mask
+      value: 
+      objectReference: {fileID: 31900000, guid: 93ec324445e8cde47b0ef993509ac65b,
+        type: 2}
+    - target: {fileID: 8847297681762244866, guid: 62119b670579e7641a6766a31276871b,
+        type: 3}
+      propertyPath: clip1
+      value: 
+      objectReference: {fileID: -6915611471441673787, guid: 57446b4f5b0aad4459beb95cbb338d7d,
+        type: 3}
+    - target: {fileID: 8847297681762244866, guid: 62119b670579e7641a6766a31276871b,
+        type: 3}
+      propertyPath: clip2
+      value: 
+      objectReference: {fileID: 7400000, guid: 4c1e932622bb42846945273d8b54f0b9, type: 3}
+    - target: {fileID: 8847297681762244866, guid: 62119b670579e7641a6766a31276871b,
+        type: 3}
+      propertyPath: fullBody
+      value: 
+      objectReference: {fileID: 31900000, guid: 93ec324445e8cde47b0ef993509ac65b,
+        type: 2}
+    - target: {fileID: 8847297681762244866, guid: 62119b670579e7641a6766a31276871b,
+        type: 3}
+      propertyPath: lowerBody
+      value: 
+      objectReference: {fileID: 31900000, guid: 2f7ec7eacffe0fc4c87016c591932b9c,
+        type: 2}
+    - target: {fileID: 8847297681762244866, guid: 62119b670579e7641a6766a31276871b,
+        type: 3}
+      propertyPath: upperBody
+      value: 
+      objectReference: {fileID: 31900000, guid: 5c05017ee730afc4cab5a323e61be374,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

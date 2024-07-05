@@ -45,7 +45,7 @@ MonoBehaviour:
       Data: 3|ActorStateMgr+AttackState, Assembly-CSharp
     - Name: combatCount
       Entry: 3
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -87,7 +87,6 @@ MonoBehaviour:
     clips:
     - {fileID: 7400000, guid: cf3919c703bee124db95a9e6dbc11e6e, type: 3}
     - {fileID: 7400004, guid: cf3919c703bee124db95a9e6dbc11e6e, type: 3}
-    - {fileID: 7400006, guid: cf3919c703bee124db95a9e6dbc11e6e, type: 3}
   - actorAbilityName: ActorAbilityMgr+NormalDeathAbility
     clips:
     - {fileID: 7400028, guid: cf3919c703bee124db95a9e6dbc11e6e, type: 3}

@@ -255,7 +255,7 @@ public class ActorStateMgr : NetworkBehaviour
                 }
                 else
                 {
-                    handler.GetMoveMgr().SetIsStopped(true);
+                    // handler.GetMoveMgr().SetIsStopped(true);
                     ability = abilityMgr.ConstructAbility(typeof(ActorAbilityMgr.NormalAttackAbility), this);
                 }
                 

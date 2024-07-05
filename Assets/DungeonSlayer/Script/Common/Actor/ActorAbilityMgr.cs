@@ -185,6 +185,8 @@ public class ActorAbilityMgr : MonoBehaviour
             
             handler.GetCombatMgr().GetAttackCd();
             // attackCd
+            
+            handler.GetAnimMgr().SetDoubleMix(true);
             handler.GetAnimMgr().PlayAbilityClipByAbility(this, true, (ActorAnimMgr.MontageEventEnum ptype,string name) =>
             {
                 if (ptype == ActorAnimMgr.MontageEventEnum.VaildCollsionPlayableAssetStart)
@@ -204,7 +206,12 @@ public class ActorAbilityMgr : MonoBehaviour
                     handler.GetStateMgr().TryPerformState(handler.GetStateMgr().GetStateByName("idle"));
                     handler.TryPerformAbility(null, false);
                 }
-            }, (owner as ActorStateMgr.AttackState).combatCount );
+            }, (owner as ActorStateMgr.AttackState).combatCount, handler.GetCombatMgr().GetModifiedAnimationTime() );
+        }
+
+        public override void OnExit(ActorAbilityMgr handler)
+        {
+            handler.GetAnimMgr().SetDoubleMix(false);
         }
     }
 
@@ -222,6 +229,8 @@ public class ActorAbilityMgr : MonoBehaviour
 
         public override void OnEnter(ActorAbilityMgr handler)
         {
+            handler.GetAnimMgr().SetDoubleMix(true);
+            
             handler.GetAnimMgr().PlayAbilityClipByAbility(this, true, (ptype, a) =>
             {
                 if (ptype == ActorAnimMgr.MontageEventEnum.VaildCollsionPlayableAssetStart)
@@ -247,6 +256,7 @@ public class ActorAbilityMgr : MonoBehaviour
                     }, handler.GetCombatMgr().GetCurWeapon().range);
                 }else if (ptype == ActorAnimMgr.MontageEventEnum.End)
                 {
+                    handler.GetAnimMgr().SetDoubleMix(false);
                     handler.GetStateMgr().TryPerformState(handler.GetStateMgr().GetStateByName("idle"));
                     handler.TryPerformAbility(null, false);
                 }

@@ -18,8 +18,7 @@ public class ActorCombatMgr : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        curWeapon = _modelMgr.GetInitWeapon();
-        EquipWeapon(curWeapon);
+        EquipWeapon(_modelMgr.GetInitWeapon());
         SetBattleStatus(true);
         
         _battleMgr.OnKillOther += (_)=>
@@ -52,6 +51,7 @@ public class ActorCombatMgr : NetworkBehaviour
     /// <param name="weapon"></param>
     public void EquipWeapon(Weapon weapon)
     {
+        curWeapon = weapon;
         _stateMgr.ClearAllCurrentState();
         
         foreach (var item in weapon._weaponDataAsset.StatesToCreate)
@@ -62,6 +62,11 @@ public class ActorCombatMgr : NetworkBehaviour
         _stateMgr.TryPerformState(_stateMgr.GetStateByName("idle"));
         Clear();
 
+        if (curWeaponGameObject != null)
+        {
+            Destroy(curWeaponGameObject);
+        }
+        
         curWeaponGameObject = Instantiate(weapon.weaponObject, _bindMgr.GetBinderByName(weapon.socketName));
         curWeaponGameObject.transform.localPosition = Vector3.zero;
         curWeaponGameObject.transform.localRotation = quaternion.identity;
@@ -130,8 +135,8 @@ public class ActorCombatMgr : NetworkBehaviour
         if(curWeaponGameObject==null)
             return;
         
-        Destroy(curWeaponGameObject);
         _collsionMgr.RemoveTraceObject(curWeaponGameObject);
+        Destroy(curWeaponGameObject);
     }
 
     public float GetAttackCd()
@@ -219,5 +224,11 @@ public class ActorCombatMgr : NetworkBehaviour
     public Weapon GetCurWeapon()
     {
         return curWeapon;
+    }
+
+    public void EquipWeaponByName(string weaponModel)
+    {
+        var weapon = Resources.Load<Weapon>($"Weapon/{weaponModel}");
+        EquipWeapon(weapon);
     }
 }

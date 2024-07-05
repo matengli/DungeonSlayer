@@ -1135,7 +1135,7 @@ GameObject:
   - component: {fileID: 2009415273}
   - component: {fileID: 2009415274}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: RVOSimulator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

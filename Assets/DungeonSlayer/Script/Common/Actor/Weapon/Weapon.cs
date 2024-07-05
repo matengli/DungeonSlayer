@@ -18,6 +18,8 @@ public class Weapon : SerializedScriptableObject
     public GameObject weaponObject;
     public string socketName = "";
 
+    public string Desc = "";
+
     [Title("当这把武器被使用的时候会给敌人上的Buff")]
     public List<WeaponAddBuffConfig> weaponAddBuffConfig;
 

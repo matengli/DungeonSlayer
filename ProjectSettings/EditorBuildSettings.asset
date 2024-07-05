@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Plugins/Mirror/Examples/MultipleMatches/Scenes/MirrorMultipleMatches.unity
-    guid: aa1f875396fa7d348a782cebc2f75d7c
+    path: Assets/DungeonSlayer/Res/Scene/GamePlay.unity
+    guid: e68b0088b67eaf84dac97f0a43175aa5
   m_configObjects: {}

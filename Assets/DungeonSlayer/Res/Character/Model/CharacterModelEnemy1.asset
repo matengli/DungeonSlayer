@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c73751ed93174e30aa1823346c9d1f2, type: 3}
   m_Name: CharacterModelEnemy1
   m_EditorClassIdentifier: 
-  initWeapon: {fileID: 11400000, guid: b9114abad24aec94fb7eb171e83d4eeb, type: 2}
+  initWeapon: {fileID: 11400000, guid: f30f2d4c8d1d0a74f8ea55a453571f81, type: 2}
   ModelPrefab: {fileID: 1997296248483302, guid: 9984be23625843a48a44d88aae5669f2,
     type: 3}
   rootTransformPath: Root

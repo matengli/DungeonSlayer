@@ -59,6 +59,9 @@ public class ActorCollsionMgr : MonoBehaviour
 
     public void RemoveTraceObject(GameObject curWeaponGameObject)
     {
+        if(_traceComponents==null)
+            return;
+        
         _traceComponents.Remove(curWeaponGameObject.GetComponent<TraceComponent>());
     }
     

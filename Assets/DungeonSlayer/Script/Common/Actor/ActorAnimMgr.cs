@@ -31,6 +31,10 @@ public class ActorAnimMgr : MonoBehaviour
         _animator = transform.parent.GetComponentInChildren<Animator>();
         
         _animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("AC/characer_base");
+
+        lowerBody = Resources.Load<AvatarMask>("Mask/DownBody");
+        fullBody = Resources.Load<AvatarMask>("Mask/FullBody");
+        upperBody = Resources.Load<AvatarMask>("Mask/UpperBody");
         
         InitPlayableGraph();
     }
@@ -43,6 +47,10 @@ public class ActorAnimMgr : MonoBehaviour
 
     [Inject] private DiContainer _container;
     private TempActorAnimComponent _tempActorAnim;
+
+    [SerializeField] private AvatarMask lowerBody;
+    [SerializeField] private AvatarMask fullBody;
+    [SerializeField] private AvatarMask upperBody;
     private void InitPlayableGraph()
     {
         graph = PlayableGraph.Create();
@@ -50,21 +58,26 @@ public class ActorAnimMgr : MonoBehaviour
         AnimationPlayableOutput output = AnimationPlayableOutput.Create(graph, "InsertMontage", _animator);
         montagePose = AnimationClipPlayable.Create(graph, null);
 
-        var rawInput = _animator.playableGraph.GetRootPlayable(0);
-        var mixerPlayable = AnimationMixerPlayable.Create(graph, 2);
+        // _animator.playableGraph.
+        // _animator.playableGraph.GetOutput(0);
+        AnimatorControllerPlayable rawinput =
+            AnimatorControllerPlayable.Create(graph, _animator.runtimeAnimatorController);
+        // var rawInput = _animator.playableGraph.GetRootPlayable(0).GetInput(0);
+        // var rawInput = _animator.playableGraph.GetOutput(0);
+        var mixerPlayable = AnimationLayerMixerPlayable.Create(graph, 2);
         
         finalPose = mixerPlayable;
         
-        graph.Connect(rawInput, 0, mixerPlayable, 0);
+        graph.Connect(rawinput, 0, mixerPlayable, 0);
         graph.Connect(montagePose, 0, mixerPlayable, 1);
         
-        output.SetSourcePlayable<AnimationPlayableOutput, AnimationMixerPlayable>(mixerPlayable);
+        output.SetSourcePlayable(mixerPlayable);
 
         _container.InstantiateComponent<TempActorAnimComponent>(_animator.gameObject);
         // _animator.AddComponent<TempActorAnimComponent>();
         _tempActorAnim = _animator.GetComponent<TempActorAnimComponent>();
         _tempActorAnim.SetHander(this);
-
+        
         graph.Play();
     }
 
@@ -75,7 +88,7 @@ public class ActorAnimMgr : MonoBehaviour
 
     private PlayableGraph graph;
     private AnimationClipPlayable montagePose;
-    private Playable finalPose;
+    private AnimationLayerMixerPlayable finalPose;
 
     public enum MontageEventEnum
     {
@@ -194,9 +207,18 @@ public class ActorAnimMgr : MonoBehaviour
             _animator.SetFloat("vel_v", Vector3.Dot(faceDir, vel) );
             _animator.SetFloat("vel_h", Vector3.Dot(rightDir, vel));
         }
-        
-        finalPose.SetInputWeight(0, 1.0f - mixFactor);
-        finalPose.SetInputWeight(1, mixFactor);
+
+        if (isDoubleMix)
+        {
+            finalPose.SetInputWeight(0, 1);
+            finalPose.SetInputWeight(1, 1);
+        }
+        else
+        {
+            finalPose.SetInputWeight(0, 1.0f - mixFactor);
+            finalPose.SetInputWeight(1, mixFactor);
+        }
+
 
     }
 
@@ -277,7 +299,8 @@ public class ActorAnimMgr : MonoBehaviour
 
         [Inject] private ActorCollsionMgr _collsionMgr;
         [Inject] private AudioMgr _audioMgr;
-        
+        [SerializeField] private bool isDoubleMix = false;
+
         public void TriggerTimelineEvent(string input)
         {
             Debug.Log("动画Timeline事件触发"+input);
@@ -364,6 +387,12 @@ public class ActorAnimMgr : MonoBehaviour
 #endif
 
     #endregion
-    
+
+    public void SetDoubleMix(bool p0)
+    {
+        isDoubleMix = p0;
+        finalPose.SetLayerMaskFromAvatarMask(0, isDoubleMix? lowerBody:fullBody);
+        finalPose.SetLayerMaskFromAvatarMask(1, isDoubleMix? upperBody:fullBody);
+    }
 }
 

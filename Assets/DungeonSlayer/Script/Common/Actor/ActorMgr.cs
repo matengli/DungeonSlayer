@@ -214,4 +214,15 @@ public class ActorMgr : NetworkBehaviour
         _stateMgr.RPC_TryPerformState(state);
     }
     
+    [Command]
+    public void CMD_EquipWeapon(string weaponModel)
+    {
+        RPC_EquipWeapon(weaponModel);
+    }
+
+    [ClientRpc]
+    public void RPC_EquipWeapon(string weaponModel)
+    {
+        _combatMgr.EquipWeaponByName(weaponModel);
+    }
 }

@@ -22,7 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _weaponDataAsset: {fileID: 11400000, guid: 6c6b2f0ba23c02648a8f27342a9fad2c, type: 2}
-  modifiedAniTime: 0
+  modifiedAniTime: 2
   cd: 2
   range: 2
   rangeAngle: 120

@@ -51,12 +51,14 @@ public class GameBulletMgr : MonoBehaviour
             if(ignoreActor==hitActor)
                 return;
             
+            if(ignoreActor.GetActorCamp() == hitActor.GetActorCamp())
+                return;
+            
             if(bulletObj.hasHit)
                 return;
             
             bulletObj.hasHit = true;
             hitCallback(bulletObj, hitActor);
-            // _cameraController.SetFollowTarget(oldFollow);
         }).AddTo(obj);
         
         
@@ -67,7 +69,6 @@ public class GameBulletMgr : MonoBehaviour
             if (maxDistance <= 0)
             {
                 hitCallback(bulletObj, null);
-                // _cameraController.SetFollowTarget(oldFollow);
                 Destroy(obj);
             }
         }).AddTo(obj);

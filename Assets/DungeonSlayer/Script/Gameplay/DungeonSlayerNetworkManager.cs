@@ -20,7 +20,7 @@ namespace DungeonSlayer.Script.Gameplay
             
             NetworkServer.AddPlayerForConnection(conn, player);
             
-            var ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "CommonPlayerNet"), pos, Quaternion.identity, transform);
+            var ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "CommonPlayerNet"), pos, Quaternion.identity);
             conn.authenticationData = insertCount.ToString();
             NetworkServer.Spawn(ball, conn);
         }
