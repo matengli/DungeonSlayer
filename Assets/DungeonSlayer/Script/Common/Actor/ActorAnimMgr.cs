@@ -120,7 +120,7 @@ public class ActorAnimMgr : MonoBehaviour
     /// 播放指定Ablity的动画，播放第一个动画
     /// </summary>
     /// <param name="ability"></param>
-    public void PlayClip(AnimationClip clip, bool isPlayAtOnce = false, Action<MontageEventEnum,string> callback = null, float minTime = -1.0f)
+    public void PlayClip(AnimationClip clip, bool isPlayAtOnce = false, Action<MontageEventEnum,string> callback = null, float minTime = 0.0f)
     {
         AnimationClipPlayable animationClipPlayable = AnimationClipPlayable.Create(graph, clip);
         
@@ -134,7 +134,7 @@ public class ActorAnimMgr : MonoBehaviour
 
         graph.Play();
 
-        if (minTime != -1.0f)
+        if (minTime != 0.0f)
             animationClipPlayable.SetSpeed(clip.length/minTime);
 
         SetMontageState(true);
@@ -146,7 +146,7 @@ public class ActorAnimMgr : MonoBehaviour
             montageEventCallback = callback;
     }
     
-    public void PlayAbilityClipByAbility(ActorAbilityMgr.ActorAbility ability, bool isPlayAtOnce, Action<MontageEventEnum,string> callback, int animationIndex, float minTime = -1.0f)
+    public void PlayAbilityClipByAbility(ActorAbilityMgr.ActorAbility ability, bool isPlayAtOnce, Action<MontageEventEnum,string> callback, int animationIndex, float minTime = 0.0f)
     {
         var clips = _combatMgr.GetCurrentWeaponAbilityAnims(ability);
         
@@ -155,7 +155,7 @@ public class ActorAnimMgr : MonoBehaviour
         PlayClip(clip,isPlayAtOnce , callback, minTime);
     }
     
-    public void PlayAbilityClipByAbility(ActorAbilityMgr.ActorAbility ability, bool isPlayAtOnce = false, Action<MontageEventEnum,string> callback = null, float minTime = -1.0f)
+    public void PlayAbilityClipByAbility(ActorAbilityMgr.ActorAbility ability, bool isPlayAtOnce = false, Action<MontageEventEnum,string> callback = null, float minTime = 0.0f)
     {
         var clips = _combatMgr.GetCurrentWeaponAbilityAnims(ability);
         PlayAbilityClipByAbility(ability, isPlayAtOnce, callback, Random.Range(0, clips.Length), minTime);

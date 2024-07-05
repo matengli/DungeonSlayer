@@ -244,8 +244,6 @@ public class ActorStateMgr : NetworkBehaviour
             {
                 combatCount = 0;
                 
-                handler.GetMoveMgr().SetIsStopped(true);
-                
                 var abilityMgr = handler.GetAbilityMgr();
 
                 bool isRaycast = handler.GetCurWeapon().isRaycastWeapon;
@@ -257,6 +255,7 @@ public class ActorStateMgr : NetworkBehaviour
                 }
                 else
                 {
+                    handler.GetMoveMgr().SetIsStopped(true);
                     ability = abilityMgr.ConstructAbility(typeof(ActorAbilityMgr.NormalAttackAbility), this);
                 }
                 

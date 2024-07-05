@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using DungeonSlayer.Script.Common.Game;
 using UnityEngine;
 using UnityEngine.Playables;
 using Zenject;
@@ -217,14 +218,17 @@ public class ActorAbilityMgr : MonoBehaviour
     {
         public override string Name => "normalAttackCast";
 
+        private bool isAlive = true;
+
         public override void OnEnter(ActorAbilityMgr handler)
         {
             handler.GetAnimMgr().PlayAbilityClipByAbility(this, true, (ptype, a) =>
             {
                 if (ptype == ActorAnimMgr.MontageEventEnum.VaildCollsionPlayableAssetStart)
                 {
-                    GameBulletMgr.BulletModel model = new GameBulletMgr.BulletModel();
-                    model.prefab = Resources.Load<GameObject>("Bullet/Projectile1");
+                    BulletModel model = handler.GetCombatMgr().GetCurWeapon().bulletModel;
+                    
+                    handler.GetAudioMgr().PlayBattleEffect(AudioMgr.BattleEffectSEEnum.laser, handler.transform.position);
             
                     handler.GetBulletMgr().FireBullet(model ,handler.GetBattleMgr(), (bulletObj, hitActor) =>
                     {
@@ -232,14 +236,26 @@ public class ActorAbilityMgr : MonoBehaviour
 
                         if (hitActor != null)
                         {
-                            handler.GetCollsionMgr().TraceTriggerEnter(null, hitActor.GetComponent<Collider>(), true);
+                            handler.GetCollsionMgr().CheckCommonHitOther(hitActor.GetComponent<Collider>(), true);
                         }
+                        
+                        if(!isAlive)
+                            return;
                         
                         handler.GetStateMgr().TryPerformState(handler.GetStateMgr().GetStateByName("idle"));
                         handler.TryPerformAbility(null, false);
                     }, handler.GetCombatMgr().GetCurWeapon().range);
+                }else if (ptype == ActorAnimMgr.MontageEventEnum.End)
+                {
+                    handler.GetStateMgr().TryPerformState(handler.GetStateMgr().GetStateByName("idle"));
+                    handler.TryPerformAbility(null, false);
                 }
-            }, handler.GetCombatMgr().GetAttackCd());
+            }, handler.GetCombatMgr().GetModifiedAnimationTime());
+        }
+
+        public override void OnExit(ActorAbilityMgr handler)
+        {
+            isAlive = false;
         }
     }
     

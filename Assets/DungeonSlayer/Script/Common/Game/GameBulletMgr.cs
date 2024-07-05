@@ -1,5 +1,6 @@
 using System;
 using System.Timers;
+using DungeonSlayer.Script.Common.Game;
 using R3;
 using R3.Triggers;
 using UnityEngine;
@@ -11,10 +12,6 @@ using Zenject;
 /// </summary>
 public class GameBulletMgr : MonoBehaviour
 {
-    public class BulletModel
-    {
-        public GameObject prefab;
-    }
     
     public class BulletObject
     {
@@ -37,6 +34,7 @@ public class GameBulletMgr : MonoBehaviour
     public void FireBullet(BulletModel model, ActorBattleMgr caster, Action<BulletObject,ActorMgr> hitCallback, float maxDistance=1000.0f)
     {
         var obj = Instantiate(model.prefab);
+        obj.layer = model.prefab.layer;
         obj.AddComponent<Rigidbody>();
         obj.GetComponent<Rigidbody>().isKinematic = true;
         obj.GetComponent<Rigidbody>().useGravity = false;
@@ -45,9 +43,6 @@ public class GameBulletMgr : MonoBehaviour
         
         var bulletObj = new BulletObject(obj, model, caster);
         var ignoreActor = caster.GetComponentInParent<ActorMgr>();
-
-        // var oldFollow = _cameraController.GetFollowTarget();
-        // _cameraController.SetFollowTarget(obj.transform);
         
         obj.GetComponentInChildren<BoxCollider>().OnTriggerEnterAsObservable().Subscribe((t) =>
         {
@@ -67,8 +62,8 @@ public class GameBulletMgr : MonoBehaviour
         
         obj.transform.UpdateAsObservable().Subscribe((t) =>
         {
-            obj.transform.position += obj.transform.forward * Time.deltaTime *50.0f;
-            maxDistance -= Time.deltaTime * 50.0f;
+            obj.transform.position += obj.transform.forward * Time.deltaTime * model.speed;
+            maxDistance -= Time.deltaTime * model.speed;
             if (maxDistance <= 0)
             {
                 hitCallback(bulletObj, null);

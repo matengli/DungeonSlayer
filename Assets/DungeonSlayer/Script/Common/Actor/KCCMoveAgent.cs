@@ -87,6 +87,8 @@ public class KCCMoveAgent : NetworkBehaviour, ICharacterController
     /// </summary>
     public void BeforeCharacterUpdate(float deltaTime)
     {
+        MaxStableMoveSpeed = _actorMoveMgr.speed;
+        
     }
 
     /// <summary>

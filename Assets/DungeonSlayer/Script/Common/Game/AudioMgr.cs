@@ -40,6 +40,7 @@ public class AudioMgr : SerializedMonoBehaviour
     {
         swordSwing,
         damage,
+        laser,
     }
     
     public void PlayBattleEffect(BattleEffectSEEnum ptype, Vector3 pos)
@@ -53,6 +54,11 @@ public class AudioMgr : SerializedMonoBehaviour
             
             case BattleEffectSEEnum.damage:
                 clip = Resources.Load<AudioClip>($"Effect/hit/Game Punch {Random.Range(1, 31)}");
+                AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
+                break;
+            
+            case BattleEffectSEEnum.laser:
+                clip = Resources.Load<AudioClip>($"Effect/laser/Sci Fi Sniper {Random.Range(1, 7)}");
                 AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
                 break;
         }

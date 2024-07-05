@@ -208,4 +208,10 @@ public class ActorMgr : NetworkBehaviour
     {
         _combatMgr.TryPerformAttack();
     }
+    
+    public void RPC_PerformStateByName(string state)
+    {
+        _stateMgr.RPC_TryPerformState(state);
+    }
+    
 }

@@ -57,7 +57,7 @@ public class ActorMoveMgr : NetworkBehaviour
     
     [Header("PathFinding")]
     public Path path;
-    public float speed = 2;
+    [SyncVar]public float speed = 2;
     [Tooltip("寻路中，搜寻下一个路径点的最小距离")]public float nextWaypointDistance = 3;
     public int currentWaypoint = 0;
     public bool reachedEndOfPath;

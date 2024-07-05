@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DungeonSlayer.Script.Common.Game;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ using UnityEngine;
 public class Weapon : SerializedScriptableObject
 {
     public WeaponDataAsset _weaponDataAsset;
+
+    [Tooltip("默认为0，则表示不做任何修改，否则改为对应的值")][Range(0,5)]public float modifiedAniTime = 0;
     public float cd = 1.0f;
     public float range = 1.0f;
     [Range(0,360)]public float rangeAngle = 45.0f;
@@ -32,4 +35,6 @@ public class Weapon : SerializedScriptableObject
         public WeaponBuffTarget BuffTarget;
         public BuffBase.AddBuffInfo AddBuffInfo;
     }
+
+    [ShowIf(nameof(isRaycastWeapon))] public BulletModel bulletModel;
 }

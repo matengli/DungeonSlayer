@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Mirror;
 using Unity.Mathematics;
 using UnityEngine;
@@ -14,18 +15,31 @@ public class ActorCombatMgr : NetworkBehaviour
     [Inject] private ActorStateMgr _stateMgr;
     [Inject] private ActorModelMgr _modelMgr;
     [Inject] private ActorBattleMgr _battleMgr;
-    
-    void Start()
+
+    public override void OnStartClient()
     {
         curWeapon = _modelMgr.GetInitWeapon();
         EquipWeapon(curWeapon);
-        SetBattleStatus(false);
+        SetBattleStatus(true);
         
         _battleMgr.OnKillOther += (_)=>
         {
             SetAttackTarget(null);
         };
 
+        if (_battleMgr.Hp <= 0)
+        {
+            SyncCheckDeath();
+        }
+    }
+
+    async UniTask SyncCheckDeath()
+    {
+        await UniTask.WaitForSeconds(1.0f);
+        
+        _stateMgr.TryPerformState(_stateMgr.GetStateByName("death"), false);
+        DamageInfo info = new DamageInfo(null, _battleMgr, 0);
+        _battleMgr.OnTriggerKilled(ref info);
     }
 
     private GameObject curWeaponGameObject;
@@ -52,6 +66,8 @@ public class ActorCombatMgr : NetworkBehaviour
         curWeaponGameObject.transform.localPosition = Vector3.zero;
         curWeaponGameObject.transform.localRotation = quaternion.identity;
         _collsionMgr.InitTraceObject(curWeaponGameObject);
+
+        attackCdTimer = GetAttackCd();
     }
 
     private bool isBattleStatus = false;
@@ -122,6 +138,12 @@ public class ActorCombatMgr : NetworkBehaviour
     {
         return curWeapon.cd;
     }
+    
+    public float GetModifiedAnimationTime()
+    {
+        return curWeapon.modifiedAniTime;
+    }
+
 
     private float attackCdTimer = 0.0f;
 
@@ -154,6 +176,9 @@ public class ActorCombatMgr : NetworkBehaviour
         if(transform.parent.CompareTag("Player"))
             return;
         
+        if(attackCdTimer < GetAttackCd())
+            attackCdTimer += Time.deltaTime;
+        
         if(_actorMgr.IsActorDead() ||  _stateMgr?.GetCurrentState()?.Name == "stun")
             return;
 
@@ -165,9 +190,6 @@ public class ActorCombatMgr : NetworkBehaviour
             SetAttackTarget(null);
             return;
         }
-
-        if(attackCdTimer < GetAttackCd())
-            attackCdTimer += Time.deltaTime;
         
         var distance = (_combatTarget.transform.position - transform.position).magnitude;
         if (distance > curWeapon.range)

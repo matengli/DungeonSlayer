@@ -40,7 +40,13 @@ public class ActorCollsionMgr : MonoBehaviour
         {
             return;
         }
-        
+
+        CheckCommonHitOther(other, isIgnoreCamp);
+    }
+
+    [ServerCallback]
+    public void CheckCommonHitOther(Collider other, bool isIgnoreCamp = false)
+    {
         var actormgr = other.GetComponent<ActorMgr>();
         if(actormgr==null)
             return;
