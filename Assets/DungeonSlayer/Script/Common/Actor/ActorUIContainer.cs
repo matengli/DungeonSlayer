@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DamageNumbersPro;
 using DG.Tweening;
+using DungeonSlayer.Script.Common.Game;
 using ModestTree;
 using Ricimi;
 using TMPro;
@@ -81,13 +82,24 @@ public class ActorUIContainer : MonoBehaviour
     [Inject] private ActorStateMgr _stateMgr;
     [Inject] private ActorAbilityMgr _abilityMgr;
 
+    [Inject] private GameConfig _gameConfig;
+
     // Update is called once per frame
     void LateUpdate()
     {
+        if(_canvas==null)
+            return;
+        
         _canvas.transform.forward = _camera.transform.forward;
 
         if (debugText == null)
         {
+            return;
+        }
+
+        if (!_gameConfig.IsShowDebugInfo)
+        {
+            debugText.text = "";
             return;
         }
 

@@ -199,9 +199,22 @@ public class ActorMgr : NetworkBehaviour
         return _actorViewContainer;
     }
 
-    public void MoveToPosition(Vector3 pos)
+    public void MoveToPosition(Vector3 pos, float remainDistance = 0.1f)
     {
-        _moveMgr.MoveToPosition(pos);
+        _moveMgr.MoveToPosition(pos, remainDistance);
+    }
+    
+    [ClientRpc]
+    public void RPC_MoveToPosition(Vector3 pos, float remainDistance)
+    {
+        MoveToPosition(pos, remainDistance);
+    }
+    
+
+    [ClientRpc]
+    public void RPC_PerformAttack()
+    {
+        PerformAttack();
     }
 
     public void PerformAttack()
@@ -224,5 +237,21 @@ public class ActorMgr : NetworkBehaviour
     public void RPC_EquipWeapon(string weaponModel)
     {
         _combatMgr.EquipWeaponByName(weaponModel);
+    }
+
+    public float GetVisionRange()
+    {
+        return _modelMgr.GetModel().SearchRange;
+    }
+
+    [ClientRpc]
+    public void RPC_LookAt(Transform input)
+    {
+        SetLookAt(input.position);
+    }
+
+    public void SetLookAt(Vector3 input)
+    {
+        _moveMgr.SetLookAt(input);
     }
 }

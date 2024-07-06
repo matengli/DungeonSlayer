@@ -11,111 +11,20 @@ using Zenject;
 /// </summary>
 public class AutoActorController : NetworkBehaviour
 {
-    [Inject] private ActorCombatMgr _combatMgr;
-
-    [Inject] private ActorMgr _actorMgr;
-    [Inject] private ActorMoveMgr _moveMgr;
+    [Inject] private ActorBattleMgr _battleMgr;
     
-    [Server]
-    void Update()
+    public override void OnStartServer()
     {
-        if(_actorMgr.CompareTag("Player"))
-            return;
+        var bh = GetComponent<BehaviorDesigner.Runtime.BehaviorTree>();
+        if(bh!=null)
+            bh.enabled = true;
         
-        if(_actorMgr.IsActorDead())
-            return;
-
-        AIInput();
-        CheckWonder();
-    }
-
-    [SerializeField]private float wonderCD = 0;
-
-    private void CheckWonder()
-    {
-        if(combatTarget!=null)
-            return;
-
-        wonderCD -= Time.deltaTime;
-        if (wonderCD > 0f)
+        _battleMgr.OnKilled += (DamageInfo info)=>
         {
-            return;
-        }
-
-        wonderCD = 5.0f;
-        RPC_MoveToDest(UnityEngine.Random.insideUnitSphere * 5.0f);
-    }
-    
-    [ClientRpc]
-    private void RPC_MoveToDest(Vector3 dest)
-    {
-        _actorMgr.MoveToPosition(dest);
-    }
-    
-    void OnChangeCombatTarget(ActorMgr _old, ActorMgr _new)
-    {
-        _combatMgr.SetAttackTarget(_new);
-    }
-
-    [Server]
-    void AIInput()
-    {
-        bool isSet = false;
-        
-        searchRange = _model.GetModel().SearchRange;
-
-        var result = Physics.OverlapSphere(transform.position, searchRange, LayerMask.GetMask("Character"));
-        
-        foreach (var item in result)
-        {
-            if (item.transform != transform)
-            {
-                var otherActorMgr = item.GetComponent<ActorMgr>();
-                
-                if(otherActorMgr==null)
-                    continue;
-                
-                if(otherActorMgr.IsActorDead())
-                    continue;
-        
-                if (otherActorMgr.GetActorCamp() == _actorCamp.GetCamp() || otherActorMgr.GetActorCamp() == ActorCampMgr.ActorCamp.Neutral)
-                {
-                    continue;
-                }
-        
-                combatTarget = otherActorMgr;
-                isSet = true;
-
-                break;
-            }
-        }
-
-        if (!isSet)
-        {
-            combatTarget = null;
-        }
-
-        _combatMgr.SetAttackTarget(combatTarget);
-
-    }
-
-    [Inject] private ActorCampMgr _actorCamp;
-
-    [SyncVar(hook = nameof(OnChangeCombatTarget))][SerializeField] private ActorMgr combatTarget;
-    
-    [SyncVar][SerializeField] private float searchRange = 5.0f;
-
-    [Inject] private ActorModelMgr _model;
-
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;;
-        Gizmos.DrawWireSphere(transform.position, searchRange);
-        
-        Gizmos.color = Color.red;;
-        if(_combatMgr!=null && _combatMgr.GetCurWeapon()!=null)
-            Gizmos.DrawWireSphere(transform.position, _combatMgr.GetCurWeapon().range);
+            var bh = GetComponent<BehaviorDesigner.Runtime.BehaviorTree>();
+            if(bh!=null)
+                bh.enabled = false;
+        };
     }
     
 }

@@ -16,15 +16,14 @@ public class ActorCombatMgr : NetworkBehaviour
     [Inject] private ActorModelMgr _modelMgr;
     [Inject] private ActorBattleMgr _battleMgr;
 
-    public override void OnStartClient()
+    private void Awake()
     {
         EquipWeapon(_modelMgr.GetInitWeapon());
+    }
+
+    public override void OnStartClient()
+    {
         SetBattleStatus(true);
-        
-        _battleMgr.OnKillOther += (_)=>
-        {
-            SetAttackTarget(null);
-        };
 
         if (_battleMgr.Hp <= 0)
         {
@@ -73,6 +72,18 @@ public class ActorCombatMgr : NetworkBehaviour
         _collsionMgr.InitTraceObject(curWeaponGameObject);
 
         attackCdTimer = GetAttackCd();
+
+        UpdatePlayerDirectionUI();
+    }
+
+    private void UpdatePlayerDirectionUI()
+    {
+        if(!transform.parent.CompareTag("Player"))
+            return;
+        
+        var weapon = GetCurWeapon();
+        var direction = transform.parent.Find("Direction");
+        direction.GetComponentInChildren<Canvas>().enabled = weapon.isRaycastWeapon;
     }
 
     private bool isBattleStatus = false;
@@ -121,14 +132,8 @@ public class ActorCombatMgr : NetworkBehaviour
 
     [Inject] private ActorMoveMgr _moveMgr;
 
-    [SyncVar][SerializeField] private ActorMgr _combatTarget;
     [Inject] private ActorMgr _actorMgr;
-
-    public void SetAttackTarget(ActorMgr combatTarget)
-    {
-        _combatTarget = combatTarget;
-    }
-
+    
     private void Clear()
     {
         
@@ -163,12 +168,17 @@ public class ActorCombatMgr : NetworkBehaviour
     {
         if(_actorMgr.IsActorDead() ||  _stateMgr?.GetCurrentState()?.Name == "stun")
             return false;
-        
+
+        if (attackCdTimer < GetAttackCd())
+            return false;
+
+        attackCdTimer = 0;
+            
         if (_stateMgr.GetCurrentState().Name == "attack")
         {
             var state = _stateMgr.GetCurrentState() as ActorStateMgr.AttackState;
             state.ApplyAttackInput(_stateMgr);
-            return false;
+            return true;
         }
         
         _stateMgr.TryPerformState(_stateMgr.GetStateByName("attack"));
@@ -178,47 +188,11 @@ public class ActorCombatMgr : NetworkBehaviour
     [Server]
     private void Update()
     {
-        if(transform.parent.CompareTag("Player"))
-            return;
-        
         if(attackCdTimer < GetAttackCd())
             attackCdTimer += Time.deltaTime;
         
-        if(_actorMgr.IsActorDead() ||  _stateMgr?.GetCurrentState()?.Name == "stun")
+        if(transform.parent.CompareTag("Player"))
             return;
-
-        if(_combatTarget==null)
-            return;
-
-        if (_combatTarget.IsActorDead())
-        {
-            SetAttackTarget(null);
-            return;
-        }
-        
-        var distance = (_combatTarget.transform.position - transform.position).magnitude;
-        if (distance > curWeapon.range)
-        {
-            _moveMgr.RPC_MoveToPosition(_combatTarget.transform.position, curWeapon.range);
-            return;
-        }
-        
-        _moveMgr.RPC_ClearPath();
-        _moveMgr.RPC_SetLookAt(_combatTarget.transform);
-        
-        if (_stateMgr.GetCurrentState().Name == "attack")
-        {
-            return;
-        }
-        
-        
-        if(attackCdTimer < GetAttackCd())
-            return;
-
-        attackCdTimer = 0;
-
-        RPC_TryPerformAttack();
-        // _stateMgr.RPC_TryPerformState("attack");
     }
     
     public Weapon GetCurWeapon()

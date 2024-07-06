@@ -90,6 +90,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5070541596010905442, guid: 9fb8307b594cad14187c87765ff8e2eb,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5070541596010905442, guid: 9fb8307b594cad14187c87765ff8e2eb,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5184967112618985685, guid: 9fb8307b594cad14187c87765ff8e2eb,
         type: 3}
       propertyPath: m_SizeDelta.y
@@ -109,5 +119,59 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8934838592407003083, guid: 9fb8307b594cad14187c87765ff8e2eb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7406668347440352418}
   m_SourcePrefab: {fileID: 100100000, guid: 9fb8307b594cad14187c87765ff8e2eb, type: 3}
+--- !u!1 &3937730003618862118 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8934838592407003083, guid: 9fb8307b594cad14187c87765ff8e2eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 5574133416527875053}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7406668347440352418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3937730003618862118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startWhenEnabled: 1
+  asynchronousLoad: 0
+  pauseWhenDisabled: 0
+  restartWhenComplete: 0
+  logTaskChanges: 0
+  group: 0
+  resetValuesOnRestart: 0
+  externalBehavior: {fileID: 0}
+  mBehaviorSource:
+    behaviorName: EnemyAI
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(437.454071,4.318878)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Repeater","NodeData":{"Offset":"(-2.545929,124.318878)"},"ID":1,"Name":"Repeater","Instant":true,"SharedIntcount":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedBoolrepeatForever":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedBoolendOnFailure":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(3.975895,134.753784)"},"ID":2,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-151.739136,170.869568)"},"ID":3,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"DungeonSlayer.Script.BehaviourTree.BTActionWithInSight","NodeData":{"Offset":"(-172.111145,236.9278)"},"ID":4,"Name":"BT
+        Action With In Sight","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"SharedFloatramainDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SinglesearchRange":0,"ActorCamptargetCamp":"Radiant"},{"Type":"DungeonSlayer.Script.BehaviourTree.BTActionMoveToDest","NodeData":{"Offset":"(1.80194473,236.9278)"},"ID":5,"Name":"BT
+        Action Move To Dest","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"SharedFloatramainDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0}},{"Type":"DungeonSlayer.Script.BehaviourTree.BTActionAttack","NodeData":{"Offset":"(155.062866,236.9278)"},"ID":6,"Name":"BT
+        Action Attack","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null}}]},{"Type":"DungeonSlayer.Script.BehaviourTree.BTActionWonderAround","NodeData":{"Offset":"(225.652161,178.695618)"},"ID":7,"Name":"BT
+        Action Wonder Around","Instant":true,"SingleMaxTime":5}]}]}}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.8
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1

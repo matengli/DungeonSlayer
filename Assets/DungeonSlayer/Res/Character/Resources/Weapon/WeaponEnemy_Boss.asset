@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c725931415b594d5d8860a5cd67a28d8, type: 3}
-  m_Name: Weapon
+  m_Name: WeaponEnemy_Boss
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -26,8 +26,8 @@ MonoBehaviour:
   cd: 2
   range: 2
   rangeAngle: 120
-  baseAtk: 30
-  weaponObject: {fileID: 2536900341677542543, guid: 70cb51f1291f7324baa83a0707acc62b,
+  baseAtk: 10
+  weaponObject: {fileID: 2536900341677542543, guid: a02d74dd14578a440b9abc7148c9ee2e,
     type: 3}
   socketName: Hand_R
   Desc: 

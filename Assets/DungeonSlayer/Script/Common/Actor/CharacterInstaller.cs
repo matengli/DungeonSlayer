@@ -131,13 +131,6 @@ public class CharacterInstaller : MonoInstaller
         com.Installers = new List<MonoInstaller>(){parent.GetComponent<CharacterInstaller>()};
     }
 #endif
-
-
-    //如果有对Start初始化顺序敏感的可以放到这里控制
-    private void Start()
-    {
-        
-    }
     
     
 }

@@ -52,7 +52,7 @@ public class ActorMoveMgr : NetworkBehaviour
     
     public virtual Vector3 GetVelocity()
     {
-        return _kccMoveAgent.Velocity;
+        return _kccMoveAgent==null?Vector3.zero: _kccMoveAgent.Velocity;
     }
     
     [Header("PathFinding")]
@@ -143,12 +143,17 @@ public class ActorMoveMgr : NetworkBehaviour
     /// <param name="input"></param>
     public void SetLookAt(Transform input)
     {
+        SetLookAt(input.position);
+    }
+    
+    public void SetLookAt(Vector3 position)
+    {
         KCCMoveAgent.PlayerCharacterInputs characterInputs = new KCCMoveAgent.PlayerCharacterInputs();
 
         // Build the CharacterInputs struct
         characterInputs.MoveAxisForward = 0;
         characterInputs.MoveAxisRight = 0;
-        characterInputs.CameraRotation = Quaternion.LookRotation((input.position - transform.position));
+        characterInputs.CameraRotation = Quaternion.LookRotation((position - transform.position));
 
         SetInputs(ref characterInputs);
     }

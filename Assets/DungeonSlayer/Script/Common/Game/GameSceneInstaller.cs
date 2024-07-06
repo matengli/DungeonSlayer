@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DungeonSlayer.Script.Common.Game;
 using UnityEngine;
 using Zenject;
 using Zenject.Asteroids;
 
 public class GameSceneInstaller : MonoInstaller
 {
+    [SerializeField] private GameConfig _gameConfig;
     
     static public readonly List<Type> CommonGlobalMgrTypes = new List<Type>()
     {
@@ -38,5 +40,7 @@ public class GameSceneInstaller : MonoInstaller
             
             Container.Bind(pType).FromInstance(com).AsSingle().NonLazy();
         }
+
+        Container.Bind<GameConfig>().FromInstance(_gameConfig).AsSingle().NonLazy();
     }
 }
