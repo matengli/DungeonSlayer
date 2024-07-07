@@ -113,6 +113,9 @@ public class ActorStateMgr : NetworkBehaviour
     /// <returns></returns>
     public bool TryPerformState(ActorState state, bool isCheckState = true)
     {
+        if (curState != null && curState is DeathState)
+            return false;
+        
         if (!state.CanPerform(this) && isCheckState)
             return false;
 
@@ -235,6 +238,9 @@ public class ActorStateMgr : NetworkBehaviour
 
             public override bool CanPerform(ActorStateMgr stateMgr)
             {
+                if (stateMgr.GetCurrentState() is StunState | stateMgr.GetCurrentState() is DeathState)
+                    return false;
+                
                 return true;
             }
 

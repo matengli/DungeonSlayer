@@ -28,6 +28,7 @@ public class ActorMoveMgr : NetworkBehaviour
         Debug.Log("OnStartServer22222222");
 
         speed = _modelMgr.GetSpeed();
+        speedFactor = 1.0f;
         _battleMgr.OnKilled += OnKilled;
 
         _kccMoveAgent = GetComponent<KCCMoveAgent>();
@@ -194,6 +195,8 @@ public class ActorMoveMgr : NetworkBehaviour
 
     protected KCCMoveAgent.PlayerCharacterInputs currentFrameInput;
     protected bool isDirectInput = false;
+    [SerializeField] public float speedFactor = 1.0f;
+
     /// <summary>
     /// 如果要设置必须要每帧都设置
     /// </summary>
@@ -334,5 +337,10 @@ public class ActorMoveMgr : NetworkBehaviour
     public void RPC_MoveToPosition(Vector3 transformPosition, float stopDistance)
     {
         MoveToPosition(transformPosition, stopDistance);
+    }
+
+    public void SetSpeedPercentage(float modifyFactor)
+    {
+        speedFactor = modifyFactor;
     }
 }

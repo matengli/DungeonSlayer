@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c73751ed93174e30aa1823346c9d1f2, type: 3}
+  m_Name: CharacterModel_Player_Raycast
+  m_EditorClassIdentifier: 
+  initWeapon: {fileID: 11400000, guid: b8897180232965443acb474644dbbace, type: 2}
+  ModelPrefab: {fileID: 1666678542618180, guid: 02ac59dea0bf44d4d87bba04f0a6ca33,
+    type: 3}
+  rootTransformPath: Root
+  Speed: 3
+  Strength: 8
+  desc: 
+  SearchRange: 5

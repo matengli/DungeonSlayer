@@ -15,6 +15,11 @@ public class CharacterInstaller : MonoInstaller
 {
     [SerializeField] private CharacterModelBase _characterModelBase;
     
+    public void SetCharacterModelBase(CharacterModelBase modelBase)
+    {
+        _characterModelBase = modelBase;
+    }
+    
     public override void InstallBindings()
     {
         foreach (var pType in chaRelatedTypes)

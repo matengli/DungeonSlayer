@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DungeonSlayer.Script.Common.Game.Map;
 using Mirror;
 using UnityEngine;
 using Zenject;
@@ -47,6 +48,12 @@ public class ActorCollsionMgr : MonoBehaviour
     [ServerCallback]
     public void CheckCommonHitOther(Collider other, bool isIgnoreCamp = false)
     {
+        if (other.GetComponent<MapBreakableWall>() != null)
+        {
+            other.GetComponent<MapBreakableWall>().RPC_TriggerBreakEvent();
+            return;
+        }
+        
         var actormgr = other.GetComponent<ActorMgr>();
         if(actormgr==null)
             return;

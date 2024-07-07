@@ -9,9 +9,18 @@ namespace DungeonSlayer.Script.Gameplay
         private int insertCount = 0;
         
         [Inject] private DiContainer _container;
+        
+        public enum StarterCharacter
+        {
+            Melee,
+            Raycast
+        }
+        
+        public StarterCharacter starterCharacter = StarterCharacter.Melee;
+        
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
-            var pos = UnityEngine.Random.insideUnitSphere * 5.0f;
+            var pos = UnityEngine.Random.insideUnitSphere * 5.0f + new Vector3(5,0,5);
             pos.y = 0.0f;
             
             GameObject player = Instantiate(playerPrefab, pos, Quaternion.identity, transform);
@@ -20,9 +29,11 @@ namespace DungeonSlayer.Script.Gameplay
             
             NetworkServer.AddPlayerForConnection(conn, player);
             
-            var ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "CommonPlayerNet"), pos, Quaternion.identity);
+            var ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == $"Player{starterCharacter}"), pos, Quaternion.identity);
             conn.authenticationData = insertCount.ToString();
             NetworkServer.Spawn(ball, conn);
+            
+            starterCharacter = starterCharacter == StarterCharacter.Melee ? StarterCharacter.Raycast : StarterCharacter.Melee;
         }
 
         public override void OnServerDisconnect(NetworkConnectionToClient conn)

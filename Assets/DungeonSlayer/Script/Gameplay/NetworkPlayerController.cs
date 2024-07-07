@@ -1,3 +1,4 @@
+using Cinemachine;
 using Mirror;
 using UnityEngine;
 using Zenject;
@@ -13,7 +14,18 @@ namespace DungeonSlayer.Script.Gameplay
         {
             playerName = (string)connectionToClient.authenticationData;
         }
-        
+
+        [Inject] private CameraController _cameraController;
+
+        public override void OnStartClient()
+        {
+            if (isOwned)
+            {
+                _cameraController.SetFollowTarget(transform);
+            }
+
+        }
+
         private void Awake()
         {
             BindGamePlayer();
@@ -38,6 +50,14 @@ namespace DungeonSlayer.Script.Gameplay
             
             if(player.IsActorDead())
                 return;
+
+            // if (Input.GetKeyUp(KeyCode.Space))
+            // {
+            //     foreach (var item in FindObjectsByType<NetEnemySpawner>(FindObjectsSortMode.None))
+            //     {
+            //         item.CMD_ResetSpawnerStatus(true);
+            //     }
+            // }
             
             if (!_gameUtil.CheckClickPos())
             {

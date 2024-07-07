@@ -18,6 +18,21 @@ public class ActorMgr : NetworkBehaviour
     {
         FindObjectOfType<SceneContext>().Container.InjectGameObject(gameObject);
     }
+    
+    private void ChangeCharaterModel(string _old, string _new)
+    {
+        if (string.IsNullOrEmpty(_new))
+            return;
+        
+        var model = Resources.Load<CharacterModelBase>($"CharacterModel/{_new}");
+        if (model == null)
+        {
+            Debug.Log($"找不到名为{_new}的角色模型");
+            return;
+        }
+
+        GetComponent<CharacterInstaller>().SetCharacterModelBase(model);
+    }
 
     [Inject] private ActorBattleMgr _battleMgr;
     
@@ -38,10 +53,10 @@ public class ActorMgr : NetworkBehaviour
             switch (weaponBuffConf.BuffTarget)
             {
                 case Weapon.WeaponBuffTarget.self:
-                    AddBuff(weaponBuffConf.AddBuffInfo, _battleMgr);
+                    CMD_AddBuff(weaponBuffConf.AddBuffInfo);
                     break;
                 case Weapon.WeaponBuffTarget.defender:
-                    other.AddBuff(weaponBuffConf.AddBuffInfo, _battleMgr);
+                    other.CMD_AddBuff(weaponBuffConf.AddBuffInfo);
                     break;
             }
         }
@@ -123,7 +138,7 @@ public class ActorMgr : NetworkBehaviour
 
     [Inject] private BuffMgr _buffMgr;
     
-    public  void AddBuff(BuffBase.AddBuffInfo info, ActorBattleMgr caster=null)
+    public void AddBuff(BuffBase.AddBuffInfo info, ActorBattleMgr caster=null)
     {
         _buffMgr.AddBuffToActor(_battleMgr, caster, info);
     }
@@ -253,5 +268,32 @@ public class ActorMgr : NetworkBehaviour
     public void SetLookAt(Vector3 input)
     {
         _moveMgr.SetLookAt(input);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CMD_AddBuff(List<BuffBase.AddBuffInfo> addBuffInfos)
+    {
+        RPC_AddBuff(addBuffInfos);
+    }
+    
+    [ClientRpc]
+    public void RPC_AddBuff(List<BuffBase.AddBuffInfo> addBuffInfos)
+    {
+        foreach (var addBuffInfo in addBuffInfos)
+        {
+            AddBuff(addBuffInfo);
+        }
+    }
+    
+    [Command(requiresAuthority = false)]
+    public void CMD_AddBuff(BuffBase.AddBuffInfo addBuffInfo)
+    {
+        RPC_AddBuff(addBuffInfo);
+    }
+    
+    [ClientRpc]
+    public void RPC_AddBuff(BuffBase.AddBuffInfo addBuffInfo)
+    {
+        AddBuff(addBuffInfo);
     }
 }

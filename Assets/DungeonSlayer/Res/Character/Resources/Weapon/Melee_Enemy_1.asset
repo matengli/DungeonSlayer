@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c725931415b594d5d8860a5cd67a28d8, type: 3}
+  m_Name: Melee_Enemy_1
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _weaponDataAsset: {fileID: 11400000, guid: 6c6b2f0ba23c02648a8f27342a9fad2c, type: 2}
+  modifiedAniTime: 2
+  cd: 3
+  range: 1.5
+  rangeAngle: 120
+  baseAtk: 5
+  weaponObject: {fileID: 2536900341677542543, guid: 5b323cc3fbf7e584d9a1e1e085360d32,
+    type: 3}
+  socketName: Hand_R
+  Desc: 
+  weaponAddBuffConfig: []
+  isRaycastWeapon: 0
+  bulletModel: {fileID: 0}

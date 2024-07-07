@@ -129,6 +129,13 @@ public class ActorAttributeMgr : NetworkBehaviour
         EncodeDataString();
     }
     
+    public void SetMaxVal(string name, float value)
+    {
+        RealSetMaxVal(name, value);
+        
+        EncodeDataString();
+    }
+    
 
     public void RealSetVal(string name, float value)
     {

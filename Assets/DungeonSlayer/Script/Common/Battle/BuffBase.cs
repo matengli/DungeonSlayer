@@ -45,4 +45,5 @@ public class BuffBase
         public float existTime = 0; //剩下还能留多久
         public float timeElapsed = 0; //已经存在了多久
     }
+    
 }

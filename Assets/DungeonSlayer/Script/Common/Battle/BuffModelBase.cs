@@ -84,7 +84,7 @@ public class BuffModelBase : ScriptableObject
     /// </summary>
     /// <param name="attacker"></param>
     /// <param name="defender"></param>
-    public virtual void OnGetActualAttack(ActorBattleMgr handler, ref float rawAttack)
+    public virtual void OnGetActualAttack(ActorBattleMgr handler, ref float rawAttack, BuffBase buff)
     {
         
     }

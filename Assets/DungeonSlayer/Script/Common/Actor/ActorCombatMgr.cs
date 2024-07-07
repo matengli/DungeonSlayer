@@ -155,7 +155,7 @@ public class ActorCombatMgr : NetworkBehaviour
     }
 
 
-    private float attackCdTimer = 0.0f;
+    [SyncVar]private float attackCdTimer = 0.0f;
 
 
     [ClientRpc]
@@ -190,9 +190,6 @@ public class ActorCombatMgr : NetworkBehaviour
     {
         if(attackCdTimer < GetAttackCd())
             attackCdTimer += Time.deltaTime;
-        
-        if(transform.parent.CompareTag("Player"))
-            return;
     }
     
     public Weapon GetCurWeapon()

@@ -1,5 +1,4 @@
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor.GettingStarted;
 using UnityEngine;
 
 namespace DungeonSlayer.Script.Common.Game

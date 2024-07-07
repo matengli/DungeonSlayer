@@ -24,8 +24,8 @@ MonoBehaviour:
   _weaponDataAsset: {fileID: 11400000, guid: 6c6b2f0ba23c02648a8f27342a9fad2c, type: 2}
   modifiedAniTime: 2
   cd: 2
-  range: 2
-  rangeAngle: 120
+  range: 3
+  rangeAngle: 180
   baseAtk: 10
   weaponObject: {fileID: 2536900341677542543, guid: a02d74dd14578a440b9abc7148c9ee2e,
     type: 3}

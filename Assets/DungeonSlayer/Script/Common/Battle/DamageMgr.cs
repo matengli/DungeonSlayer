@@ -6,6 +6,29 @@ using Zenject;
 
 public class DamageMgr
 {
+    public void RPC_ApplyDamage(ActorBattleMgr attacker, ActorBattleMgr defender, float damage)
+    {
+        if (defender.IsDead())
+        {
+            return;
+        }
+        
+        CaculateDamage(attacker, defender, ref damage);
+
+        defender.RPC_ResultFinalDamage(attacker, defender, damage);
+    }
+
+    private void CaculateDamage(ActorBattleMgr attacker, ActorBattleMgr defender, ref float damage)
+    {
+        float factor = 1;
+
+        bool isBack = attacker!=null && IsBackAttack(attacker.transform, defender.transform);
+        if (isBack)
+            factor = GetBackAttackFactor();
+
+        damage *= factor;
+    }
+    
     /// <summary>
     /// 执行伤害事件
     /// </summary>
@@ -19,15 +42,9 @@ public class DamageMgr
             return;
         }
         
-        float factor = 1;
+        CaculateDamage(attacker, defender, ref damage);
 
-        bool isBack = attacker!=null && IsBackAttack(attacker.transform, defender.transform);
-        if (isBack)
-            factor = GetBackAttackFactor();
-        
-        damage *= factor;
-
-        defender.RPC_ResultFinalDamage(attacker, defender, damage);
+        defender.ResultFinalDamage(attacker, defender, damage);
     }
 
     /// <summary>

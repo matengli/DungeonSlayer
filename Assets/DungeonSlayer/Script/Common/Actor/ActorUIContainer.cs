@@ -73,7 +73,16 @@ public class ActorUIContainer : MonoBehaviour
     {
         ModifyVal(name, curval, max);
 
-        var obj = Resources.Load<DamageNumber>("Prefab/DamageNumber");
+        DamageNumber obj;
+        if (curval > oldval)
+        {
+            obj = Resources.Load<DamageNumber>("Prefab/DamageNumber");
+        }
+        else
+        {
+            obj = Resources.Load<DamageNumber>("Prefab/HealNumber");
+        }
+        
         obj.Spawn(transform.position,    Mathf.Abs(curval - oldval));
     }
 

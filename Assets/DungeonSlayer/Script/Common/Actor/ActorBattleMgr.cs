@@ -183,7 +183,7 @@ public class ActorBattleMgr : NetworkBehaviour
 
         float baseDmg = BaseAtk * factor;
         
-        _damageMgr.ApplyDamage(this, other, baseDmg);
+        _damageMgr.RPC_ApplyDamage(this, other, baseDmg);
         
     }
 
@@ -201,7 +201,7 @@ public class ActorBattleMgr : NetworkBehaviour
         float attack = _combatMgr.GetCurWeapon().baseAtk + BuffedAtk;
         foreach (var buff in _buffList)
         {
-            buff.model.OnGetActualAttack(this, ref attack);
+            buff.model.OnGetActualAttack(this, ref attack,  buff);
         }
         
         return Mathf.Max(attack,0);
@@ -322,7 +322,24 @@ public class ActorBattleMgr : NetworkBehaviour
     [ClientRpc]
     public void RPC_ResultFinalDamage(ActorBattleMgr attacker, ActorBattleMgr defender, float damage)
     {
+        ResultFinalDamage(attacker, defender, damage);
+    }
+    
+    public void ResultFinalDamage(ActorBattleMgr attacker, ActorBattleMgr defender, float damage)
+    {
         DamageInfo info = new DamageInfo(attacker, defender, damage);
         _damageMgr.ResultFinalDamage(info);
+    }
+
+    public void AddMaxHp(float addCount)
+    {
+        _attributeMgr.SetMaxVal("hp", _attributeMgr.GetVal("hp") + addCount);
+    }
+
+
+    [ServerCallback]
+    public void Server_ApplyDamage(ActorBattleMgr attacker, ActorBattleMgr ownerCarrier, float rawDamage)
+    {
+        _damageMgr.RPC_ApplyDamage(attacker, ownerCarrier, rawDamage);
     }
 }

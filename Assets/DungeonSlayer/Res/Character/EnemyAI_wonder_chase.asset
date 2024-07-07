@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23f08d2ae4cba14087c1ed36193d82b, type: 3}
+  m_Name: EnemyAI_wonder_chase
+  m_EditorClassIdentifier: 
+  mBehaviorSource:
+    behaviorName: EnemyAI
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(437.454071,4.318878)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Repeater","NodeData":{"Offset":"(-2.545929,114.318878)"},"ID":1,"Name":"Repeater","Instant":true,"SharedIntcount":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedBoolrepeatForever":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"SharedBoolendOnFailure":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(27.454071,184.318878)"},"ID":2,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-90,170)","WatchedFields":["abortType"]},"ID":3,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Both","Children":[{"Type":"DungeonSlayer.Script.BehaviourTree.BTActionWithInSight","NodeData":{"Offset":"(-202.111145,256.9278)"},"ID":4,"Name":"BT
+        Action With In Sight","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"SharedTransform","IsShared":true},"SharedFloatramainDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"ramainDistance","IsShared":true,"SinglemValue":0},"SinglesearchRange":10,"ActorCamptargetCamp":"Radiant"},{"Type":"DungeonSlayer.Script.BehaviourTree.BTActionChaseAndAttack","NodeData":{"Offset":"(157.4541,264.318848)"},"ID":5,"Name":"BT
+        Action Chase And Attack","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"SharedTransform","IsShared":true},"SharedFloatramainDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"ramainDistance","IsShared":true,"SinglemValue":0}}]},{"Type":"DungeonSlayer.Script.BehaviourTree.BTActionWonderAround","NodeData":{"Offset":"(300,190)"},"ID":6,"Name":"BT
+        Action Wonder Around","Instant":true,"SingleMaxTime":5,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"SharedTransform","IsShared":true}}]}]},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"ramainDistance","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"SharedTransform","IsShared":true}]}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.8

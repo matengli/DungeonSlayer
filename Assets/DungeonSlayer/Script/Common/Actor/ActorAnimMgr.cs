@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Mirror;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -16,17 +17,17 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// 主要职责是管理动画
 /// </summary>
-public class ActorAnimMgr : MonoBehaviour
+public class ActorAnimMgr : NetworkBehaviour
 {
     private Animator _animator;
 
     [Inject] private ActorMoveMgr _moveMgr;
 
     [Inject] private ActorCombatMgr _combatMgr;
-    
+
+
     // Start is called before the first frame update
-    
-    private void Start()
+    public override void OnStartClient()
     {
         _animator = transform.parent.GetComponentInChildren<Animator>();
         
@@ -196,7 +197,10 @@ public class ActorAnimMgr : MonoBehaviour
     
     private void Update()
     {
-        if (_moveMgr != null && isSetMoveFactor)
+        if(_animator==null)
+            return;
+        
+        if (_moveMgr != null && isSetMoveFactor )
         {
             var vel = _moveMgr.GetVelocity();
             
@@ -391,6 +395,10 @@ public class ActorAnimMgr : MonoBehaviour
     public void SetDoubleMix(bool p0)
     {
         isDoubleMix = p0;
+        
+        if(finalPose.IsNull())
+            return;
+        
         finalPose.SetLayerMaskFromAvatarMask(0, isDoubleMix? lowerBody:fullBody);
         finalPose.SetLayerMaskFromAvatarMask(1, isDoubleMix? upperBody:fullBody);
     }

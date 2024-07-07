@@ -19,7 +19,6 @@ public class CharacterModelBase : ScriptableObject
     [Range(0, 20)] public int Speed;
     [Range(0, 20)] public int Strength;
 
-    public string name;
     public string desc;
 
     [Range(0,20)]public float SearchRange = 5.0f;

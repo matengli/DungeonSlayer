@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour, IDragHandler, IEndDragHandler, IP
     [Tooltip("视角拖动后缓动的时间")][SerializeField] private float easeTime = 0.4f;
     [Tooltip("视角拖动后缓动的距离参数")][Range(0,0.5f)][SerializeField] private float easeDistanceFactor = 0.4f;
     
-    [Tooltip("视角移动的灵敏度")][Range(0.001f,0.1f)][SerializeField]private float moveSpeed = 0.01f; // 视角拖动速度
+    [Tooltip("视角移动的灵敏度")][Range(0,0.1f)][SerializeField]private float moveSpeed = 0.01f; // 视角拖动速度
     [Tooltip("视角转动的灵敏度")][Range(5.0f,50.0f)][SerializeField]private float rotationSpeed = 0.01f; // 视角旋转速度
 
     private Vector2 lastMousePosition; // 上一帧的鼠标位置
@@ -47,20 +47,20 @@ public class CameraController : MonoBehaviour, IDragHandler, IEndDragHandler, IP
             
         }
 
-        if (Input.GetKey(KeyCode.Q))
-        {
-            var old = normalCameraOffset.transform.rotation.eulerAngles;
-            old.y += Time.deltaTime * rotationSpeed;
-            normalCameraOffset.transform.rotation = Quaternion.Euler(old);
-        }
-
-        if (Input.GetKey(KeyCode.E))
-        {
-            var old = normalCameraOffset.transform.rotation.eulerAngles;
-            old.y -= Time.deltaTime * rotationSpeed;
-            normalCameraOffset.transform.rotation = Quaternion.Euler(old);
-
-        }
+        // if (Input.GetKey(KeyCode.Q))
+        // {
+        //     var old = normalCameraOffset.transform.rotation.eulerAngles;
+        //     old.y += Time.deltaTime * rotationSpeed;
+        //     normalCameraOffset.transform.rotation = Quaternion.Euler(old);
+        // }
+        //
+        // if (Input.GetKey(KeyCode.E))
+        // {
+        //     var old = normalCameraOffset.transform.rotation.eulerAngles;
+        //     old.y -= Time.deltaTime * rotationSpeed;
+        //     normalCameraOffset.transform.rotation = Quaternion.Euler(old);
+        //
+        // }
         
         // if(Input.mouse)
     }

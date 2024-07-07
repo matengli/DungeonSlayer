@@ -13,7 +13,20 @@ namespace DungeonSlayer.Script.Common.Game.Map
         [SerializeField] private float time = 2.0f;
 
         [SerializeField] private Weapon weaponModel;
-        
+
+        [SerializeField] private MapItemModel mapItemModel;
+
+        [SerializeField] private bool IsInstant = false;
+
+        public override void OnStartClient()
+        {
+            if (IsInstant)
+            {
+                transform.GetChild(0).GetComponent<TextMeshPro>().enabled = true;
+                transform.GetChild(0).GetComponent<TextMeshPro>().text = GetDesc();
+            }
+
+        }
 
         [Server]
         private void OnTriggerEnter(Collider other)
@@ -64,25 +77,45 @@ namespace DungeonSlayer.Script.Common.Game.Map
 
             isActive = status;
             transform.GetChild(0).GetComponent<TextMeshPro>().text = GetDesc();
-            transform.GetChild(0).GetComponent<TextMeshPro>().enabled = status;
+            
+            if(!IsInstant)
+                transform.GetChild(0).GetComponent<TextMeshPro>().enabled = status;
+            
             self = status?owner:null;
+            
+            if (IsInstant && isActive)
+                ApplyMapItem();
         }
 
         private ActorMgr self;
 
-        private bool isActive = false;
+        [SyncVar] private bool isActive = false;
 
         private void Update()
         {
             if(!isActive)
                 return;
             
+            if(IsInstant)
+                return;
+            
             if(!Input.GetKeyUp(KeyCode.F))
                 return;
 
+            ApplyMapItem();
+        }
+
+        private void ApplyMapItem()
+        {
             if (weaponModel != null)
             {
                 self.CMD_EquipWeapon(weaponModel.name);
+                CMD_SetActiveFalse();
+            }
+            
+            if(mapItemModel != null)
+            {
+                self.CMD_AddBuff(mapItemModel.addBuffInfos);
                 CMD_SetActiveFalse();
             }
         }
@@ -107,9 +140,16 @@ namespace DungeonSlayer.Script.Common.Game.Map
 
         private string GetDesc()
         {
+            string end = IsInstant ? "" : "\n[F] Pick Up";
+            
             if (weaponModel != null)
             {
-                return $"{weaponModel.Desc}\n[F] Pick Up";
+                return $"{weaponModel.Desc}{end}";
+            }
+            
+            if (mapItemModel != null)
+            {
+                return $"{mapItemModel.Desc}{end}";
             }
 
             return "";
