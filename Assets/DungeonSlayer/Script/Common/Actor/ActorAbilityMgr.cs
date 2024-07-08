@@ -14,6 +14,8 @@ using Zenject;
 /// </summary>
 public class ActorAbilityMgr : MonoBehaviour
 {
+    #region MgrGetters
+
     [Inject] private GameBulletMgr _gameBulletMgr;
     public GameBulletMgr GetBulletMgr()
     {
@@ -26,6 +28,29 @@ public class ActorAbilityMgr : MonoBehaviour
     {
         return _battleMgr;
     }
+    
+    [Inject] private ActorCollsionMgr _collsionMgr;
+    
+    private ActorCollsionMgr GetCollsionMgr()
+    {
+        return _collsionMgr;
+    }
+    
+    [Inject] private AudioMgr _audioMgr;
+    private AudioMgr GetAudioMgr()
+    {
+        return _audioMgr;
+    }
+
+    [Inject] private CameraController _cameraController;
+
+    public CameraController GetCameraController()
+    {
+        return _cameraController;
+    }
+
+    #endregion
+    
 
     /// <summary>
     /// 构建一个新的Ability，注意一定要传入一个它所依附的state
@@ -183,10 +208,7 @@ public class ActorAbilityMgr : MonoBehaviour
         {
             currentStage = NormalAttackAbilityStatusEnum.BeforeTrace;
             
-            handler.GetCombatMgr().GetAttackCd();
-            // attackCd
-            
-            handler.GetAnimMgr().SetDoubleMix(true);
+            handler.GetAnimMgr().SetOnlyBlendUpperPose(true);
             handler.GetAnimMgr().PlayAbilityClipByAbility(this, true, (ActorAnimMgr.MontageEventEnum ptype,string name) =>
             {
                 if (ptype == ActorAnimMgr.MontageEventEnum.VaildCollsionPlayableAssetStart)
@@ -211,14 +233,8 @@ public class ActorAbilityMgr : MonoBehaviour
 
         public override void OnExit(ActorAbilityMgr handler)
         {
-            handler.GetAnimMgr().SetDoubleMix(false);
+            handler.GetAnimMgr().SetOnlyBlendUpperPose(false);
         }
-    }
-
-    [Inject] private ActorCollsionMgr _collsionMgr;
-    private ActorCollsionMgr GetCollsionMgr()
-    {
-        return _collsionMgr;
     }
 
     public class NormalAttackCastAbility:ActorAbility
@@ -229,7 +245,7 @@ public class ActorAbilityMgr : MonoBehaviour
 
         public override void OnEnter(ActorAbilityMgr handler)
         {
-            handler.GetAnimMgr().SetDoubleMix(true);
+            handler.GetAnimMgr().SetOnlyBlendUpperPose(true);
             
             handler.GetAnimMgr().PlayAbilityClipByAbility(this, true, (ptype, a) =>
             {
@@ -256,7 +272,7 @@ public class ActorAbilityMgr : MonoBehaviour
                     }, handler.GetCombatMgr().GetCurWeapon().range);
                 }else if (ptype == ActorAnimMgr.MontageEventEnum.End)
                 {
-                    handler.GetAnimMgr().SetDoubleMix(false);
+                    handler.GetAnimMgr().SetOnlyBlendUpperPose(false);
                     handler.GetStateMgr().TryPerformState(handler.GetStateMgr().GetStateByName("idle"));
                     handler.TryPerformAbility(null, false);
                 }
@@ -366,19 +382,6 @@ public class ActorAbilityMgr : MonoBehaviour
                 info.Attacker.GetComponentInParent<ActorMgr>().SetMontagePause(false);
             info.Defender.GetComponentInParent<ActorMgr>().SetMontagePause(false);
         }
-    }
-
-    [Inject] private AudioMgr _audioMgr;
-    private AudioMgr GetAudioMgr()
-    {
-        return _audioMgr;
-    }
-
-    [Inject] private CameraController _cameraController;
-
-    public CameraController GetCameraController()
-    {
-        return _cameraController;
     }
 
     #endregion

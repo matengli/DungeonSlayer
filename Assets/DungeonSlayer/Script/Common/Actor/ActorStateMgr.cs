@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DungeonSlayer.Script.Common.Actor.Weapon;
 using Mirror;
 using UnityEngine;
 using Zenject;

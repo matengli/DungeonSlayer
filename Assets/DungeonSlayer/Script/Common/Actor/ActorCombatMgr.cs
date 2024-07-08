@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using DungeonSlayer.Script.Common.Actor.Weapon;
 using Mirror;
 using Unity.Mathematics;
 using UnityEngine;
@@ -155,7 +156,7 @@ public class ActorCombatMgr : NetworkBehaviour
     }
 
 
-    [SyncVar]private float attackCdTimer = 0.0f;
+    [SerializeField]private float attackCdTimer = 0.0f;
 
 
     [ClientRpc]
@@ -185,7 +186,6 @@ public class ActorCombatMgr : NetworkBehaviour
         return true;
     }
     
-    [Server]
     private void Update()
     {
         if(attackCdTimer < GetAttackCd())

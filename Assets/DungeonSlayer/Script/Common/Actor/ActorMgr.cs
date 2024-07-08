@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using DungeonSlayer.Script.Common.Actor.Weapon;
 using KinematicCharacterController;
 using Mirror;
 using UnityEngine;

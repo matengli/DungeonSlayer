@@ -24,6 +24,9 @@ namespace DungeonSlayer.Script.BehaviourTree
         public override TaskStatus OnUpdate()
         {
             var result = Physics.OverlapSphere(transform.position, searchRange, LayerMask.GetMask("Character"));
+
+            bool isSuccess = false;
+            float minDistance = float.MaxValue;
         
             foreach (var item in result)
             {
@@ -36,10 +39,18 @@ namespace DungeonSlayer.Script.BehaviourTree
                 
                 if(actor.GetActorCamp()!=targetCamp)
                     continue;
-                
-                target.Value = item.transform;
-                return TaskStatus.Success;
+
+                var curDistance = (item.transform.position - transform.position).magnitude;
+                if(curDistance < minDistance)
+                {
+                    minDistance = curDistance;
+                    target.Value = item.transform;
+                    isSuccess = true;
+                }
             }
+
+            if (isSuccess)
+                return TaskStatus.Success;
 
             target.Value = null;
             return TaskStatus.Failure;

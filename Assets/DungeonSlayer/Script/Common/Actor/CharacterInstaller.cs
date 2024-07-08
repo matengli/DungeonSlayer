@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DungeonSlayer.Script.Common.Actor.Controller;
 using KinematicCharacterController;
 using Pathfinding;
 using Unity.VisualScripting;

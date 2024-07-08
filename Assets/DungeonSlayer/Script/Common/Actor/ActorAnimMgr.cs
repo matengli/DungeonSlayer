@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using DungeonSlayer.Script.Common.Playable;
 using Mirror;
 using Unity.Mathematics;
 using Unity.VisualScripting;
@@ -10,6 +11,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
+using UnityEngine.Serialization;
 using UnityEngine.Timeline;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -93,13 +95,17 @@ public class ActorAnimMgr : NetworkBehaviour
 
     public enum MontageEventEnum
     {
-        End,
-        VaildCollsionPlayableAssetStart,
-        VaildCollsionPlayableAssetEnd,
+        End, //动画播放完毕
+        VaildCollsionPlayableAssetStart, //VaildCollsion开始（参考SkillConfig目录下的Timeline配置）
+        VaildCollsionPlayableAssetEnd,//VaildCollsion结束（参考SkillConfig目录下的Timeline配置）
     }
 
     private Action<MontageEventEnum, string> montageEventCallback = null;
 
+    /// <summary>
+    /// 加载动画的配置，目前主要是攻击动画的配置Timeline
+    /// </summary>
+    /// <param name="name"></param>
     private void InitTimelineFunctionalConfig(string name)
     {
         var asset = Resources.Load<TimelineAsset>("SkillConfig/"+name);
@@ -114,9 +120,9 @@ public class ActorAnimMgr : NetworkBehaviour
         
         foreach (var timelineClip in track.GetClips())
         {
-            Debug.Log("Clip Name: " + timelineClip.displayName);
-            Debug.Log("Clip Start Time: " + timelineClip.start);
-            Debug.Log("Clip End Time: " + timelineClip.end);
+            // Debug.Log("Clip Name: " + timelineClip.displayName);
+            // Debug.Log("Clip Start Time: " + timelineClip.start);
+            // Debug.Log("Clip End Time: " + timelineClip.end);
             start = timelineClip.start;
             end = timelineClip.end;
 
@@ -131,7 +137,7 @@ public class ActorAnimMgr : NetworkBehaviour
     }
 
     /// <summary>
-    /// 播放指定Ablity的动画，播放第一个动画
+    /// 播放指定Ablity的动画
     /// </summary>
     /// <param name="ability"></param>
     public void PlayClip(AnimationClip clip, bool isPlayAtOnce = false, Action<MontageEventEnum,string> callback = null, float minTime = 0.0f)
@@ -183,11 +189,15 @@ public class ActorAnimMgr : NetworkBehaviour
 
     public void ChangeMontagePauseState(bool isPause)
     {
-        if(isPause)
+        if (isPause)
+        {
             montagePose.Pause();
-        
-        if(!isPause)
+        }
+        else
+        {
             montagePose.Play();
+        }
+        
     }
     
     public double GetCurrentMontageTime()
@@ -204,15 +214,13 @@ public class ActorAnimMgr : NetworkBehaviour
         {
             var vel = _moveMgr.GetVelocity();
             
-            // _animator.SetFloat("vel", vel);
-
             var faceDir = transform.forward;
             var rightDir = transform.right;
             _animator.SetFloat("vel_v", Vector3.Dot(faceDir, vel) );
             _animator.SetFloat("vel_h", Vector3.Dot(rightDir, vel));
         }
 
-        if (isDoubleMix)
+        if (isOnlyBlendUpperPose)
         {
             finalPose.SetInputWeight(0, 1);
             finalPose.SetInputWeight(1, 1);
@@ -239,11 +247,22 @@ public class ActorAnimMgr : NetworkBehaviour
         mixFactor = state ? 1 : 0;
     }
     
+    public void SetOnlyBlendUpperPose(bool p0)
+    {
+        isOnlyBlendUpperPose = p0;
+        
+        if(finalPose.IsNull())
+            return;
+        
+        finalPose.SetLayerMaskFromAvatarMask(0, isOnlyBlendUpperPose? lowerBody:fullBody);
+        finalPose.SetLayerMaskFromAvatarMask(1, isOnlyBlendUpperPose? upperBody:fullBody);
+    }
+    
     //动画事件相关
     #region AnimationEvent
 
         /// <summary>
-        /// 这个暂时不能这么用，因为设置了一次以后会永远生效，有bug
+        /// 设置了一次以后会永远生效，如果要Clip复用在其他场合会有问题
         /// </summary>
         /// <param name="clip"></param>
         public void SetPlayAtOnce(AnimationClip clip)
@@ -264,7 +283,7 @@ public class ActorAnimMgr : NetworkBehaviour
         
         public void TriggerAnimatorEvent(string input)
         {
-            Debug.Log("动画播放完毕"+input);
+            // Debug.Log("动画播放完毕"+input);
             
             if (montageEventCallback!=null)
             {
@@ -276,7 +295,7 @@ public class ActorAnimMgr : NetworkBehaviour
         }
         
         /// <summary>
-        /// 设置了一次以后会永远生效,如果Clip要复用就GG了
+        /// 设置了一次以后会永远生效,如果要Clip复用在其他场合会有问题
         /// </summary>
         /// <param name="clip"></param>
         public void AddTimelineEvent(AnimationClip clip, float start, float end)
@@ -303,11 +322,11 @@ public class ActorAnimMgr : NetworkBehaviour
 
         [Inject] private ActorCollsionMgr _collsionMgr;
         [Inject] private AudioMgr _audioMgr;
-        [SerializeField] private bool isDoubleMix = false;
+        [SerializeField] private bool isOnlyBlendUpperPose = false;
 
         public void TriggerTimelineEvent(string input)
         {
-            Debug.Log("动画Timeline事件触发"+input);
+            // Debug.Log("动画Timeline事件触发"+input);
 
             bool result = false;
 
@@ -391,16 +410,5 @@ public class ActorAnimMgr : NetworkBehaviour
 #endif
 
     #endregion
-
-    public void SetDoubleMix(bool p0)
-    {
-        isDoubleMix = p0;
-        
-        if(finalPose.IsNull())
-            return;
-        
-        finalPose.SetLayerMaskFromAvatarMask(0, isDoubleMix? lowerBody:fullBody);
-        finalPose.SetLayerMaskFromAvatarMask(1, isDoubleMix? upperBody:fullBody);
-    }
 }
 

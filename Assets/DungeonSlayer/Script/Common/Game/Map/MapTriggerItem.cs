@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using DungeonSlayer.Script.Common.Actor.Weapon;
 using Mirror;
 using TMPro;
 using UnityEngine;

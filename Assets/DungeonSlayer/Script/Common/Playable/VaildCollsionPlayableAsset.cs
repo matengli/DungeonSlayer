@@ -1,17 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-[System.Serializable]
-public class VaildCollsionPlayableAsset : PlayableAsset
+namespace DungeonSlayer.Script.Common.Playable
 {
-    [SerializeField] private string traceSocketName;
-    // Factory method that generates a playable based on this asset
-    public override Playable CreatePlayable(PlayableGraph graph, GameObject go)
+    [System.Serializable]
+    public class VaildCollsionPlayableAsset : PlayableAsset
     {
-        var playable = ScriptPlayable<NewPlayableBehaviour>.Create(graph);
+        [SerializeField] private string traceSocketName;
+        // Factory method that generates a playable based on this asset
+        public override UnityEngine.Playables.Playable CreatePlayable(PlayableGraph graph, GameObject go)
+        {
+            var playable = ScriptPlayable<VaildCollsionPlayableBehaviour>.Create(graph);
         
-        return playable;
+            return playable;
+        }
     }
 }

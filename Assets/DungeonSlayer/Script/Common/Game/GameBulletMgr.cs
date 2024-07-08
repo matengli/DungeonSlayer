@@ -28,9 +28,8 @@ public class GameBulletMgr : MonoBehaviour
             hasHit = false;
         }
     }
-
-    [Inject] private CameraController _cameraController;
-
+    
+    //TODO 对象池
     public void FireBullet(BulletModel model, ActorBattleMgr caster, Action<BulletObject,ActorMgr> hitCallback, float maxDistance=1000.0f)
     {
         var obj = Instantiate(model.prefab);

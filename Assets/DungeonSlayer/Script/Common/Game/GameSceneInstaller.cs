@@ -2,13 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DungeonSlayer.Script.Common.Game;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 using Zenject.Asteroids;
 
+/// <summary>
+/// 全局通用的一些Installer
+/// </summary>
 public class GameSceneInstaller : MonoInstaller
 {
-    [SerializeField] private GameConfig _gameConfig;
+    [Title("全局游戏的配置文件")][SerializeField] private GameConfig _gameConfig;
     
     static public readonly List<Type> CommonGlobalMgrTypes = new List<Type>()
     {

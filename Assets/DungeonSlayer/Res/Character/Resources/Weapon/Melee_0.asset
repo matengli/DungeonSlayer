@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Melee_0
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -25,7 +25,6 @@ MonoBehaviour:
   modifiedAniTime: 0
   cd: 0
   range: 2
-  rangeAngle: 120
   baseAtk: 10
   weaponObject: {fileID: 2536900341677542543, guid: 70cb51f1291f7324baa83a0707acc62b,
     type: 3}
@@ -34,3 +33,4 @@ MonoBehaviour:
   weaponAddBuffConfig: []
   isRaycastWeapon: 0
   bulletModel: {fileID: 0}
+  rangeAngle: 120
