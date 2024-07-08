@@ -6,8 +6,7 @@ using UnityEngine;
 using Zenject;
 
 /// <summary>
-/// Character的上的控制器
-/// 逻辑上与PlayerController算是并列关系，但是事实上没有关联
+/// 目前只用来控制行为树
 /// </summary>
 public class AutoActorController : NetworkBehaviour
 {
