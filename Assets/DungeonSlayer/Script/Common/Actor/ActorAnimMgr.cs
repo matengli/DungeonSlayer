@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using DungeonSlayer.Script.Common.Actor.Weapon;
 using DungeonSlayer.Script.Common.Playable;
 using Mirror;
 using Unity.Mathematics;

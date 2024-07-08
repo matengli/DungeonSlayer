@@ -11,7 +11,8 @@ namespace DungeonSlayer.Script.Common.Actor.Weapon
     {
         public WeaponDataAsset _weaponDataAsset;
 
-        [Title("强制修改动画的播放时间。默认为0，则表示不做任何修改，否则改为对应的值")][Range(0,5)]public float modifiedAniTime = 0;
+        [Title("强制修改动画的播放时间。默认为0，标识使用原动画的时长，否则改为对应的值")][Range(0,5)]public float modifiedAniTime = 0;
+        [Title("成功击中对手造成的硬直时间。默认为0，标识使用原动画的时长，否则改为对应的值")][Range(0,5)]public float hitRecoverTime = 0;
         [Title("武器使用者的攻击间隔")]public float cd = 1.0f;
         [Title("攻击范围")]public float range = 1.0f;
         public float baseAtk = 10.0f;

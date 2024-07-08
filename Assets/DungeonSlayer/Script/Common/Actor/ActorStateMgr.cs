@@ -149,17 +149,6 @@ public class ActorStateMgr : NetworkBehaviour
             stateList.Clear();
     }
     
-    private void OnGUI()
-    {
-        if(!gameObject.CompareTag("Player"))
-            return;
-        
-        GUILayout.BeginArea(new Rect(0,200, 400,500));
-        GUILayout.Label($"CurrentState:{(curState!=null?curState.Name:"Null")}");
-        GUILayout.Label($"CurrentAbility:{(_abilityMgr.GetCurrentAbility()!=null?_abilityMgr.GetCurrentAbility().Name:"Null")}");
-        GUILayout.EndArea();
-    }
-    
     #region State
     
         public class ActorState
@@ -239,7 +228,7 @@ public class ActorStateMgr : NetworkBehaviour
 
             public override bool CanPerform(ActorStateMgr stateMgr)
             {
-                if (stateMgr.GetCurrentState() is StunState | stateMgr.GetCurrentState() is DeathState)
+                if (stateMgr.GetCurrentState() is StunState | stateMgr.GetCurrentState() is DeathState | stateMgr.GetCurrentState() is HitReactState)
                     return false;
                 
                 return true;
@@ -381,12 +370,7 @@ public class ActorStateMgr : NetworkBehaviour
                 handler.GetMoveMgr().SetIsStopped(true);
                 
                 var abilityMgr = handler.GetAbilityMgr();
-
-                //这个游戏不太需要这一点
-                // if (damageInfo.Attacker != null)
-                // {
-                //     handler.transform.parent.LookAt(new Vector3(damageInfo.Attacker.transform.position.x,handler.transform.parent.position.y ,damageInfo.Attacker.transform.position.z));
-                // }
+                
                 var ability = abilityMgr.ConstructAbility(typeof(ActorAbilityMgr.HitReactAbility), this);
                 abilityMgr.TryPerformAbility(ability);
             }

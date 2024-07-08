@@ -1,58 +1,58 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-[CreateAssetMenu(fileName = "WeaponDataAsset", menuName = "CuteAnimal/create Player Weapon Config")]
-public class WeaponDataAsset : SerializedScriptableObject
+namespace DungeonSlayer.Script.Common.Actor.Weapon
 {
-    [TableList(ShowIndexLabels = true)]
-    public List<ActorStateMgr.ActorState> StatesToCreate = new List<ActorStateMgr.ActorState>();
-    
-    [TableList(ShowIndexLabels = true)]
-    public List<AbilityAnimClipsPair> abilityAnimClipsPair;
-
-    [Serializable]
-    public class AbilityAnimClipsPair
+    [CreateAssetMenu(fileName = "WeaponDataAsset", menuName = "CuteAnimal/create Player Weapon Config")]
+    public class WeaponDataAsset : SerializedScriptableObject
     {
-        
-        private IEnumerable<string> GetListOfMonoBehaviours()
+        [TableList(ShowIndexLabels = true)]
+        public List<ActorStateMgr.ActorState> StatesToCreate = new List<ActorStateMgr.ActorState>();
+    
+        [TableList(ShowIndexLabels = true)]
+        public List<AbilityAnimClipsPair> abilityAnimClipsPair;
+
+        [Serializable]
+        public class AbilityAnimClipsPair
         {
-            var parentType = typeof(ActorAbilityMgr.ActorAbility);
-            
-            List<string> subclasses = new List<string>();
-
-            Assembly assembly = Assembly.GetAssembly(parentType);
-            Type[] types = assembly.GetTypes();
-
-            foreach (Type type in types)
+        
+            private IEnumerable<string> GetListOfMonoBehaviours()
             {
-                if (type.IsSubclassOf(parentType))
-                {
-                    subclasses.Add(type.ToString());
-                }
-            }
-
-            return subclasses.ToArray();
-        }
-        
-        [ValueDropdown("GetListOfMonoBehaviours")]
-        [TableColumnWidth(400, Resizable = false)]
-        public string actorAbilityName;
-        
-        [HorizontalGroup("AnimationClip"), LabelWidth(22)]
-        public List<AnimationClip> clips;
-
-        [OnInspectorInit]
-        private void CreateData()
-        {
+                var parentType = typeof(ActorAbilityMgr.ActorAbility);
             
+                List<string> subclasses = new List<string>();
+
+                Assembly assembly = Assembly.GetAssembly(parentType);
+                Type[] types = assembly.GetTypes();
+
+                foreach (Type type in types)
+                {
+                    if (type.IsSubclassOf(parentType))
+                    {
+                        subclasses.Add(type.ToString());
+                    }
+                }
+
+                return subclasses.ToArray();
+            }
+        
+            [ValueDropdown("GetListOfMonoBehaviours")]
+            [TableColumnWidth(400, Resizable = false)]
+            public string actorAbilityName;
+        
+            [HorizontalGroup("AnimationClip"), LabelWidth(22)]
+            public List<AnimationClip> clips;
+
+            [OnInspectorInit]
+            private void CreateData()
+            {
+            
+            }
         }
+    
+    
     }
-    
-    
 }

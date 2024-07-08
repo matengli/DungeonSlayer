@@ -19,29 +19,12 @@ public class ActorMgr : NetworkBehaviour
     {
         FindObjectOfType<SceneContext>().Container.InjectGameObject(gameObject);
     }
-    
-    private void ChangeCharaterModel(string _old, string _new)
-    {
-        if (string.IsNullOrEmpty(_new))
-            return;
-        
-        var model = Resources.Load<CharacterModelBase>($"CharacterModel/{_new}");
-        if (model == null)
-        {
-            Debug.Log($"找不到名为{_new}的角色模型");
-            return;
-        }
-
-        GetComponent<CharacterInstaller>().SetCharacterModelBase(model);
-    }
 
     [Inject] private ActorBattleMgr _battleMgr;
     
     [ServerCallback]
     public void AttackWithCurWeapon(ActorMgr other)
     {
-        // Debug.Log($"{other.name}收到了来自{gameObject.name}的伤害");
-        
         _battleMgr.PunchAttackOther(other.GetBattleMgr());
         
         CheckOtherBuff(other);

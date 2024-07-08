@@ -206,6 +206,13 @@ public class ActorBattleMgr : NetworkBehaviour
         
         return Mathf.Max(attack,0);
     }
+
+    //如果返回0，代表就是原动画的时间长度
+    public float GetHitRecoverTime()
+    {
+        float time = _combatMgr.GetCurWeapon().hitRecoverTime;
+        return time;
+    }
     
     #endregion
     

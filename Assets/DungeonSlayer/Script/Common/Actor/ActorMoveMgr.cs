@@ -25,8 +25,6 @@ public class ActorMoveMgr : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        Debug.Log("OnStartServer22222222");
-
         speed = _modelMgr.GetSpeed();
         speedFactor = 1.0f;
         _battleMgr.OnKilled += OnKilled;
@@ -167,11 +165,6 @@ public class ActorMoveMgr : NetworkBehaviour
 
     private void Update()
     {
-        // if (isStopped)
-        // {
-        //     return;
-        // }
-
         if(CheckCurrentPath())
            return;
 
@@ -186,12 +179,6 @@ public class ActorMoveMgr : NetworkBehaviour
         SetInputs(ref currentFrameInput);
         return true;
     }
-
-    // public void CheckRotationAsixInput()
-    // {
-    //     
-    //     CheckDirectMoveAsixInput();
-    // }
 
     protected KCCMoveAgent.PlayerCharacterInputs currentFrameInput;
     protected bool isDirectInput = false;

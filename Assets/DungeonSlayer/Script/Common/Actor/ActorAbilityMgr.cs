@@ -338,17 +338,20 @@ public class ActorAbilityMgr : MonoBehaviour
         private ActorAbilityMgr Handler;
         public override void OnEnter(ActorAbilityMgr handler)
         {
-            handler.GetAnimMgr().PlayAbilityClipByAbility(this);
+            var dmgInfo = (owner as ActorStateMgr.HitReactState).damageInfo;
             
             handler.GetAudioMgr().PlayBattleEffect(AudioMgr.BattleEffectSEEnum.damage, handler.transform.position);
 
-            handler.GetCameraController().ShakeCamera();
+            
+            if(!dmgInfo.Defender.transform.parent.CompareTag("Player"))
+                handler.GetCameraController().ShakeCamera();
 
             Handler = handler;
 
             PauseForHit();
         }
 
+        //一个简单的卡肉的效果
         public async UniTask PauseForHit()
         {
             var info = (owner as ActorStateMgr.HitReactState).damageInfo;
@@ -358,6 +361,13 @@ public class ActorAbilityMgr : MonoBehaviour
 
             var handler = Handler;
             
+            float recoverTime = 0;
+            var dmgInfo = (owner as ActorStateMgr.HitReactState).damageInfo;
+            if (dmgInfo.Attacker != null)
+            {
+                recoverTime = dmgInfo.Attacker.GetHitRecoverTime();
+            }
+            
             handler.GetAnimMgr().PlayAbilityClipByAbility(this, true, (ptype, ss) =>
             {
                 if (ptype == ActorAnimMgr.MontageEventEnum.End)
@@ -365,7 +375,7 @@ public class ActorAbilityMgr : MonoBehaviour
                     handler.GetStateMgr().TryPerformState(handler.GetStateMgr().GetStateByName("idle"));
                     handler.TryPerformAbility(null, false);
                 }
-            }, handler.GetCombatMgr().GetAttackCd());
+            }, recoverTime);
 
             var go = Instantiate(Resources.Load<GameObject>("Prefab/Punch Hit"), handler.transform);
             go.transform.position = handler.transform.position + Vector3.up*0.5f;

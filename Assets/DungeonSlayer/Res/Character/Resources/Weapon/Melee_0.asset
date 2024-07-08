@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Melee_0
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
+    SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -23,6 +23,7 @@ MonoBehaviour:
     SerializationNodes: []
   _weaponDataAsset: {fileID: 11400000, guid: 6c6b2f0ba23c02648a8f27342a9fad2c, type: 2}
   modifiedAniTime: 0
+  hitRecoverTime: 0
   cd: 0
   range: 2
   baseAtk: 10

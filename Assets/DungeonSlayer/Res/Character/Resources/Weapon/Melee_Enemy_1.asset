@@ -23,9 +23,9 @@ MonoBehaviour:
     SerializationNodes: []
   _weaponDataAsset: {fileID: 11400000, guid: 6c6b2f0ba23c02648a8f27342a9fad2c, type: 2}
   modifiedAniTime: 2
-  cd: 3
+  hitRecoverTime: 5
+  cd: 5
   range: 1.5
-  rangeAngle: 120
   baseAtk: 5
   weaponObject: {fileID: 2536900341677542543, guid: 5b323cc3fbf7e584d9a1e1e085360d32,
     type: 3}
@@ -34,3 +34,4 @@ MonoBehaviour:
   weaponAddBuffConfig: []
   isRaycastWeapon: 0
   bulletModel: {fileID: 0}
+  rangeAngle: 120
