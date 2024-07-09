@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DungeonSlayer.Script.Common.Actor.Weapon;
+using DungeonSlayer.Script.Gameplay;
 using KinematicCharacterController;
 using Mirror;
 using UnityEngine;
@@ -50,6 +51,11 @@ public class ActorMgr : NetworkBehaviour
     {
         return _battleMgr;
     }
+    
+    public void RegisterBattlerKillOther(Action<DamageInfo> input)
+    {
+        _battleMgr.OnKillOther += input;
+    }
 
     public void RegisterBattlerGetKilled(Action<DamageInfo> input)
     {
@@ -72,8 +78,41 @@ public class ActorMgr : NetworkBehaviour
         _uiContainer.InitUI();
 
         GetComponent<KinematicCharacterMotor>().enabled = HasRightToUpdate();
+        
+        if(!gameObject.CompareTag("Player"))
+            return;
+        
+        InstallUserDataMgr();
     }
     
+    private NetworkUserDataMgr _userDataMgr;
+
+    [SyncVar] private int AuthId;
+    
+    public void SetAuthID(int id)
+    {
+        AuthId = id;
+    }
+
+    private void InstallUserDataMgr()
+    {
+        foreach (var mgr in FindObjectsByType<NetworkUserDataMgr>(FindObjectsSortMode.None))
+        {
+            if (mgr.GetAuthID() == AuthId)
+            {
+                _userDataMgr = mgr;
+                break;
+            }
+        }
+
+        _userDataMgr.RegisterActorMgr(this);
+    }
+    
+    public NetworkUserDataMgr GetUserDataMgr()
+    {
+        return _userDataMgr;
+    }
+
     public bool HasRightToUpdate()
     {
         if(transform.CompareTag("Player"))

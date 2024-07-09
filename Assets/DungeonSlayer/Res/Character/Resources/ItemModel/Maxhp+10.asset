@@ -25,10 +25,10 @@ MonoBehaviour:
   - model: {fileID: 11400000, guid: d94f73ce1a9ca20429165b1b0d39b668, type: 2}
     caster: {fileID: 0}
     carrier: {fileID: 0}
-    addStack: 1
+    addStack: 5
     buffTime:
       isLoop: 1
       existTime: 0
       timeElapsed: 0
   ID: 0
-  Desc: +10MaxHP
+  Desc: "\u6700\u5927\u751F\u547D+50"

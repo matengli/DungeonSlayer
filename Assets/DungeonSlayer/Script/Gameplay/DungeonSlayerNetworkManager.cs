@@ -27,10 +27,12 @@ namespace DungeonSlayer.Script.Gameplay
             
             insertCount++;
             
+            conn.authenticationData = insertCount.ToString();
+            
             NetworkServer.AddPlayerForConnection(conn, player);
             
             var ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == $"Player{starterCharacter}"), pos, Quaternion.identity);
-            conn.authenticationData = insertCount.ToString();
+            ball.GetComponent<ActorMgr>().SetAuthID(insertCount);
             NetworkServer.Spawn(ball, conn);
             
             starterCharacter = starterCharacter == StarterCharacter.Melee ? StarterCharacter.Raycast : StarterCharacter.Melee;
@@ -40,8 +42,6 @@ namespace DungeonSlayer.Script.Gameplay
         {
             // call base functionality (actually destroys the player)
             base.OnServerDisconnect(conn);
-
-            insertCount--;
         }
     }
 }

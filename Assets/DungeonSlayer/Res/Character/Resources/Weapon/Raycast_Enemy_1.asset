@@ -22,10 +22,10 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _weaponDataAsset: {fileID: 11400000, guid: 6c6b2f0ba23c02648a8f27342a9fad2c, type: 2}
-  modifiedAniTime: 3
+  modifiedAniTime: 1
+  hitRecoverTime: 0.5
   cd: 3
   range: 10
-  rangeAngle: 120
   baseAtk: 5
   weaponObject: {fileID: 2536900341677542543, guid: b58a98dd0ee86a8429ff90266ceb21bc,
     type: 3}
@@ -33,4 +33,5 @@ MonoBehaviour:
   Desc: 'Wand: Unleash distant devastation with this magical tool of long-range destruction.  '
   weaponAddBuffConfig: []
   isRaycastWeapon: 1
-  bulletModel: {fileID: 11400000, guid: b3e5a778156b29642a89b737a2b72bc1, type: 2}
+  bulletModel: {fileID: 11400000, guid: 10941c7b91c3c214e88e9a3d4d3c441e, type: 2}
+  rangeAngle: 120

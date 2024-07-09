@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c725931415b594d5d8860a5cd67a28d8, type: 3}
+  m_Name: Melee_2
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _weaponDataAsset: {fileID: 11400000, guid: 6c6b2f0ba23c02648a8f27342a9fad2c, type: 2}
+  modifiedAniTime: 0.4
+  hitRecoverTime: 0.5
+  cd: 0
+  range: 4
+  baseAtk: 20
+  weaponObject: {fileID: 2536900341677542543, guid: bab75fa8a3de91545be40f5b745c626f,
+    type: 3}
+  socketName: Hand_R
+  Desc: "\u66F4\u5927\u8303\u56F4\uFF0C\u66F4\u5FEB\u7684\u653B\u901F\uFF01\u4EE4\u4EBA\u80C6\u5BD2\u7684\u592A\u5200\u4FA0\uFF01"
+  weaponAddBuffConfig: []
+  isRaycastWeapon: 0
+  bulletModel: {fileID: 0}
+  rangeAngle: 180

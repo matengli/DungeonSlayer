@@ -48,12 +48,6 @@ public class ActorCollsionMgr : MonoBehaviour
     [ServerCallback]
     public void CheckCommonHitOther(Collider other, bool isIgnoreCamp = false)
     {
-        if (other.GetComponent<MapBreakableWall>() != null)
-        {
-            other.GetComponent<MapBreakableWall>().RPC_TriggerBreakEvent();
-            return;
-        }
-        
         var actormgr = other.GetComponent<ActorMgr>();
         if(actormgr==null)
             return;

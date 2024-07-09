@@ -89,7 +89,7 @@ namespace DungeonSlayer.Script.Gameplay
                 // Store username in authenticationData
                 // This will be read in Player.OnStartServer
                 // to set the playerName SyncVar.
-                conn.authenticationData = msg.authUsername;
+                // conn.authenticationData = msg.authUsername;
 
                 // create and send msg to client so it knows to proceed
                 AuthResponseMessage authResponseMessage = new AuthResponseMessage

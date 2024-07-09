@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c73751ed93174e30aa1823346c9d1f2, type: 3}
-  m_Name: CharacterModelEnemy_Melee
+  m_Name: CharacterModelEnemy_Melee_2
   m_EditorClassIdentifier: 
-  initWeapon: {fileID: 11400000, guid: f30f2d4c8d1d0a74f8ea55a453571f81, type: 2}
-  ModelPrefab: {fileID: 130070, guid: 534b7b0f42c1d304299f3f3762536fb4, type: 3}
+  initWeapon: {fileID: 11400000, guid: 2a4d6fc3b46eb44499ea145cb21d750d, type: 2}
+  ModelPrefab: {fileID: 110800, guid: 97c46f85ed671244b83b2409f56039d1, type: 3}
   rootTransformPath: Root
-  Speed: 1
-  Strength: 4
+  Speed: 3
+  Strength: 10
   desc: 
   SearchRange: 20

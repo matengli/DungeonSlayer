@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes: []
   _weaponDataAsset: {fileID: 11400000, guid: 6c6b2f0ba23c02648a8f27342a9fad2c, type: 2}
   modifiedAniTime: 2
-  hitRecoverTime: 5
+  hitRecoverTime: 0.3
   cd: 5
   range: 1.5
   baseAtk: 5

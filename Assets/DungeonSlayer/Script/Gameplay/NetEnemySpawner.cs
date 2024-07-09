@@ -79,6 +79,28 @@ namespace DungeonSlayer.Script.Gameplay
             RPC_InvokeOnTrggerStartEvent();
         }
 
+        public void TryResetAllSpawner()
+        {
+            RPC_ResetAllSpawner();
+        }
+        
+        [ClientRpc]
+        private void RPC_ResetAllSpawner()
+        {
+            ResetAllSpawner();
+        }
+        
+        private void ResetAllSpawner()
+        {
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                foreach (var item in FindObjectsByType<NetEnemySpawner>(FindObjectsSortMode.None))
+                {
+                    item.CMD_ResetSpawnerStatus(true);
+                }
+            }
+        }
+
         private void OnSpawnedEnemyGetKilled(DamageInfo obj)
         {
             isGenerated--;
@@ -86,7 +108,7 @@ namespace DungeonSlayer.Script.Gameplay
             if (isGenerated == 0)
                 RPC_InvokeKillEnemyEvent();
         }
-
+        
         [ClientRpc]
         private void RPC_InvokeKillEnemyEvent()
         {

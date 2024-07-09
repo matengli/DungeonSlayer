@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c725931415b594d5d8860a5cd67a28d8, type: 3}
+  m_Name: Raycast_1_Heal
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _weaponDataAsset: {fileID: 11400000, guid: 6c6b2f0ba23c02648a8f27342a9fad2c, type: 2}
+  modifiedAniTime: 0
+  hitRecoverTime: 0.3
+  cd: 1
+  range: 15
+  baseAtk: 10
+  weaponObject: {fileID: 2536900341677542543, guid: 2840a9aaff5366243800bee4e28b4729,
+    type: 3}
+  socketName: Hand_R
+  Desc: "\u4E00\u628A\u53EF\u4EE5\u5438\u8840\u7684\u9B54\u6756"
+  weaponAddBuffConfig:
+  - BuffTarget: 0
+    AddBuffInfo:
+      model: {fileID: 11400000, guid: 3ac9332bdc737534092f0d7d751f11aa, type: 2}
+      caster: {fileID: 0}
+      carrier: {fileID: 0}
+      addStack: 1
+      buffTime:
+        isLoop: 0
+        existTime: 0
+        timeElapsed: 0
+  isRaycastWeapon: 1
+  bulletModel: {fileID: 11400000, guid: 10941c7b91c3c214e88e9a3d4d3c441e, type: 2}
+  rangeAngle: 120

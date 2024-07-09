@@ -23,14 +23,15 @@ MonoBehaviour:
     SerializationNodes: []
   _weaponDataAsset: {fileID: 11400000, guid: 6c6b2f0ba23c02648a8f27342a9fad2c, type: 2}
   modifiedAniTime: 0
+  hitRecoverTime: 0.3
   cd: 1
   range: 15
-  rangeAngle: 120
   baseAtk: 10
   weaponObject: {fileID: 2536900341677542543, guid: b58a98dd0ee86a8429ff90266ceb21bc,
     type: 3}
   socketName: Hand_R
-  Desc: 'Wand: Unleash distant devastation with this magical tool of long-range destruction.  '
+  Desc: "\u4E00\u628A \u9B54\u6756\uFF0C\u53EF\u4EE5\u8BA9\u4F60\u8FDC\u7A0B\u653B\u51FB"
   weaponAddBuffConfig: []
   isRaycastWeapon: 1
   bulletModel: {fileID: 11400000, guid: 10941c7b91c3c214e88e9a3d4d3c441e, type: 2}
+  rangeAngle: 120

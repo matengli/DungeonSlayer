@@ -14,17 +14,18 @@ namespace DungeonSlayer.Script.Common.Game.Map
         [SerializeField] private float time = 2.0f;
 
         [SerializeField] private Weapon weaponModel;
-
+        
         [SerializeField] private MapItemModel mapItemModel;
 
         [SerializeField] private bool IsInstant = false;
 
         public override void OnStartClient()
         {
+            transform.GetChild(0).GetComponent<TextMeshPro>().text = GetDesc();
+
             if (IsInstant)
             {
                 transform.GetChild(0).GetComponent<TextMeshPro>().enabled = true;
-                transform.GetChild(0).GetComponent<TextMeshPro>().text = GetDesc();
             }
 
         }
@@ -111,7 +112,10 @@ namespace DungeonSlayer.Script.Common.Game.Map
             if (weaponModel != null)
             {
                 self.CMD_EquipWeapon(weaponModel.name);
-                CMD_SetActiveFalse();
+                var old = self.GetCurrentWeapon();
+                // weaponModel = old;
+                CMD_ChangeWeapon(old.name);
+                transform.GetChild(0).GetComponent<TextMeshPro>().text = GetDesc();
             }
             
             if(mapItemModel != null)
@@ -119,6 +123,23 @@ namespace DungeonSlayer.Script.Common.Game.Map
                 self.CMD_AddBuff(mapItemModel.addBuffInfos);
                 CMD_SetActiveFalse();
             }
+        }
+        
+        [Command(requiresAuthority = false)]
+        private void CMD_ChangeWeapon(string weapon)
+        {
+            RPC_ChangeWeapon(weapon);
+        }
+        
+        [ClientRpc]
+        private void RPC_ChangeWeapon(string weapon)
+        {
+            ChangeWeapon(weapon);
+        }
+
+        private void ChangeWeapon(string weapon)
+        {
+            weaponModel = Resources.Load<Weapon>($"Weapon/{weapon}");
         }
         
         [Command(requiresAuthority = false)]

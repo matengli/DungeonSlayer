@@ -15,4 +15,4 @@ MonoBehaviour:
   tags: []
   priority: 0
   maxStack: 1
-  modifyFactor: 2
+  modifyFactor: 1.5

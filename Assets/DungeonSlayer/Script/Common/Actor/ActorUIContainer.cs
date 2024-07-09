@@ -92,6 +92,7 @@ public class ActorUIContainer : MonoBehaviour
     [Inject] private ActorAbilityMgr _abilityMgr;
 
     [Inject] private GameConfig _gameConfig;
+    [Inject] private ActorMgr _actorMgr;
 
     // Update is called once per frame
     void LateUpdate()
@@ -106,13 +107,17 @@ public class ActorUIContainer : MonoBehaviour
             return;
         }
 
+
+
         if (!_gameConfig.IsShowDebugInfo)
         {
-            debugText.text = "";
+            debugText.text = transform.parent.CompareTag("Player")?$"Score:{_actorMgr.GetUserDataMgr().Score}" :"";
+
             return;
         }
 
-        debugText.text = $"Pos:{transform.position}\n" +
+        debugText.text = $"Score:{_actorMgr.GetUserDataMgr().Score}\n" +
+                         $"Pos:{transform.position}\n" +
                          $"Rotation:{transform.rotation}\n" +
                          $"DataString:{_attributeMgr.DataString}\n" +
                          $"State:{_stateMgr.GetCurrentState().Name}\n"+

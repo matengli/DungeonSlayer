@@ -50,14 +50,6 @@ namespace DungeonSlayer.Script.Gameplay
             
             if(player.IsActorDead())
                 return;
-
-            // if (Input.GetKeyUp(KeyCode.Space))
-            // {
-            //     foreach (var item in FindObjectsByType<NetEnemySpawner>(FindObjectsSortMode.None))
-            //     {
-            //         item.CMD_ResetSpawnerStatus(true);
-            //     }
-            // }
             
             if (!_gameUtil.CheckClickPos())
             {

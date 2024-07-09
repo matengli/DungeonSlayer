@@ -23,14 +23,14 @@ MonoBehaviour:
     SerializationNodes: []
   _weaponDataAsset: {fileID: 11400000, guid: 6c6b2f0ba23c02648a8f27342a9fad2c, type: 2}
   modifiedAniTime: 0
-  hitRecoverTime: 0
+  hitRecoverTime: 0.3
   cd: 0
   range: 2
   baseAtk: 10
   weaponObject: {fileID: 2536900341677542543, guid: 70cb51f1291f7324baa83a0707acc62b,
     type: 3}
   socketName: Hand_R
-  Desc: 
+  Desc: "\u4E00\u628A\u5E73\u5E73\u65E0\u5947\u7684\u8FD1\u6218\u6B66\u5668"
   weaponAddBuffConfig: []
   isRaycastWeapon: 0
   bulletModel: {fileID: 0}

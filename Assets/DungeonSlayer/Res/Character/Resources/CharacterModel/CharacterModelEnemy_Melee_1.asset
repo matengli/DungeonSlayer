@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c73751ed93174e30aa1823346c9d1f2, type: 3}
-  m_Name: CharacterModelEnemy_Raycast
+  m_Name: CharacterModelEnemy_Melee_1
   m_EditorClassIdentifier: 
-  initWeapon: {fileID: 11400000, guid: f4267bf40703e4245a1120f852a2a2d3, type: 2}
-  ModelPrefab: {fileID: 193682, guid: aea27ca7a35042c419065833e8daf224, type: 3}
+  initWeapon: {fileID: 11400000, guid: f30f2d4c8d1d0a74f8ea55a453571f81, type: 2}
+  ModelPrefab: {fileID: 130070, guid: 534b7b0f42c1d304299f3f3762536fb4, type: 3}
   rootTransformPath: Root
   Speed: 1
-  Strength: 2
+  Strength: 4
   desc: 
   SearchRange: 20
