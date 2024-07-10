@@ -28,7 +28,7 @@ public class BuffModelBase : ScriptableObject
     /// 挂上buff以后对属性的直接改变
     /// </summary>
     /// <param name="owner"></param>
-    public virtual void OnAddedBuff(BuffBase owner)
+    public virtual void OnAddedBuff(BuffBase owner, int OldStack=0)
     {
         
     }

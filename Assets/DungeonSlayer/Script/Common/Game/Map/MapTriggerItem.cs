@@ -76,6 +76,9 @@ namespace DungeonSlayer.Script.Common.Game.Map
         {
             if(!owner.isOwned)
                 return;
+            
+            if(status)
+                AudioSource.PlayClipAtPoint(Resources.Load<AudioClip>("Effect/ShowInfo"), Camera.main.transform.position);
 
             isActive = status;
             transform.GetChild(0).GetComponent<TextMeshPro>().text = GetDesc();
@@ -116,10 +119,14 @@ namespace DungeonSlayer.Script.Common.Game.Map
                 // weaponModel = old;
                 CMD_ChangeWeapon(old.name);
                 transform.GetChild(0).GetComponent<TextMeshPro>().text = GetDesc();
+                
+                AudioSource.PlayClipAtPoint(Resources.Load<AudioClip>("Effect/UsePower"), Camera.main.transform.position);
             }
             
             if(mapItemModel != null)
             {
+                AudioSource.PlayClipAtPoint(Resources.Load<AudioClip>("Effect/UsePower"), Camera.main.transform.position);
+
                 self.CMD_AddBuff(mapItemModel.addBuffInfos);
                 CMD_SetActiveFalse();
             }

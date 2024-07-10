@@ -22,7 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   addBuffInfos:
-  - model: {fileID: 11400000, guid: cb22ca0227421314ca148374b0ef267b, type: 2}
+  - model: {fileID: 11400000, guid: e2bc15a232f4b704ab7d208003fd0268, type: 2}
     caster: {fileID: 0}
     carrier: {fileID: 0}
     addStack: 1

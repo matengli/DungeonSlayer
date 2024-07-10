@@ -7,10 +7,10 @@ namespace DungeonSlayer.Script.Gameplay.Buff
     {
         [SerializeField] public float HealAmount = 1.0f;
     
-        public override void OnAddedBuff(BuffBase buff)
+        public override void OnAddedBuff(BuffBase buff, int oldStack=0)
         {
             var owner = buff.carrier;
-            AudioSource.PlayClipAtPoint(Resources.Load<AudioClip>("Effect/Revive heal"), owner.transform.position);
+            AudioSource.PlayClipAtPoint(Resources.Load<AudioClip>("Effect/Heal"), Camera.main.transform.position);
             owner.HealActor(HealAmount * buff.stack);
         }
     }

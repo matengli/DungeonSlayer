@@ -8,7 +8,7 @@ namespace DungeonSlayer.Script.Gameplay.Buff
         [SerializeField] public BuffBase.AddBuffInfo AddBuffInfo;
         [SerializeField] public ActorCampMgr.ActorCamp enemyCamp;
 
-        public override void OnAddedBuff(BuffBase owner)
+        public override void OnAddedBuff(BuffBase owner, int oldStack=0)
         {
             foreach (var actormgr in FindObjectsByType<ActorMgr>(FindObjectsSortMode.None))
             {

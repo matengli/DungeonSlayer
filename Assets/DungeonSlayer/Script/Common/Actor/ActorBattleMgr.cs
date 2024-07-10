@@ -256,8 +256,10 @@ public class ActorBattleMgr : NetworkBehaviour
                     continue;
                 }
 
+                var old = buff.stack;
                 //正常增加层数
                 buff.stack += addBuffInfo.addStack;
+                buff.model.OnAddedBuff(buff, old);
                 
             }else{
                 buff = new BuffBase();
@@ -340,7 +342,7 @@ public class ActorBattleMgr : NetworkBehaviour
 
     public void AddMaxHp(float addCount)
     {
-        _attributeMgr.SetMaxVal("hp", _attributeMgr.GetVal("hp") + addCount);
+        _attributeMgr.SetMaxVal("hp", _attributeMgr.GetMaxVal("hp") + addCount);
     }
 
 

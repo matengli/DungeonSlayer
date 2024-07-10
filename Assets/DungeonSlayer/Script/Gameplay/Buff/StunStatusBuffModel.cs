@@ -5,7 +5,7 @@ namespace DungeonSlayer.Script.Gameplay.Buff
     [CreateAssetMenu(fileName = "StunStatusBuffModel", menuName = "CuteAnimal/Buff/Create New StunStatusBuffModel")]
     public class StunStatusBuffModel : BuffModelBase
     {
-        public override void OnAddedBuff(BuffBase owner)
+        public override void OnAddedBuff(BuffBase owner, int oldStack=0)
         {
             // owner
             owner.carrier.GetStateMgr().TryPerformState(owner.carrier.GetStateMgr().GetStateByName("stun"));

@@ -22,11 +22,11 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _weaponDataAsset: {fileID: 11400000, guid: 6c6b2f0ba23c02648a8f27342a9fad2c, type: 2}
-  modifiedAniTime: 1.5
+  modifiedAniTime: 0
   hitRecoverTime: 2
   cd: 0
   range: 3
-  baseAtk: 10
+  baseAtk: 5
   weaponObject: {fileID: 2536900341677542543, guid: e26688baf30bbcb488beddb862a70bf9,
     type: 3}
   socketName: Hand_R

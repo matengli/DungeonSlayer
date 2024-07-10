@@ -7,11 +7,11 @@ namespace DungeonSlayer.Script.Gameplay.Buff
     {
         [SerializeField] public float AddCount = 10.0f;
 
-        public override void OnAddedBuff(BuffBase buff)
+        public override void OnAddedBuff(BuffBase buff, int oldStack=0)
         {
             var owner = buff.carrier;
             
-            owner.AddMaxHp(AddCount * buff.stack);
+            owner.AddMaxHp(AddCount * (buff.stack - oldStack));
         }
     }
 }

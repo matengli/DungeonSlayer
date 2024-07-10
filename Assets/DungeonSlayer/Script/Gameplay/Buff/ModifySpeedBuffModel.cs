@@ -7,7 +7,7 @@ namespace DungeonSlayer.Script.Gameplay.Buff
     {
         [SerializeField][Range(0,2)] public float modifyFactor = 0.5f;
 
-        public override void OnAddedBuff(BuffBase owner)
+        public override void OnAddedBuff(BuffBase owner, int oldStack=0)
         {
             owner.carrier.GetMoveMgr().SetSpeedPercentage(modifyFactor);
         }

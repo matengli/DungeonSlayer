@@ -7,7 +7,7 @@ namespace DungeonSlayer.Script.Gameplay.Buff
     {
         [SerializeField] public float subAmount = 20.0f;
 
-        public override void OnAddedBuff(BuffBase owner)
+        public override void OnAddedBuff(BuffBase owner, int oldStack=0)
         {
             owner.carrier.Server_ApplyDamage(null, owner.carrier, subAmount * owner.stack);
         }

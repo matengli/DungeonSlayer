@@ -69,13 +69,39 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4936274868025486750, guid: 5b37c35482bf909408ace1007a56a54f,
         type: 3}
+    - target: {fileID: 4936973905001487946, guid: 5b37c35482bf909408ace1007a56a54f,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983581760972564372, guid: 5b37c35482bf909408ace1007a56a54f,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983581760972564372, guid: 5b37c35482bf909408ace1007a56a54f,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983581760972564372, guid: 5b37c35482bf909408ace1007a56a54f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983581760972564372, guid: 5b37c35482bf909408ace1007a56a54f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7167619878539742283, guid: 5b37c35482bf909408ace1007a56a54f,
         type: 3}
       propertyPath: m_Name
       value: PlayerMelee
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8951220599572889622, guid: 5b37c35482bf909408ace1007a56a54f, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b37c35482bf909408ace1007a56a54f, type: 3}
